@@ -1,8 +1,4 @@
-/* =========================================
-   1. VARIABLES & RESET
-   ========================================= */
 :root {
-  /* Palette Warna */
   --c-bg: #050a09;
   --c-text: #e0e0e0;
   
@@ -177,3 +173,4 @@ img {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
 }
+
