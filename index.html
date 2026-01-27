@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
     <style>
-       
         :root {
             --c-bg: #050a09;
             --c-text: #e0e0e0;
@@ -26,7 +25,7 @@
         html { scroll-behavior: smooth; }
 
         body {
-            background: var(--c-bg);
+            background: radial-gradient(circle at top, #0a1f1a, var(--c-bg));
             color: var(--c-text);
             font-family: 'Inter', sans-serif;
             display: flex;
@@ -37,83 +36,87 @@
             padding: 50px 20px;
         }
 
-       
+        /* Kartu Kaca */
         .glass-card {
             width: 100%;
-            max-width: 700px;
+            max-width: 750px;
             background: var(--c-glass-bg);
-            padding: 40px;
-            border-radius: 25px;
+            padding: 50px;
+            border-radius: 35px;
             border: 1px solid var(--c-border-emerald);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 25px 50px var(--c-shadow);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            box-shadow: 0 30px 60px var(--c-shadow);
         }
 
-        
         h1 {
             color: var(--c-mint);
-            font-size: 2.5rem; 
-            text-shadow: 0 0 15px rgba(51, 204, 153, 0.3);
-            margin: 10px 0 20px 0;
-            line-height: 1.2;
+            font-size: 3rem;
+            text-shadow: 0 0 20px rgba(51, 204, 153, 0.3);
+            margin: 10px 0 15px 0;
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -1.5px;
         }
 
         .meta-info {
-            color: #888;
+            color: var(--c-emerald);
             font-size: 0.9rem;
-            margin-bottom: 25px;
+            margin-bottom: 35px;
             display: block;
+            opacity: 0.8;
         }
 
         .badge {
             display: inline-block;
             background: rgba(49, 214, 51, 0.1);
             color: var(--c-lime);
-            padding: 5px 12px;
-            border-radius: 50px; 
+            padding: 6px 15px;
+            border-radius: 50px;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 800;
             border: 1px solid var(--c-lime);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         p {
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-size: 1.05rem;
-            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            color: #d1d1d1;
         }
 
         /* Kutipan */
         .emerald-quote {
             border-left: 4px solid var(--c-emerald);
-            background: linear-gradient(90deg, rgba(46, 220, 133, 0.05) 0%, transparent 100%);
-            padding: 20px;
-            margin: 30px 0;
+            background: rgba(46, 220, 133, 0.05);
+            padding: 30px;
+            margin: 40px 0;
             font-style: italic;
-            font-size: 1.15rem;
+            font-size: 1.3rem;
             color: var(--c-emerald);
-            border-radius: 0 10px 10px 0;
+            border-radius: 0 20px 20px 0;
+            line-height: 1.5;
         }
 
         /* Tombol */
         .action-zone {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
         }
 
         a.btn {
             display: inline-block;
-            padding: 12px 24px;
+            padding: 15px 35px;
             text-decoration: none;
             border-radius: 50px;
             font-weight: bold;
-            margin: 10px 10px 10px 0;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
+            margin: 10px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 1rem;
         }
 
         .btn-mint { border: 2px solid var(--c-mint); color: var(--c-mint); }
@@ -122,19 +125,27 @@
         a.btn:hover {
             background: white;
             color: var(--c-bg);
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px rgba(51, 214, 51, 0.4);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(49, 214, 51, 0.3);
         }
 
-        /* Animasi Masuk */
-        @keyframes reveal {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Animasi Masuk per elemen */
+        .glass-card > * {
+            animation: reveal 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            opacity: 0;
         }
         
-        .glass-card > * {
-            animation: reveal 0.8s ease-out forwards;
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Delay animasi biar muncul gantian */
+        h1 { animation-delay: 0.2s; }
+        .meta-info { animation-delay: 0.3s; }
+        p:nth-of-type(1) { animation-delay: 0.4s; }
+        p:nth-of-type(2) { animation-delay: 0.5s; }
+        .emerald-quote { animation-delay: 0.6s; }
     </style>
 </head>
 <body>
@@ -147,34 +158,30 @@
         <span class="meta-info">Oleh <strong>Aanying Dev</strong> • 2026</span>
 
         <p>
-              Ada sesuatu yang semakin jelas bagi saya seiring umur bertambah: perempuan tidak sedang hidup, mereka sedang bertahan. Dunia bergerak terlalu cepat, tapi mereka dipaksa mengikuti ritme yang bahkan tidak mereka pilih. Setiap sudut sosial terasa seperti jebakan—entah itu tuntutan untuk cantik, kuat, mandiri, atau patuh. Semuanya kontradiktif, dan semuanya menekan.
+            Ada sesuatu yang semakin jelas bagi saya seiring umur bertambah: perempuan tidak sedang hidup, mereka sedang bertahan. Dunia bergerak terlalu cepat, tapi mereka dipaksa mengikuti ritme yang bahkan tidak mereka pilih. Setiap sudut sosial terasa seperti jebakan—entah itu tuntutan untuk cantik, kuat, mandiri, atau patuh. Semuanya kontradiktif, dan semuanya menekan.
         </p>
 
         <p>
-              Saya bukan hakim, bukan pula penyelamat. Saya hanya laki-laki yang memperhatikan. Dan pengamatan itu perlahan berubah menjadi kegelisahan yang sulit diabaikan. Kita hidup di zaman ketika perempuan dipuji di panggung, tapi diinjak di belakang layar. Mereka disanjung sebagai “ratu”, tapi dihitung sebagai angka. Mereka diminta menjadi simbol moral, tapi dikejar sebagai objek visual.
+            Saya bukan hakim, bukan pula penyelamat. Saya hanya laki-laki yang memperhatikan. Dan pengamatan itu perlahan berubah menjadi kegelisahan yang sulit diabaikan. Kita hidup di zaman ketika perempuan dipuji di panggung, tapi diinjak di belakang layar.
         </p>
 
         <blockquote class="emerald-quote">
-            "Kita hidup di zaman ketika perempuan dipuji di panggung, tapi diinjak di belakang layar."
+            "Yang paling menakutkan adalah bagaimana dunia membuat penderitaan perempuan terlihat normal. Mereka menutupi luka dengan senyum, menahan getir dengan candaan."
         </blockquote>
 
         <p>
-           Yang paling menakutkan adalah bagaimana dunia membuat penderitaan perempuan terlihat normal. Mereka menutupi luka dengan senyum, menahan getir dengan candaan, membungkam trauma karena takut disebut berlebihan. Kita membiarkan semua itu terjadi sambil berlagak sibuk, lalu pura-pura lupa bahwa kita adalah bagian dari sistem yang membentuk luka itu.
+            Dan mungkin, di titik ini, saya menulis bukan karena ingin terdengar benar. Saya menulis karena saya muak dengan diam. Karena ada sesuatu yang terasa salah ketika sebuah generasi perempuan tumbuh dengan kecemasan sebagai rutinitas, dan kita, laki-laki, hanya berdiri di pinggir jalan sambil pura-pura tidak mengerti.
+        </p>
 
-Dan mungkin, di titik ini, saya menulis bukan karena ingin terdengar benar. Bukan pula karena ingin membela siapa pun. Saya menulis karena saya muak dengan diam. Karena ada sesuatu yang terasa salah ketika sebuah generasi perempuan tumbuh dengan kecemasan sebagai rutinitas, dan kita, laki-laki, hanya berdiri di pinggir jalan sambil pura-pura tidak mengerti.
-
-Ini bukan heroisme. Ini hanya kejujuran yang terlambat saya temukan: bahwa di balik segala suara, cahaya, dan layar—perempuan sedang berjuang agar tidak hilang.
-Dan yang paling menyedihkan adalah, mereka berjuang sendirian.
-
-Jika suara ini terdengar berat, biarkan saja. Karena ada hal-hal yang memang tidak seharusnya ringan.
+        <p>
+            Ini bukan heroisme. Ini hanya kejujuran yang terlambat saya temukan: bahwa di balik segala suara, cahaya, dan layar—perempuan sedang berjuang agar tidak hilang. <strong>Dan yang paling menyedihkan adalah, mereka berjuang sendirian.</strong>
         </p>
 
         <div class="action-zone">
-            <a href="#" class="btn btn-mint">Bagikan Suara</a>
+            <a href="#" target="_blank" class="btn btn-mint">Bagikan Suara</a>
             <a href="#" class="btn btn-lime">Diskusi Lanjut</a>
         </div>
     </div>
 
 </body>
 </html>
-
