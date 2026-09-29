@@ -67,6 +67,7 @@ h1 { font-size: clamp(22px, 3.6vw, 32px); line-height: 1.2; margin: 6px 0 0; tex
 .stage-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--arena-line); }
 .pill-live { font: 11px/1 var(--f-pixel); letter-spacing: 0.08em; padding: 6px 8px; border-radius: 4px; background: var(--arena-low); color: #fff; }
 .pill-live.replay { background: var(--arena-2); color: var(--arena-gold); box-shadow: inset 0 0 0 1px var(--arena-gold); }
+.pill-live.snap { background: var(--arena-2); color: var(--arena-ink); box-shadow: inset 0 0 0 1px var(--arena-line); }
 .pill-live.demo { background: var(--arena-2); color: var(--arena-dim); box-shadow: inset 0 0 0 1px var(--arena-dim); }
 .pill-live.on::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; background: #fff; border-radius: 1px; animation: blink 1s steps(2, start) infinite; }
 @keyframes blink { to { visibility: hidden; } }
@@ -248,6 +249,7 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
   function fighter(id) { return R.fighters[id] || { title: id || "", stance: "", seed: null, thesis: "" }; }
 
   // ---------- ingatan penonton (acara yang sudah ditonton) ----------
+  var liveSrc = location.protocol === "file:" ? "file" : null;
   var KEY = "abr-seen:" + R.run_id;
   function loadSeen() { try { return new Set(JSON.parse(localStorage.getItem(KEY) || "[]")); } catch (e) { return new Set(); } }
   function saveSeen() { try { localStorage.setItem(KEY, JSON.stringify(Array.from(seen))); } catch (e) { /* penyimpanan tidak tersedia */ } }
@@ -261,8 +263,9 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
     text($("topic"), R.topic);
     text($("restated"), R.restated || "");
     var pill = $("livePill");
-    pill.className = "pill-live" + (R.demo ? " demo" : R.done ? " replay" : " on");
-    text(pill, R.demo ? "Contoh" : R.done ? "Tayangan ulang" : "Live");
+    pill.className = "pill-live" + (R.demo ? " demo" : R.done ? " replay" : liveSrc ? " on" : " snap");
+    text(pill, R.demo ? "Contoh" : R.done ? "Tayangan ulang" : liveSrc ? "Live" : "Cuplikan");
+    pill.title = R.demo || R.done ? "" : liveSrc ? "Terhubung: acara baru diputar otomatis" : "Belum terhubung ke run yang berjalan; ini keadaan saat halaman dibuat";
     text($("stageName"), "Tahap " + (R.info.stage_index + 1) + "/" + R.info.stage_count + " · " + R.info.stage);
     text($("pct"), R.info.percent + "%");
     $("meter").style.width = R.info.percent + "%";
@@ -520,37 +523,83 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
     setScene(R.info.scene);
     if (R.demo) ticker("Contoh selesai", "Tekan Putar dari awal untuk menonton lagi.", R.formula);
     else if (R.done) ticker("Turnamen selesai", R.info.caption, R.formula);
-    else ticker("Menunggu hasil berikutnya", R.info.caption, "Arena memperbarui diri saat babak berikutnya selesai.");
+    else if (liveSrc) ticker("Menunggu hasil berikutnya", R.info.caption, "Arena memutar babak berikutnya begitu selesai.");
+    else ticker("Cuplikan run yang sedang berjalan", R.info.caption, "Halaman ini belum terhubung ke run. Buka versi live dari Claude untuk menonton babak berikutnya.");
     schedule();
   }
 
   // ---------- pembaruan live ----------
-  var pollTimer = null, fails = 0, everOk = false, reloadTimer = null;
+  // Tiga sumber: database artifact (orkestrator menulis dokumen arena/live),
+  // server lokal (abr.py serve, arena-data.json), atau file yang dibuka dari disk.
+  var pollTimer = null, fails = 0, everOk = false, reloadTimer = null, dbLive = false;
   function schedule() {
-    if (R.done || R.demo) return;
+    if (R.done || R.demo || dbLive) return;
     if (location.protocol === "file:") {
       if (!reloadTimer) reloadTimer = setTimeout(function () { reloadTimer = null; if (!running) location.reload(); else schedule(); }, 8000);
     } else if (!pollTimer) {
       pollTimer = setInterval(poll, 3000);
     }
   }
+  function stopPolling() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
+  function initialQueue() {
+    if (seen.size) return R.events.filter(function (e) { return !seen.has(e.id); });
+    if (R.done || R.demo) return R.events.slice();
+    // Penonton baru di tengah run: mulai dari duel terakhir, bukan dari awal.
+    var last = -1;
+    R.events.forEach(function (e, i) { if (e.t === "match") last = i; });
+    var start = last >= 0 ? last : Math.max(0, R.events.length - 1);
+    R.events.slice(0, start).forEach(function (e) { seen.add(e.id); });
+    saveSeen();
+    return R.events.slice(start);
+  }
+  function applyRun(run, src) {
+    if (!run || !run.events) return;
+    if (src && liveSrc !== src) { liveSrc = src; renderStatic(); }
+    if (run.run_id === R.run_id) {
+      if (run.rev === R.rev) return;
+      if ((run.updated_at || "") < (R.updated_at || "")) return;  // data lebih lama dari yang sudah tampil
+      R = run; renderStatic();
+      var queued = new Set(queue.map(function (e) { return e.id; }));
+      R.events.forEach(function (e) { if (!seen.has(e.id) && !queued.has(e.id) && !(current && current.id === e.id)) queue.push(e); });
+    } else {
+      // Artifact dipakai untuk run lain: mulai sebagai penonton run itu.
+      R = run; KEY = "abr-seen:" + R.run_id; seen = loadSeen();
+      queue = initialQueue(); if (running) skip = true;
+      renderStatic(); renderBracket(); renderResult();
+    }
+    qinfo();
+    if (!running) { if (queue.length) runQueue(); else idle(); }
+    if (R.done) stopPolling();
+  }
   function poll() {
     fetch("arena-data.json?t=" + Date.now(), { cache: "no-store" })
       .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
-      .then(function (j) {
-        fails = 0; everOk = true;
-        if (!j.run || j.run.rev === R.rev) return;
-        R = j.run; renderStatic();
-        var queued = new Set(queue.map(function (e) { return e.id; }));
-        R.events.forEach(function (e) { if (!seen.has(e.id) && !queued.has(e.id) && !(current && current.id === e.id)) queue.push(e); });
-        qinfo();
-        if (!running) { if (queue.length) runQueue(); else idle(); }
-        if (R.done) { clearInterval(pollTimer); pollTimer = null; }
-      })
+      .then(function (j) { fails = 0; everOk = true; applyRun(j.run, "http"); })
       .catch(function () {
-        // Tanpa server (mis. artifact statis) berhenti mencoba; dengan server, coba terus.
-        if (!everOk && ++fails >= 3) { clearInterval(pollTimer); pollTimer = null; }
+        // Tanpa server (mis. artifact tanpa database) berhenti mencoba; dengan server, coba terus.
+        if (!everOk && ++fails >= 3) stopPolling();
       });
+  }
+  function watchArtifactDb() {
+    var c = window.claude;
+    if (R.demo || !c || typeof c.use !== "function") return;
+    Promise.resolve(c.use("db")).then(function (db) {
+      if (!db) return;
+      db.doc("arena/live").onSnapshot(function (snap) {
+        if (!snap || !snap.exists) return;
+        var d = snap.data(), run;
+        if (!d || typeof d.summary !== "string") return;
+        try { run = JSON.parse(d.summary); } catch (e) { return; }
+        if (!dbLive) { dbLive = true; stopPolling(); }
+        applyRun(run, "db");
+      }, function () {
+        dbLive = false;
+        if (liveSrc === "db") { liveSrc = null; renderStatic(); }
+      });
+      // Terhubung ke database artifact: penonton akan menerima acara baru.
+      if (!R.done && !liveSrc) { liveSrc = "db"; renderStatic(); }
+      dbLive = true; stopPolling();
+    }, function () { /* tanpa database: tetap tampilkan data yang tertanam */ });
   }
 
   // ---------- kontrol ----------
@@ -575,20 +624,7 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
   });
 
   // ---------- mulai ----------
-  var fresh = seen.size === 0;
-  if (fresh) {
-    if (R.done || R.demo) queue = R.events.slice();
-    else {
-      var last = -1;
-      R.events.forEach(function (e, i) { if (e.t === "match") last = i; });
-      var start = last >= 0 ? last : Math.max(0, R.events.length - 1);
-      R.events.slice(0, start).forEach(function (e) { seen.add(e.id); });
-      saveSeen();
-      queue = R.events.slice(start);
-    }
-  } else {
-    queue = R.events.filter(function (e) { return !seen.has(e.id); });
-  }
+  queue = initialQueue();
   if (reduce) { $("btnPause").setAttribute("aria-pressed", "true"); text($("btnPause"), "Lanjut"); }
   renderStatic();
   window.addEventListener("resize", fit);
@@ -596,6 +632,7 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
   qinfo();
   if (queue.length) runQueue(); else idle();
   if (!R.done && !R.demo) schedule();
+  watchArtifactDb();
 })();
 </script>
 </body>

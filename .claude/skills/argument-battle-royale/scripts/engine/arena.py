@@ -6,23 +6,30 @@ yang belum pernah ditonton penonton sebagai animasi pixel art: dua Clawd masuk
 arena, setiap juri memukul dengan keberatan yang sebenarnya, bar ketahanan
 turun sesuai suara juri, yang kalah KO, pemenang maju.
 
-Tiga cara menonton secara live:
+Cara menonton secara live:
+  - artifact (Claude Code di aplikasi/web): halaman diterbitkan sekali
+    (`abr.py live`), lalu orkestrator menulis arena-live.json ke database
+    artifact setiap ada acara baru; halaman berlangganan dokumen itu
   - `abr.py serve --run DIR`  : server lokal; halaman menarik arena-data.json
                                 setiap 3 detik tanpa memuat ulang
   - membuka arena.html langsung: halaman memuat ulang sendiri saat senggang
                                 dan melanjutkan dari acara terakhir yang ditonton
-  - artifact/panel pratinjau   : orkestrator memperbarui halaman setiap babak
 Setelah run selesai, halaman yang sama menjadi tayangan ulang seluruh turnamen.
 """
 
 import json
 import os
+import re
 
 from . import anim
 from . import config as C
 from .util import atomic_write_text, sha256_text
 
 TEMPLATE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "templates", "arena.html")
+LIVE_FILE = "arena-live.json"          # dokumen untuk database artifact
+ARTIFACT_FILE = "arena-artifact.html"  # halaman tanpa kerangka dokumen, untuk diterbitkan
+LIVE_COLLECTION, LIVE_DOC_ID = "arena", "live"
+LIVE_LIMIT = 240000     # byte; dokumen database artifact maksimal 256 KiB
 FULL_ROUND_MAX = 8      # babak dengan duel sebanyak ini atau kurang diputar seluruhnya
 FEATURED_PER_ROUND = 3  # babak besar: hanya duel pilihan yang diputar penuh
 
@@ -234,6 +241,7 @@ def run_summary(run):
         "formula": anim.formula(lang),
         "foot": "Mode %s · populasi %d · seed %d · diperbarui %s · %s" % (
             cfg["mode"], cfg["population"], cfg["random_seed"], st.get("updated_at", ""), os.path.basename(run.dir)),
+        "updated_at": st.get("updated_at", ""),
     }
     summary["rev"] = sha256_text(json.dumps([info, [e["id"] for e in ev], stats], sort_keys=True, ensure_ascii=False))[:16]
     return summary
@@ -304,14 +312,63 @@ def render(summary):
     return html.replace("__ABR_DATA__", payload)
 
 
+def fragment(html):
+    """Isi halaman tanpa doctype/html/head/body: Artifact menambahkan kerangkanya sendiri."""
+    html = re.sub(r"(?is)<!doctype[^>]*>|</?html[^>]*>|</?head>|</?body[^>]*>|<meta charset=[^>]*>|<meta name=\"viewport\"[^>]*>", "", html)
+    return html.strip() + "\n"
+
+
+def live_key(summary):
+    """Berubah hanya bila ada acara baru untuk ditonton (atau run selesai)."""
+    return sha256_text(json.dumps([[e["id"] for e in summary["events"]], summary["done"], summary.get("winner_status")]))[:16]
+
+
+def _dump(obj):
+    return json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
+
+
+def live_doc(summary, limit=LIVE_LIMIT):
+    """Dokumen untuk database artifact. Ringkasan disimpan sebagai string JSON
+    (tanpa larik bersarang di dokumen) dan dipangkas bila melebihi batas ukuran:
+    keberatan duel paling awal dikosongkan lebih dulu, lalu tesis petarung."""
+    s = json.loads(_dump(summary))
+    body = _dump(s)
+    if len(body.encode("utf-8")) > limit:
+        for e in s["events"]:
+            for h in e.get("hits", []):
+                h["obj"] = ""
+            body = _dump(s)
+            if len(body.encode("utf-8")) <= limit:
+                break
+    if len(body.encode("utf-8")) > limit:
+        for f in s["fighters"].values():
+            f["thesis"] = ""
+        body = _dump(s)
+    while len(body.encode("utf-8")) > limit and len(s["events"]) > 1:
+        s["events"] = s["events"][max(1, len(s["events"]) // 4):]
+        body = _dump(s)
+    return {"format": "abr-arena-live/1", "run_id": s["run_id"], "updated_at": s.get("updated_at", ""),
+            "rev": s["rev"], "done": s["done"], "summary": body}
+
+
 def write(run, path=None):
-    """Tulis arena.html dan arena-data.json (untuk penonton live)."""
+    """Tulis arena.html, arena-data.json (penonton lewat serve), dan
+    arena-live.json (penonton lewat artifact). Mengembalikan ringkasannya."""
     path = path or run.path("arena.html")
     summary = run_summary(run)
     atomic_write_text(path, render(summary))
-    atomic_write_text(os.path.join(os.path.dirname(path), "arena-data.json"),
-                      json.dumps({"run": summary}, ensure_ascii=False, separators=(",", ":")))
-    return path
+    folder = os.path.dirname(path)
+    atomic_write_text(os.path.join(folder, "arena-data.json"), _dump({"run": summary}))
+    atomic_write_text(os.path.join(folder, LIVE_FILE), _dump(live_doc(summary)))
+    return summary
+
+
+def write_artifact(run):
+    """Tulis arena-artifact.html (untuk diterbitkan sebagai Artifact) dan kembalikan path-nya."""
+    summary = write(run)
+    out = run.path(ARTIFACT_FILE)
+    atomic_write_text(out, fragment(render(summary)))
+    return out, summary
 
 
 def write_demo(path):

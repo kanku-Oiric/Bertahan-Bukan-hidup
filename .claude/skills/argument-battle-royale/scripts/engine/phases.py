@@ -78,7 +78,9 @@ class Engine:
                     break
             self._anim = self._anim_update()
             self.run.save_state()
-            self._write_arena()
+            summary = self._write_arena()
+            if summary is not None:
+                self._anim["live"] = self._live_update(summary)
             return self.summary()
 
     def _anim_update(self):
@@ -104,11 +106,25 @@ class Engine:
         from . import arena
 
         try:
-            arena.write(self.run)
+            return arena.write(self.run)
         except Exception as exc:
             import sys
 
             sys.stderr.write("peringatan: arena.html tidak diperbarui: %s\n" % exc)
+            return None
+
+    def _live_update(self, summary):
+        """Untuk arena di Artifact: `push` bernilai true bila ada acara baru sejak
+        laporan terakhir, artinya arena-live.json perlu ditulis ke database artifact."""
+        from . import arena
+
+        key = arena.live_key(summary)
+        push = key != self.st.get("live_key")
+        if push:
+            self.st["live_key"] = key
+            self.run.save_state()
+        return {"push": push, "url": self.st.get("live_url"), "file": self.run.path(arena.LIVE_FILE),
+                "collection": arena.LIVE_COLLECTION, "doc_id": arena.LIVE_DOC_ID}
 
     def summary(self):
         st = self.st

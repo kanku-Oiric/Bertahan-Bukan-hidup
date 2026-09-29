@@ -106,7 +106,7 @@ Tampilannya menyesuaikan tempat skill dijalankan:
 | Tempat | Bentuk | Bergerak? |
 |---|---|---|
 | Chat (Claude Code maupun Claude.ai) | **Flipbook**: glyph Clawd dari Claude Code plus properti emoji, satu pose per tahap baru, beserta bar progres | Berganti per tahap (output tool Claude Code tidak live) |
-| Browser, panel pratinjau aplikasi Claude, artifact Claude.ai | **Arena pertarungan** (`RUN_DIR/arena.html`): setiap duel diputar sebagai pertarungan pixel art — dua Clawd masuk, setiap juri "memukul" dengan keberatan argumen yang sebenarnya, bar ketahanan turun sesuai suara juri, yang kalah KO, pemenang maju di bracket; plus jalur 15 tahap, statistik, dan kartu pemenang | Ya: live selama run berjalan, lalu menjadi tayangan ulang |
+| Panel samping aplikasi Claude (artifact), browser, artifact Claude.ai | **Arena pertarungan** (`RUN_DIR/arena.html`): setiap duel diputar sebagai pertarungan pixel art — dua Clawd masuk, setiap juri "memukul" dengan keberatan argumen yang sebenarnya, bar ketahanan turun sesuai suara juri, yang kalah KO, pemenang maju di bracket; plus jalur 15 tahap, statistik, dan kartu pemenang | Ya: live selama run berjalan, lalu menjadi tayangan ulang |
 | Terminal Anda sendiri | **`watch`**: pixel art berwarna dengan karakter setengah-blok, bar progres, jalur tahap | Ya |
 | Status line Claude Code (opsional) | Satu baris: Clawd oranye, properti beranimasi, tahap, dan persen | Diperbarui setiap kali percakapan berubah |
 
@@ -116,19 +116,25 @@ Arena memutar acara turnamen yang belum Anda tonton: tahap persiapan (penyihir),
 
 "Ketahanan" pada kartu petarung berkurang setiap kali seorang juri memenangkan lawan (porsi suara panel); ini visualisasi suara juri, bukan skor tambahan.
 
-Cara menonton selama run berjalan:
+Cara menonton selama run berjalan (Claude memilih sendiri sesuai lingkungannya):
 
-| Cara | Perintah | Pembaruan |
+| Lingkungan | Cara | Pembaruan |
 |---|---|---|
-| Server lokal (Claude Code di mesin sendiri) | `$ABR serve --run DIR` lalu buka `http://localhost:8765` | Menarik `arena-data.json` setiap 3 detik tanpa memuat ulang |
-| Buka file langsung | buka `DIR/arena.html` di browser | Memuat ulang sendiri saat senggang, melanjutkan dari acara terakhir yang ditonton |
-| Artifact / panel pratinjau | Claude menampilkan dan memperbarui arena setiap babak | Pembaruan halaman oleh Claude |
+| Claude Code di aplikasi desktop, web, atau sesi cloud (ada tool `Artifact`) | Claude menerbitkan `arena-artifact.html` sebagai artifact dengan database (`abr.py live`), lalu menulis `arena-live.json` ke database itu setiap ada acara baru | Live di panel samping atau tautan artifact, tanpa memuat ulang |
+| Claude Code CLI di komputer Anda sendiri | Claude menjalankan `$ABR serve --run DIR` di latar belakang; buka `http://localhost:8765` di browser Anda | Menarik `arena-data.json` setiap 3 detik tanpa memuat ulang |
+| Anda membuka file langsung | buka `DIR/arena.html` di browser | Memuat ulang sendiri saat senggang, melanjutkan dari acara terakhir yang ditonton |
+| Chat Claude.ai | Claude menyerahkan arena di akhir run | Tayangan ulang penuh |
+
+`localhost` hanya bekerja bila `serve` berjalan di komputer yang sama dengan browser Anda. Panel browser bawaan aplikasi desktop Claude tidak dapat membuka server yang dijalankan Claude, dan localhost sesi cloud tidak dapat dijangkau dari luar; karena itu di aplikasi Claude arena selalu tampil sebagai artifact.
+
+Pil di pojok arena menunjukkan sumbernya: **Live** (terhubung ke run), **Cuplikan** (keadaan saat halaman dibuat, belum terhubung), **Tayangan ulang** (run selesai), **Contoh** (data fiktif).
 
 Riwayat tontonan disimpan di `localStorage` browser per run; tanpa penyimpanan, halaman tetap berjalan tetapi memutar dari awal saat dibuka ulang.
 
 ```bash
 ABR="python3 .claude/skills/argument-battle-royale/scripts/abr.py"
-$ABR serve --run DIR          # tonton arena live di http://localhost:8765
+$ABR live --run DIR           # siapkan arena untuk Artifact live (arena-artifact.html + arena-live.json)
+$ABR serve --run DIR          # tonton arena live di http://localhost:8765 (komputer yang sama)
 $ABR arena --demo --out arena-demo.html   # turnamen contoh 4 argumen fiktif
 $ABR watch --run DIR          # animasi live di terminal lain (Ctrl+C untuk keluar)
 $ABR watch --demo             # putar semua adegan tanpa run
@@ -169,7 +175,8 @@ Setiap langkah ditulis atomik ke disk (`state.json`, file ronde, output paket). 
 |---|---|
 | `report.md` | Laporan akhir: formula pemenang, ringkasan, parameter, peta ruang argumen, statistik populasi, seeding, perjalanan bracket, ketahanan posisi per babak, diagram bracket (Mermaid), Final 4, semifinal & final (suara panel, alasan mayoritas, dissent), argumen pemenang dalam bentuk baku, uji falsifikasi, peringkat akhir, dinamika turnamen, keterbatasan, integritas, reproduksi |
 | `report.json` | Ringkasan terstruktur untuk dipakai program lain |
-| `arena.html`, `arena-data.json` | Arena pertarungan beranimasi dan datanya untuk penonton live; diperbarui setiap `next` |
+| `arena.html`, `arena-data.json`, `arena-live.json` | Arena pertarungan beranimasi dan datanya untuk penonton live (server lokal atau database artifact); diperbarui setiap `next` |
+| `arena-artifact.html` | Halaman arena tanpa kerangka dokumen untuk diterbitkan sebagai Artifact (`abr.py live`) |
 | `integrity.json` | Hasil verifikasi dan digest run |
 | `fighters.jsonl`, `population.json`, `rounds/`, `dossiers.json`, `ledger.jsonl`, `packets/` | Data mentah yang dapat diaudit |
 
@@ -195,6 +202,7 @@ $ABR list-runs
 $ABR watch   [--run DIR] [--demo] [--once] [--fps N] [--colors truecolor|256]
 $ABR frame   [--run DIR] [--scene S] [--style mini|ansi] [--i N]
 $ABR arena   [--run DIR] [--out FILE] [--demo]
+$ABR live    --run DIR [--url URL]         # arena untuk Artifact live; --url mencatat alamatnya
 $ABR serve   [--run DIR] [--port 8765] [--host 127.0.0.1]
 $ABR statusline                             # untuk status line Claude Code (JSON via stdin)
 ```

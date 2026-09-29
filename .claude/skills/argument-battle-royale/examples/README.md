@@ -36,7 +36,7 @@ python3 .claude/skills/argument-battle-royale/scripts/abr.py verify --run .claud
 
 - Semua konten (argumen, skor, putusan, debat, uji) ditulis oleh model bahasa yang bertindak sebagai worker; ini adalah demonstrasi mesin dan protokol, bukan hasil riset yang telah ditinjau.
 - Path absolut di `packets/*/packet.md` telah direlatifkan terhadap root repository agar contoh portabel. File itu tidak di-hash oleh ledger, sehingga verifikasi integritas tidak terpengaruh.
-- `arena.html` dan `arena-data.json` ditambahkan setelah run selesai lewat `abr.py arena` (fitur animasi dibuat belakangan); keduanya tidak termasuk digest integritas. Buka `arena.html` untuk menonton tayangan ulang seluruh turnamen sebagai pertarungan.
+- `arena.html`, `arena-data.json`, dan `arena-live.json` ditambahkan setelah run selesai lewat `abr.py arena` (fitur animasi dibuat belakangan); ketiganya tidak termasuk digest integritas. Buka `arena.html` untuk menonton tayangan ulang seluruh turnamen sebagai pertarungan.
 - Setelah run ini selesai, engine diperbaiki dalam dua hal kosmetik: riwayat serangan di paket dosir/falsifikasi kini mencantumkan label X/Y argumen yang bersangkutan, dan kutipan alasan juri di laporan mencantumkan pemetaan X/Y. Paket dosir di run ini dibuat sebelum perbaikan pertama; laporan dibangun ulang dengan `abr.py report` (tercatat di ledger sebagai `report_regenerated`).
 
 ## `clawd-preview.gif`

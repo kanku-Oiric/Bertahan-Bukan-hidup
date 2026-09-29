@@ -21,8 +21,11 @@ Animasi (Clawd):
   arena     [--run DIR] [--out FILE] [--demo]
                                  Tulis arena HTML beranimasi (juga diperbarui otomatis oleh next).
   statusline                     Satu baris untuk status line Claude Code (baca JSON dari stdin).
+  live      --run DIR [--url URL]  Siapkan arena untuk Artifact live (arena-artifact.html +
+                                 arena-live.json); --url mencatat alamat artifact-nya.
   serve     [--run DIR] [--port 8765] [--host 127.0.0.1]
-                                 Tonton arena secara live di browser (http://localhost:8765).
+                                 Tonton arena secara live di browser pada mesin yang sama
+                                 (http://localhost:8765). Tidak terjangkau dari sesi cloud.
 
 Parameter init (semua opsional kecuali topik):
   mode=full|balanced|efficient  population=1000  deep_round_threshold=N  max_parallel=N
@@ -455,8 +458,38 @@ def cmd_arena(argv):
         path = arena.write_demo(os.path.abspath(opts.get("out", "arena-demo.html")))
     else:
         run = _pick_run(opts)
-        path = arena.write(run, os.path.abspath(opts["out"]) if "out" in opts else None)
+        path = os.path.abspath(opts["out"]) if "out" in opts else run.path("arena.html")
+        arena.write(run, path)
     emit({"arena": path})
+
+
+def cmd_live(argv):
+    """Siapkan arena untuk diterbitkan sebagai Artifact yang diperbarui live,
+    dan (dengan --url) catat alamat artifact itu di state run."""
+    from engine import arena
+
+    opts, _ = parse_kv(argv)
+    run = _run_from(opts)
+    if "url" in opts:
+        url = opts["url"].strip()
+        if not url.startswith("https://"):
+            fail("--url harus alamat artifact https://...")
+        with run.lock():
+            run.state["live_url"] = url
+            run.save_state()
+            run.log("live_url_set", {"url": url})
+    page, summary = arena.write_artifact(run)
+    emit({
+        "artifact_page": page,
+        "live_file": run.path(arena.LIVE_FILE),
+        "collection": arena.LIVE_COLLECTION,
+        "doc_id": arena.LIVE_DOC_ID,
+        "capabilities": {"db": {}},
+        "icon": "game",
+        "description": "Pertarungan argumen live: %s" % summary["topic"][:160],
+        "url": run.state.get("live_url"),
+        "cloud_session": os.environ.get("CLAUDE_CODE_REMOTE", "").lower() == "true",
+    })
 
 
 def cmd_serve(argv):
@@ -548,6 +581,7 @@ COMMANDS = {
     "arena": cmd_arena,
     "statusline": cmd_statusline,
     "serve": cmd_serve,
+    "live": cmd_live,
 }
 
 

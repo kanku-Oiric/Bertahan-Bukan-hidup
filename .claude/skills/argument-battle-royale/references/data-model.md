@@ -36,6 +36,8 @@ RUN_DIR/
 ├── report.md / report.json   laporan akhir
 ├── arena.html            arena pertarungan beranimasi; ditulis ulang setiap `next`
 ├── arena-data.json       data arena untuk penonton live (`serve` atau polling)
+├── arena-live.json       dokumen database untuk arena di Artifact (ditulis setiap `next`)
+├── arena-artifact.html   halaman arena tanpa kerangka dokumen, untuk diterbitkan (`abr.py live`)
 └── integrity.json        hasil verifikasi integritas + digest
 ```
 
@@ -178,9 +180,17 @@ Setiap baris: `{seq, ts, event, data, prev, hash}` dengan `hash = sha256(prev + 
   "round": 3, "done": false,
   "show": true,                 // true sekali per tahap/babak baru
   "frame": "…teks flipbook…",   // hanya ada bila show = true
-  "arena": "/…/RUN_DIR/arena.html"
+  "arena": "/…/RUN_DIR/arena.html",
+  "live": {                     // untuk arena yang diterbitkan sebagai Artifact
+    "push": true,               // true bila ada acara baru sejak laporan terakhir
+    "url": "https://claude.ai/…", // alamat artifact (null sebelum `abr.py live --url`)
+    "file": "/…/RUN_DIR/arena-live.json",
+    "collection": "arena", "doc_id": "live"
+  }
 }
 ```
+
+`arena-live.json` adalah dokumen database artifact: `{format, run_id, updated_at, rev, done, summary}`, dengan `summary` berisi ringkasan arena yang sama seperti `arena-data.json` → `run`, disimpan sebagai string JSON. Dokumen dijaga di bawah 240 KB (batas database 256 KiB): bila perlu, keberatan juri pada duel paling awal dikosongkan lebih dulu, lalu tesis petarung. Halaman arena berlangganan dokumen `arena/live` lewat `claude.use("db")` dan memutar acara baru tanpa memuat ulang.
 
 ## Acara arena (`arena-data.json` → `run.events`)
 
