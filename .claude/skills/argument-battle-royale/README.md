@@ -106,15 +106,32 @@ Tampilannya menyesuaikan tempat skill dijalankan:
 | Tempat | Bentuk | Bergerak? |
 |---|---|---|
 | Chat (Claude Code maupun Claude.ai) | **Flipbook**: glyph Clawd dari Claude Code plus properti emoji, satu pose per tahap baru, beserta bar progres | Berganti per tahap (output tool Claude Code tidak live) |
-| Browser, panel pratinjau aplikasi Claude, artifact Claude.ai | **Arena HTML** (`RUN_DIR/arena.html`): pixel art penuh, jalur 15 tahap, statistik, bracket 8 besar, kartu pemenang; tombol untuk memutar setiap adegan | Ya, 6 fps; memuat ulang otomatis setiap 20 detik selama run berjalan |
+| Browser, panel pratinjau aplikasi Claude, artifact Claude.ai | **Arena pertarungan** (`RUN_DIR/arena.html`): setiap duel diputar sebagai pertarungan pixel art — dua Clawd masuk, setiap juri "memukul" dengan keberatan argumen yang sebenarnya, bar ketahanan turun sesuai suara juri, yang kalah KO, pemenang maju di bracket; plus jalur 15 tahap, statistik, dan kartu pemenang | Ya: live selama run berjalan, lalu menjadi tayangan ulang |
 | Terminal Anda sendiri | **`watch`**: pixel art berwarna dengan karakter setengah-blok, bar progres, jalur tahap | Ya |
 | Status line Claude Code (opsional) | Satu baris: Clawd oranye, properti beranimasi, tahap, dan persen | Diperbarui setiap kali percakapan berubah |
 
+### Arena pertarungan live
+
+Arena memutar acara turnamen yang belum Anda tonton: tahap persiapan (penyihir), awal setiap babak, setiap duel (babak besar: tiga duel pilihan — upset terbesar dan duel terketat — plus hitungan cepat sisanya), uji falsifikasi (roket), dan pemenang (piala). Kontrolnya: putar dari awal, jeda, lewati, kecepatan 1×/2×/4×. Hasil bracket dan pemenang baru ditampilkan setelah duelnya ditonton, jadi tayangan ulang tidak spoiler.
+
+"Ketahanan" pada kartu petarung berkurang setiap kali seorang juri memenangkan lawan (porsi suara panel); ini visualisasi suara juri, bukan skor tambahan.
+
+Cara menonton selama run berjalan:
+
+| Cara | Perintah | Pembaruan |
+|---|---|---|
+| Server lokal (Claude Code di mesin sendiri) | `$ABR serve --run DIR` lalu buka `http://localhost:8765` | Menarik `arena-data.json` setiap 3 detik tanpa memuat ulang |
+| Buka file langsung | buka `DIR/arena.html` di browser | Memuat ulang sendiri saat senggang, melanjutkan dari acara terakhir yang ditonton |
+| Artifact / panel pratinjau | Claude menampilkan dan memperbarui arena setiap babak | Pembaruan halaman oleh Claude |
+
+Riwayat tontonan disimpan di `localStorage` browser per run; tanpa penyimpanan, halaman tetap berjalan tetapi memutar dari awal saat dibuka ulang.
+
 ```bash
 ABR="python3 .claude/skills/argument-battle-royale/scripts/abr.py"
+$ABR serve --run DIR          # tonton arena live di http://localhost:8765
+$ABR arena --demo --out arena-demo.html   # turnamen contoh 4 argumen fiktif
 $ABR watch --run DIR          # animasi live di terminal lain (Ctrl+C untuk keluar)
 $ABR watch --demo             # putar semua adegan tanpa run
-$ABR arena --demo --out arena-demo.html
 $ABR frame --scene battle     # cetak satu frame flipbook
 ```
 
@@ -152,7 +169,7 @@ Setiap langkah ditulis atomik ke disk (`state.json`, file ronde, output paket). 
 |---|---|
 | `report.md` | Laporan akhir: formula pemenang, ringkasan, parameter, peta ruang argumen, statistik populasi, seeding, perjalanan bracket, ketahanan posisi per babak, diagram bracket (Mermaid), Final 4, semifinal & final (suara panel, alasan mayoritas, dissent), argumen pemenang dalam bentuk baku, uji falsifikasi, peringkat akhir, dinamika turnamen, keterbatasan, integritas, reproduksi |
 | `report.json` | Ringkasan terstruktur untuk dipakai program lain |
-| `arena.html` | Halaman beranimasi (progres, bracket, hasil); diperbarui setiap `next` |
+| `arena.html`, `arena-data.json` | Arena pertarungan beranimasi dan datanya untuk penonton live; diperbarui setiap `next` |
 | `integrity.json` | Hasil verifikasi dan digest run |
 | `fighters.jsonl`, `population.json`, `rounds/`, `dossiers.json`, `ledger.jsonl`, `packets/` | Data mentah yang dapat diaudit |
 
@@ -178,6 +195,7 @@ $ABR list-runs
 $ABR watch   [--run DIR] [--demo] [--once] [--fps N] [--colors truecolor|256]
 $ABR frame   [--run DIR] [--scene S] [--style mini|ansi] [--i N]
 $ABR arena   [--run DIR] [--out FILE] [--demo]
+$ABR serve   [--run DIR] [--port 8765] [--host 127.0.0.1]
 $ABR statusline                             # untuk status line Claude Code (JSON via stdin)
 ```
 

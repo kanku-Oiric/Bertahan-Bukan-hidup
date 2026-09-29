@@ -292,6 +292,10 @@ SCENE_LABEL = {
 }
 
 
+# Sprite yang dipakai pemutar pertarungan di arena HTML
+FIGHT_SPRITES = ["clawd_angry_side", "clawd_blink_side", "clawd_happy_wave", "clawd_open_side"]
+
+
 def frames(scene):
     fn, n = SCENES[scene]
     return [fn(i) for i in range(n)]
@@ -317,11 +321,14 @@ def rasterize(frame):
 def web_data():
     """Data kompak untuk arena HTML: palet, sprite, dan lapisan tiap frame."""
     scenes = {name: frames(name) for name in SCENES}
-    used = sorted({layer[0] for fr in scenes.values() for f in fr for layer in f["l"]})
+    used = {layer[0] for fr in scenes.values() for f in fr for layer in f["l"]}
+    used |= set(FIGHT_SPRITES)
+    used = sorted(used)
     return {
         "w": CANVAS_W,
         "h": CANVAS_H,
         "fps": FPS,
+        "fight": {"clawd_y": CLAWD_Y, "body_top": BODY_TOP, "left_x": 3, "right_x": 32},
         "palette": PALETTE,
         "sprites": {name: SPRITES[name] for name in used},
         "scenes": scenes,

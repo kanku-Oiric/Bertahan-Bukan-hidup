@@ -34,7 +34,8 @@ RUN_DIR/
 │   ├── output.json       output worker (setelah diserap: tidak boleh berubah)
 │   └── output.rejected.N.json   output yang gagal validasi (untuk audit)
 ├── report.md / report.json   laporan akhir
-├── arena.html            halaman beranimasi (progres, bracket, hasil); ditulis ulang setiap `next`
+├── arena.html            arena pertarungan beranimasi; ditulis ulang setiap `next`
+├── arena-data.json       data arena untuk penonton live (`serve` atau polling)
 └── integrity.json        hasil verifikasi integritas + digest
 ```
 
@@ -180,6 +181,18 @@ Setiap baris: `{seq, ts, event, data, prev, hash}` dengan `hash = sha256(prev + 
   "arena": "/…/RUN_DIR/arena.html"
 }
 ```
+
+## Acara arena (`arena-data.json` → `run.events`)
+
+| `t` | Isi |
+|---|---|
+| `stage` | `scene`, `title`, `text` — tahap persiapan selesai (peta, generasi, validasi, seeding, Final 4) |
+| `round` | `label`, `stage`, `n` duel, `byes`, `upsets`, `full` (semua duel diputar?), `shown`, `method`, `panel` |
+| `match` | `mid`, `label`, `a`, `b`, `w` (pemenang), `votes`, `basis`, `upset`, `hits[]` — satu per juri: `j`, `lens`, `by` (sisi yang dimenangkan juri), `ta`, `tb` (total rubrik), `obj` (keberatan pemenang-juri terhadap lawan), `fx` (faktor penentu), `xy` (pemetaan label X/Y juri) |
+| `fals` | `fighter`, `agg`, `testers[]` (`t`, `v`, `s`) |
+| `winner` | `fighter` (atau `null`), `status` |
+
+Babak dengan ≤ 8 duel diputar seluruhnya; babak lebih besar menampilkan 3 duel pilihan (upset dengan selisih unggulan terbesar, lalu duel dengan selisih skor terkecil). `run.rev` berubah setiap kali acara atau progres berubah, sehingga penonton tahu kapan harus memperbarui.
 
 State menyimpan `anim_key` dan `anim_n` agar flipbook hanya muncul saat tahap atau babak berganti. Keduanya tidak memengaruhi hasil turnamen dan tidak termasuk digest integritas.
 

@@ -86,7 +86,10 @@ Setelah setiap gelombang, beri pengguna satu baris progres dari field `progress`
 `next` juga mengembalikan objek `anim` agar progres tidak membosankan:
 
 - **Flipbook di chat.** Bila `anim.show` bernilai `true` (tahap atau babak baru dimulai), tampilkan `anim.frame` apa adanya di dalam blok kode `text`: Clawd berganti pose per tahap (penyihir saat persiapan, duel saat bracket, roket saat uji falsifikasi, piala saat selesai). Bila `show` bernilai `false`, cukup satu baris progres dari `anim.caption` dan `anim.percent`.
-- **Arena HTML.** `anim.arena` menunjuk `arena.html` di direktori run: animasi pixel art penuh, jalur tahap, bracket 8 besar, dan kartu hasil, diperbarui setiap `next`. Sebutkan path-nya sekali di awal run. Saat run selesai, tampilkan atau serahkan arena itu bila lingkungan dapat menampilkan HTML (artifact, panel pratinjau, file untuk pengguna); bila tidak, cukup sebutkan path-nya.
+- **Arena pertarungan (HTML).** `anim.arena` menunjuk `arena.html` di direktori run, diperbarui setiap `next`. Halaman ini memutar turnamen sebagai pertarungan: dua Clawd masuk arena, setiap juri memukul dengan keberatannya yang sebenarnya, bar ketahanan turun sesuai suara juri, yang kalah KO, pemenang maju di bracket. Penonton hanya memutar acara yang belum ditontonnya; setelah run selesai halaman yang sama menjadi tayangan ulang. Cara menontonnya secara live:
+  - **Claude Code di mesin pengguna:** di awal run, tawarkan sekali untuk menjalankan `$ABR serve --run RUN_DIR` sebagai proses latar belakang (jalankan langsung bila pengguna meminta tontonan live), lalu beri alamatnya (`http://localhost:8765`). Halaman menarik data baru setiap 3 detik tanpa memuat ulang. Jangan jalankan `serve` di sesi cloud; pengguna tidak dapat membuka localhost container.
+  - **Membuka file langsung:** `arena.html` yang dibuka dari disk memuat ulang sendiri saat senggang dan melanjutkan dari acara terakhir yang ditonton.
+  - **Lingkungan yang dapat menampilkan/memperbarui halaman HTML** (artifact, panel pratinjau aplikasi): tampilkan arena saat babak pertama selesai, perbarui setiap kali babak baru selesai bila memperbaruinya murah (cukup meneruskan path file), dan tampilkan versi akhir saat run selesai. Bila memperbarui berarti menulis ulang seluruh isi halaman (mis. artifact di Claude.ai), tampilkan sekali saja di akhir sebagai tayangan ulang.
 - **Terminal live.** Output tool tidak ditampilkan secara live, jadi jangan menjalankan `watch` sendiri. Bila pengguna memakai Claude Code di mesin lokal, sebutkan sekali bahwa mereka dapat membuka terminal lain dan menjalankan `python3 SKILL_DIR/scripts/abr.py watch --run RUN_DIR`.
 - Bila pengguna meminta tanpa animasi, lewati flipbook dan tampilkan baris progres saja.
 
@@ -152,7 +155,7 @@ Untuk uji cepat gunakan `population=32 mode=efficient`. Rincian profil mode ada 
 - `references/data-model.md` — struktur data petarung, duel, ronde, state, ledger, dan format output setiap paket.
 - `references/modes.md` — profil mode dan parameter.
 - `README.md` — dokumentasi penggunaan untuk manusia, contoh input/output.
-- `examples/` — contoh input dan contoh run lengkap.
+- `examples/` — contoh input, dan di repository sumber juga contoh run lengkap.
 
 ## Perintah engine lainnya
 
@@ -164,7 +167,8 @@ Untuk uji cepat gunakan `population=32 mode=efficient`. Rincian profil mode ada 
 | `$ABR retry --run DIR --packet ID` | Ulangi paket saat run `blocked` |
 | `$ABR report --run DIR` | Bangun ulang laporan run yang selesai |
 | `$ABR verify --run DIR` | Verifikasi integritas penuh (exit 0 = lulus) |
-| `$ABR arena --run DIR` | Tulis ulang `arena.html` (atau `--demo` untuk pratinjau tanpa run) |
+| `$ABR arena --run DIR` | Tulis ulang `arena.html` (atau `--demo` untuk turnamen contoh tanpa run) |
+| `$ABR serve --run DIR` | Server lokal untuk menonton arena secara live (`http://localhost:8765`) |
 | `$ABR frame --run DIR` | Cetak frame flipbook saat ini |
 | `$ABR watch --run DIR` | Animasi live di terminal pengguna sendiri (bukan untuk dijalankan lewat tool) |
 | `python3 SKILL_DIR/scripts/selftest.py` | Uji engine end-to-end dengan worker sintetis |

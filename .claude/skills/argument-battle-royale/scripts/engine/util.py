@@ -44,6 +44,7 @@ def atomic_write_text(path, text):
             fh.write(text)
             fh.flush()
             os.fsync(fh.fileno())
+        os.chmod(tmp, 0o644)  # mkstemp membuat 0600; file run boleh dibaca normal
         os.replace(tmp, path)
     except BaseException:
         if os.path.exists(tmp):

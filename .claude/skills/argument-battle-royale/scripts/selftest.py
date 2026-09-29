@@ -286,6 +286,15 @@ def run_case(mode, population, keep=False, threshold=None, dq_rate=0.04):
     assert {"wizard", "battle", "rocket", "trophy"} <= scenes_seen, scenes_seen
     html = open(run.path("arena.html"), encoding="utf-8").read()
     assert "abr-data" in html and '"done":true' in html
+    arena_run = json.load(open(run.path("arena-data.json"), encoding="utf-8"))["run"]
+    kinds = [e["t"] for e in arena_run["events"]]
+    assert kinds.count("winner") == 1 and "fals" in kinds and kinds.count("round") == st["current_round"], kinds
+    for e in arena_run["events"]:
+        if e["t"] == "match":
+            assert e["w"] in (e["a"], e["b"]) and e["hits"], e["id"]
+            assert all(h["by"] in ("a", "b") for h in e["hits"])
+            for fid in (e["a"], e["b"]):
+                assert fid in arena_run["fighters"], fid
     pop = run.load_population()
     counts = {}
     for p in pop.values():
@@ -327,6 +336,31 @@ def check_animation():
         assert all(ch == "." or ch in data["palette"] for r in rows for ch in r)
 
 
+def check_serve():
+    """`abr.py serve` melayani halaman arena dan datanya."""
+    import subprocess
+    import urllib.request
+
+    tmp = tempfile.mkdtemp(prefix="abr-serve-")
+    try:
+        run_dir = os.path.join(tmp, "run")
+        abr = os.path.join(os.path.dirname(os.path.abspath(__file__)), "abr.py")
+        subprocess.run([sys.executable, abr, "init", "Topik uji server arena", "population=8", "output_dir=" + run_dir], check=True, capture_output=True)
+        subprocess.run([sys.executable, abr, "next", "--run", run_dir], check=True, capture_output=True)
+        proc = subprocess.Popen([sys.executable, abr, "serve", "--run", run_dir, "--port", "0"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        try:
+            url = json.loads(proc.stdout.readline().decode())["serve"]
+            opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+            page = opener.open(url, timeout=10).read().decode()
+            data = json.loads(opener.open(url + "arena-data.json", timeout=10).read().decode())
+            assert "abr-data" in page and data["run"]["info"]["scene"] == "wizard", data["run"]["info"]
+        finally:
+            proc.terminate()
+            proc.wait(timeout=10)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--mode", choices=list(C.MODES))
@@ -340,7 +374,8 @@ def main():
     else:
         cases = [("efficient", 1000, 0.04), ("balanced", 150, 0.04), ("full", 40, 0.04), ("balanced", 120, 0.25)]
     check_animation()
-    print(json.dumps({"animation": "ok"}))
+    check_serve()
+    print(json.dumps({"animation": "ok", "serve": "ok"}))
     for mode, pop, dq in cases:
         info = run_case(mode, pop, keep=args.keep, threshold=args.threshold, dq_rate=dq)
         print(json.dumps(info, ensure_ascii=False))

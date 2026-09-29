@@ -21,6 +21,8 @@ Animasi (Clawd):
   arena     [--run DIR] [--out FILE] [--demo]
                                  Tulis arena HTML beranimasi (juga diperbarui otomatis oleh next).
   statusline                     Satu baris untuk status line Claude Code (baca JSON dari stdin).
+  serve     [--run DIR] [--port 8765] [--host 127.0.0.1]
+                                 Tonton arena secara live di browser (http://localhost:8765).
 
 Parameter init (semua opsional kecuali topik):
   mode=full|balanced|efficient  population=1000  deep_round_threshold=N  max_parallel=N
@@ -457,6 +459,53 @@ def cmd_arena(argv):
     emit({"arena": path})
 
 
+def cmd_serve(argv):
+    import http.server
+    import socketserver
+    from engine import arena
+
+    opts, _ = parse_kv(argv)
+    run_dir = _pick_run(opts).dir
+    host = opts.get("host", "127.0.0.1")
+    port = _int("port", opts.get("port", 8765), 0, 65535)
+
+    class Handler(http.server.BaseHTTPRequestHandler):
+        def do_GET(self):
+            path = self.path.split("?", 1)[0]
+            try:
+                summary = arena.run_summary(Run(run_dir))
+                if path in ("/", "/index.html", "/arena.html"):
+                    body, ctype = arena.render(summary).encode("utf-8"), "text/html; charset=utf-8"
+                elif path == "/arena-data.json":
+                    body = json.dumps({"run": summary}, ensure_ascii=False).encode("utf-8")
+                    ctype = "application/json; charset=utf-8"
+                else:
+                    self.send_error(404)
+                    return
+            except Exception as exc:  # state sedang ditulis; penonton akan mencoba lagi
+                self.send_error(503, str(exc)[:200])
+                return
+            self.send_response(200)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, *args):
+            pass
+
+    socketserver.ThreadingTCPServer.allow_reuse_address = True
+    socketserver.ThreadingTCPServer.daemon_threads = True
+    with socketserver.ThreadingTCPServer((host, port), Handler) as srv:
+        shown = "localhost" if host in ("0.0.0.0", "127.0.0.1") else host
+        print(json.dumps({"serve": "http://%s:%d/" % (shown, srv.server_address[1]), "run_dir": run_dir}), flush=True)
+        try:
+            srv.serve_forever()
+        except KeyboardInterrupt:
+            pass
+
+
 def cmd_statusline(argv):
     import datetime as dt
     from engine import anim
@@ -498,6 +547,7 @@ COMMANDS = {
     "frame": cmd_frame,
     "arena": cmd_arena,
     "statusline": cmd_statusline,
+    "serve": cmd_serve,
 }
 
 
