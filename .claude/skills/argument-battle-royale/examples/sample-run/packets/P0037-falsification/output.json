@@ -1,0 +1,107 @@
+{
+  "packet_id": "P0037-falsification",
+  "input_hash": "4b078aeeee5d9d7ed383edb306a159741325b44143f89316bfcd3f992998643d",
+  "fighter_id": "F0005",
+  "evidence_mode_used": "internal",
+  "commitments": [
+    {
+      "id": "C1",
+      "claim": "Pemahaman bahasa bersifat multidimensional dan bergradasi.",
+      "type": "conceptual",
+      "core": true
+    },
+    {
+      "id": "C2",
+      "claim": "LLM memiliki kompetensi nyata, bukan hafalan, pada dimensi inferensial-komposisional dan pragmatik lokal.",
+      "type": "empirical",
+      "core": true
+    },
+    {
+      "id": "C3",
+      "claim": "LLM lemah pada pelacakan komitmen diskursif.",
+      "type": "empirical",
+      "core": false
+    },
+    {
+      "id": "C4",
+      "claim": "Kegagalan LLM terstruktur menurut dimensi pemahaman, bukan acak.",
+      "type": "empirical",
+      "core": false
+    },
+    {
+      "id": "C5",
+      "claim": "LLM berbasis teks lemah pada grounding referensial.",
+      "type": "empirical",
+      "core": false
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "kind": "reductio",
+      "target_commitment": "C1",
+      "description": "Jika pemahaman selalu bergradasi, pertanyaan 'apakah X memahami bahasa?' tidak pernah memiliki jawaban ya/tidak — padahal jelas penutur asli dewasa memahami bahasanya.",
+      "result": "passed",
+      "reasoning": "Konsep bergradasi tetap memiliki kasus jelas di ujung-ujungnya; penutur asli dewasa berada di ujung atas pada semua dimensi. Gradasi tidak menghapus kasus yang jelas."
+    },
+    {
+      "id": "T2",
+      "kind": "conceptual_stress",
+      "target_commitment": "C1",
+      "description": "Apakah memahami sebuah proposisi bersifat biner (menangkap isi atau tidak), sehingga gradasi hanya berlaku pada keluasan, bukan pada pemahaman itu sendiri?",
+      "result": "passed",
+      "reasoning": "Tesis menyangkut pemahaman bahasa sebagai kapasitas, yang wajar bergradasi menurut keluasan dan dimensi, walau pemahaman satu proposisi mungkin biner. Tidak ada kontradiksi."
+    },
+    {
+      "id": "T3",
+      "kind": "edge_case",
+      "target_commitment": "C3",
+      "description": "Manusia yang sangat mudah dipengaruhi (sugestibel) dan mengubah komitmen mengikuti lawan bicara: apakah menurut argumen ini mereka 'kurang memahami bahasa'?",
+      "result": "damaged",
+      "reasoning": "Implikasi itu kontraintuitif: pelacakan komitmen tampaknya ciri agensi rasional, bukan pemahaman bahasa. Dimensi 'pelacakan komitmen' perlu dipisahkan dari pemahaman isi agar tidak menghasilkan vonis aneh bagi manusia sugestibel."
+    },
+    {
+      "id": "T4",
+      "kind": "counterexample",
+      "target_commitment": "C2",
+      "description": "Kata yang didefinisikan ulang dalam konteks sehingga bertentangan dengan makna lazimnya (mis. 'anjing' didefinisikan sebagai kucing): model sering kembali ke makna lazim.",
+      "result": "damaged",
+      "reasoning": "Keberhasilan pada kata baru yang didefinisikan dalam konteks — salah satu andalan argumen di final — melemah ketika definisi bertentangan dengan prior yang kuat. Kompetensi inferensial nyata, tetapi terikat prior; C2 bertahan dengan pembatasan."
+    },
+    {
+      "id": "T5",
+      "kind": "rival_comparison",
+      "target_commitment": "C1",
+      "description": "Rival 1 ditambah hipotesis bahwa perilaku menjilat adalah artefak optimisasi preferensi: apakah model satu-variabel plus artefak pelatihan menjelaskan semua data tanpa dimensi?",
+      "result": "damaged",
+      "reasoning": "Kombinasi itu menjelaskan sebagian besar data dengan asumsi lebih sedikit; keunggulan argumen bergantung pada klaim bahwa kegagalan komitmen bukan sekadar artefak pelatihan — klaim yang belum diuji. Keunggulan parsimoni rival melemahkan, tetapi tidak menggugurkan, C1."
+    },
+    {
+      "id": "T6",
+      "kind": "immunization_check",
+      "target_commitment": "C4",
+      "description": "Apakah revisi C4 menjadi 'dimensi dan jarak distribusi' di final adalah penyelamatan ad hoc?",
+      "result": "failed",
+      "reasoning": "Rumusan asli C4 dibantah data kontrafaktual lintas tugas; revisi ditambahkan setelah anomali diajukan lawan. Karena C4 adalah komitmen bantu, kegagalannya tidak menjatuhkan posisi, tetapi rumusan asli harus dianggap gugur."
+    },
+    {
+      "id": "T7",
+      "kind": "edge_case",
+      "target_commitment": "C5",
+      "description": "Model multimodal yang dilatih dengan gambar-teks berpasangan: apakah argumen memprediksi perbaikan pada dimensi referensial, dan apakah itu sesuai pengamatan?",
+      "result": "passed",
+      "reasoning": "Argumen memprediksi perbaikan per dimensi; model multimodal memang lebih baik pada tugas yang menuntut pengaitan kata dengan isi visual. Sesuai prediksi."
+    }
+  ],
+  "immunization_detected": false,
+  "ad_hoc_notes": "Revisi C4 diakui secara terbuka dan inti tesis tidak diubah; ini bukan imunisasi, tetapi rumusan asli C4 dinyatakan gugur.",
+  "verdict": "SURVIVED_WITH_DAMAGE",
+  "required_qualifications": [
+    "Pisahkan pelacakan komitmen (agensi rasional) dari pemahaman isi agar tidak menghasilkan vonis aneh bagi manusia sugestibel.",
+    "Akui bahwa kompetensi inferensial LLM terikat pada prior yang kuat dan melemah ketika definisi dalam konteks bertentangan dengan makna lazim.",
+    "Uji apakah kegagalan komitmen bertahan setelah artefak optimisasi preferensi dikendalikan; bila tidak, dimensi itu harus dihapus."
+  ],
+  "residual_confidence": 0.55,
+  "summary": "Argumen bertahan terhadap reductio dan tekanan konseptual terhadap gagasan gradasi, dan prediksinya tentang model multimodal sesuai. Kerusakan terletak pada dimensi pelacakan komitmen (yang tampaknya milik agensi rasional, bukan pemahaman), pada keterikatan kompetensi inferensial terhadap prior, dan pada keunggulan parsimoni rival satu-variabel. Satu komitmen bantu (C4 dalam rumusan asli) gugur. Tidak ada komitmen inti yang gagal.",
+  "evidence": []
+}

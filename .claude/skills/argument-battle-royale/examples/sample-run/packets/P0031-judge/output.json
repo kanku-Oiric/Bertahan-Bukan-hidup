@@ -1,0 +1,49 @@
+{
+  "packet_id": "P0031-judge",
+  "input_hash": "c2847e3692353f82d5856c849e9023f27beed68d38363a0170eb616b6c1cc114",
+  "judge_lens": "L1",
+  "evidence_mode_used": "internal",
+  "verdicts": [
+    {
+      "duel_id": "R04-M0001",
+      "steelman_x": "Pemahaman bahasa multidimensional dan bergradasi; LLM kompeten nyata pada dimensi inferensial dan pragmatik lokal, lemah pada pelacakan komitmen, grounding, dan kekokohan di luar distribusi latih; profil ini menuntut dua faktor (dimensi dan jarak distribusi) yang keduanya sejalan dengan pemahaman parsial.",
+      "steelman_y": "Inti pemahaman yang membedakannya dari kefasihan permukaan adalah penerapan konsep yang kokoh ketika situasi berubah; diukur dengan uji kontrafaktual berambang rentang manusia, LLM saat ini belum lulus, sehingga belum memahami dalam arti kuat.",
+      "scores_x": [
+        7.5,
+        7,
+        7.5,
+        7.5,
+        7.5,
+        7,
+        8,
+        7,
+        8,
+        8.5
+      ],
+      "scores_y": [
+        8,
+        8,
+        7.5,
+        7.5,
+        9,
+        6.5,
+        7,
+        8,
+        8,
+        7
+      ],
+      "fatal_x": [],
+      "fatal_y": [],
+      "winner": "Y",
+      "confidence": 0.55,
+      "decisive_factor": "struktur deduktif dengan ambang yang eksplisit",
+      "rationale": "Setelah ambang 'memadai' dinyatakan, argumen F0009 adalah modus tollens yang valid dengan premis yang dapat diperiksa. Inferensi abduktif F0005 tetap kuat, tetapi harus menambal komitmen empirisnya di tengah debat (pengelompokan kegagalan menurut dimensi dan jarak). Pergeseran rumusan F0009 antar-babak adalah cacat retoris yang diakuinya sendiri, bukan cacat dalam bentuk argumen. Dengan selisih tipis, struktur logis F0009 lebih ketat.",
+      "objection_x_to_y": "Kesimpulan argumen lawan bergeser antara semifinal dan final, dan penetapan transfer kontrafaktual sebagai inti konsep adalah pilihan definisional yang tidak dibela.",
+      "objection_y_to_x": "Hipotesis jarak-distribusi melemahkan komitmen empiris lawan bahwa kegagalan berkelompok menurut dimensi, dan vonis lawan bergantung pada pembobotan yang tidak ditetapkan.",
+      "reply_quality_x": "menjawab sebagian: hipotesis jarak-distribusi diserap sebagai faktor kedua, tetapi komitmen pengelompokan per dimensi harus dirumuskan ulang",
+      "reply_quality_y": "menjawab sebagian: kekokohan dibela sebagai uji lintas dimensi, tetapi pergeseran rumusan kesimpulan antar-babak diakui",
+      "dissent_risk": "Jika pergeseran rumusan F0009 dinilai sebagai ekuivokasi pada kesimpulan, bukan sekadar retorika, putusan berbalik.",
+      "evidence": []
+    }
+  ]
+}

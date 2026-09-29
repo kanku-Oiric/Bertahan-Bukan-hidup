@@ -1,0 +1,33 @@
+{
+  "record": {
+    "id": "P0034-judge",
+    "type": "judge",
+    "stage": "round:4:judge",
+    "status": "pending",
+    "attempts": 0,
+    "input_hash": "64d89624aa548a9a0a3ef6ec00a77afea95d65b029f0a9f892be5c27f6b415bb",
+    "created_at": "2026-09-29T13:22:25+00:00",
+    "meta": {},
+    "errors": []
+  },
+  "payload": {
+    "round": 4,
+    "lens": {
+      "id": "L4",
+      "label": "Skeptis / advokat setan",
+      "focus": "Serangan terkuat terhadap setiap argumen, alokasi beban pembuktian, asumsi tersembunyi."
+    },
+    "duels": [
+      {
+        "duel_id": "R04-M0001",
+        "a": "F0005",
+        "b": "F0009",
+        "presentation": {
+          "X": "b",
+          "Y": "a"
+        }
+      }
+    ],
+    "stage": "final"
+  }
+}

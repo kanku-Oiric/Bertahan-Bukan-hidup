@@ -1,0 +1,90 @@
+{
+  "packet_id": "P0021-judge",
+  "input_hash": "43cb46b139543b4ee0375ed6b791e21d653aac1c1aa0b4dcd930cc6008c29172",
+  "judge_lens": "L2",
+  "evidence_mode_used": "internal",
+  "verdicts": [
+    {
+      "duel_id": "R03-M0001",
+      "steelman_x": "Pemahaman bahasa multidimensional; LLM nyata pada dimensi inferensial-komposisional dan pragmatik lokal, gagal pada pelacakan komitmen dan grounding; profil campuran ini hanya dijelaskan oleh hipotesis pemahaman parsial, dengan dimensi yang berasal dari teori kompetensi linguistik.",
+      "steelman_y": "Pertanyaan per dimensi faktual, tetapi pertanyaan satu istilah 'apakah AI memahami bahasa' tidak memiliki jawaban faktual tunggal karena kriteria konsep klaster terbelah; jawaban 'sebagian' pun bergantung pada keputusan konseptual tentang pembobotan.",
+      "scores_x": [
+        7.5,
+        7.5,
+        8,
+        8.5,
+        8.5,
+        7,
+        8,
+        7,
+        8,
+        8
+      ],
+      "scores_y": [
+        8,
+        6.5,
+        6,
+        6,
+        7,
+        6,
+        7.5,
+        8,
+        7,
+        7.5
+      ],
+      "fatal_x": [],
+      "fatal_y": [],
+      "winner": "X",
+      "confidence": 0.8,
+      "decisive_factor": "kecukupan empiris dan prediksi berisiko",
+      "rationale": "F0005 kini mengikat dimensinya pada teori kompetensi linguistik sebelum data, sehingga prediksi per dimensinya berisiko dan dapat gagal. Komitmen empiris utama F0014 (konvergensi pakar) diakui belum diuji dalam debat; sebagai program riset, posisinya belum menghasilkan temuan yang menopang intinya. Kedua argumen sepakat tentang data kapasitas, tetapi hanya F0005 yang memanfaatkannya untuk prediksi yang dapat difalsifikasi.",
+      "objection_x_to_y": "Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen.",
+      "objection_y_to_x": "Menerapkan 'memahami' secara bergradasi pada profil yang terdisosiasi adalah keputusan konseptual yang diakui lawan sendiri, sehingga jawaban 'sebagian' bukan temuan faktual.",
+      "reply_quality_x": "menjawab tuntas pada tuduhan post hoc (dimensi dari teori), menjawab sebagian pada ambang (dengan konsesi tentang pembobotan)",
+      "reply_quality_y": "menjawab sebagian: pembedaan pertanyaan satu istilah vs per dimensi tajam, tetapi P3 diakui belum diuji",
+      "dissent_risk": "Jika survei pakar di masa depan menunjukkan konvergensi setelah istilah dipecah, F0014 memperoleh dukungan empiris yang kini tidak dimilikinya.",
+      "evidence": []
+    },
+    {
+      "duel_id": "R03-M0002",
+      "steelman_x": "Penguasaan konsep berarti mampu menerapkannya setelah aturan latar diubah secara eksplisit; kesenjangan kontrafaktual LLM berada jauh di luar rentang manusia yang diberi instruksi yang sama, sehingga LLM belum memahami dalam arti kuat.",
+      "steelman_y": "Paritas atribusi: bukti perilaku dan representasi yang dipakai kausal ada pada LLM; bukti negatif hanya relevan bila menunjukkan ketiadaan kapasitas, dan kegagalan seperti relasi terbalik adalah batas penyimpanan, bukan ketiadaan pemahaman fungsional.",
+      "scores_x": [
+        8,
+        7.5,
+        7.5,
+        8,
+        9,
+        6.5,
+        7,
+        8,
+        8,
+        8
+      ],
+      "scores_y": [
+        7.5,
+        7.5,
+        6.5,
+        6.5,
+        7,
+        6.5,
+        7,
+        8,
+        7,
+        7.5
+      ],
+      "fatal_x": [],
+      "fatal_y": [],
+      "winner": "X",
+      "confidence": 0.7,
+      "decisive_factor": "falsifier F0001 sendiri terpicu",
+      "rationale": "Salah satu falsifier F0001 adalah kinerja yang runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia; data kontrafaktual yang diberi instruksi eksplisit memenuhinya sebagian. Pembelaan F0001 menafsirkan ulang kegagalan itu sebagai derajat yang lebih rendah, langkah yang dari sudut filsafat sains mendekati penyelamatan sabuk pelindung. F0009 tetap mengambil risiko empiris yang jelas dan menyebut kondisi kekalahannya.",
+      "objection_x_to_y": "Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan.",
+      "objection_y_to_x": "Kriteria kontrafaktual lawan mengukur eksekusi prosedur, dan memperluas 'memahami kata' hingga mencakup operasi di latar yang diubah adalah definisi yang menguntungkan posisinya sendiri.",
+      "reply_quality_x": "menjawab tuntas pada kontra-contoh siswa dan ambang; menjawab sebagian pada tuduhan prosedur vs bahasa",
+      "reply_quality_y": "menjawab tuntas pada relasi terbalik (pembedaan penyimpanan vs konteks), menjawab sebagian pada asimetri bukti negatif",
+      "dissent_risk": "Hasil kontrafaktual pada model yang lebih baru yang masuk rentang manusia akan membalik putusan.",
+      "evidence": []
+    }
+  ]
+}

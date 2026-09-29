@@ -1,0 +1,186 @@
+{
+  "topic_restated": "Apakah sistem kecerdasan buatan — khususnya model bahasa besar (LLM) yang ada saat ini, dan sistem AI secara prinsip — dapat secara tepat dikatakan memahami bahasa, dan jika ya, dalam arti 'memahami' yang mana?",
+  "question_type": "mixed",
+  "presuppositions": [
+    "'Memahami' memiliki kondisi penerapan yang cukup determinat untuk diuji pada sistem non-manusia.",
+    "Ada fakta tentang sistem AI (perilaku maupun mekanisme internal) yang relevan bagi benar-salahnya atribusi pemahaman.",
+    "Pertanyaan dapat dijawab secara umum untuk 'AI', padahal arsitektur, data, dan cara pelatihan sistem AI sangat beragam.",
+    "Pemahaman manusia adalah tolok ukur yang tepat, atau setidaknya titik rujukan, bagi atribusi pemahaman."
+  ],
+  "key_terms": [
+    {
+      "term": "memahami",
+      "readings": [
+        {
+          "id": "T1a",
+          "label": "Pemahaman fungsional-inferensial",
+          "definition": "Kemampuan menggunakan ekspresi secara tepat lintas konteks: menarik inferensi yang benar, memparafrasekan, menjawab, dan menggeneralisasi ke situasi baru."
+        },
+        {
+          "id": "T1b",
+          "label": "Pemahaman referensial-tergrounding",
+          "definition": "Kemampuan mengaitkan ekspresi dengan objek, sifat, dan keadaan dunia melalui hubungan kausal dengan dunia (persepsi, tindakan) sehingga kata memiliki referen, bukan hanya relasi dengan kata lain."
+        },
+        {
+          "id": "T1c",
+          "label": "Pemahaman intensional-fenomenal",
+          "definition": "Pemahaman yang melibatkan intensionalitas asli (bukan turunan dari penafsir) dan, menurut sebagian pandangan, pengalaman sadar tentang apa yang dimaksud."
+        },
+        {
+          "id": "T1d",
+          "label": "Pemahaman bergradasi-multidimensional",
+          "definition": "Kapasitas yang datang dalam derajat dan dalam beberapa dimensi terpisah (inferensial, referensial, pragmatik-sosial, metakognitif) sehingga sebuah sistem dapat memahami dalam satu dimensi tanpa dimensi lain."
+        }
+      ]
+    },
+    {
+      "term": "bahasa",
+      "readings": [
+        {
+          "id": "T2a",
+          "label": "Bahasa sebagai sistem bentuk",
+          "definition": "Sistem simbol dengan struktur leksikal, sintaksis, dan distribusional yang dapat dipelajari dari korpus teks."
+        },
+        {
+          "id": "T2b",
+          "label": "Bahasa sebagai praktik sosial-komunikatif",
+          "definition": "Praktik bertutur antar-agen yang melibatkan niat komunikatif, tindak tutur, norma, dan tanggung jawab atas klaim."
+        }
+      ]
+    },
+    {
+      "term": "AI",
+      "readings": [
+        {
+          "id": "T3a",
+          "label": "LLM kontemporer",
+          "definition": "Model bahasa besar berbasis transformer yang dilatih memprediksi token dan disetel lanjut dengan umpan balik manusia, termasuk varian multimodal."
+        },
+        {
+          "id": "T3b",
+          "label": "AI secara prinsip",
+          "definition": "Sistem komputasional mana pun yang mungkin dibangun, termasuk sistem ter-embodied yang berinteraksi dengan dunia fisik dan sosial."
+        }
+      ]
+    }
+  ],
+  "stances": [
+    {
+      "id": "S1",
+      "label": "Ya, secara substantif",
+      "description": "Sistem AI seperti LLM kontemporer sudah memahami bahasa dalam arti yang sejenis (meski belum tentu sederajat) dengan manusia: kriteria yang kita pakai untuk manusia — penggunaan inferensial yang sistematis, generalisasi, dan representasi internal yang terstruktur — terpenuhi, sehingga menolak atribusi itu adalah standar ganda."
+    },
+    {
+      "id": "S2",
+      "label": "Ya secara parsial dan bergradasi",
+      "description": "Pemahaman adalah kapasitas multidimensional. AI kontemporer memiliki dimensi tertentu secara nyata (inferensial, struktural, sebagian referensial melalui data manusia) tetapi lemah atau tidak ada pada dimensi lain (grounding sensorimotor, niat komunikatif, metakognisi yang andal); jawaban ya/tidak biner menyesatkan."
+    },
+    {
+      "id": "S3",
+      "label": "Tidak untuk AI saat ini, mungkin secara prinsip",
+      "description": "LLM kontemporer hanya mempelajari relasi antar-bentuk tanpa kontak kausal yang tepat dengan referen dan tanpa partisipasi dalam praktik komunikatif, sehingga belum memahami; tetapi tidak ada hambatan prinsipiel bagi sistem AI yang ter-embodied, tergrounding, dan terlibat sosial untuk memahami."
+    },
+    {
+      "id": "S4",
+      "label": "Tidak, secara prinsip",
+      "description": "Komputasi adalah manipulasi simbol yang didefinisikan secara sintaksis, dan sintaksis saja tidak cukup untuk semantik atau intensionalitas asli; pemahaman membutuhkan sifat-sifat (intensionalitas intrinsik, kesadaran) yang tidak dihasilkan oleh menjalankan program, betapa pun canggih perilakunya."
+    },
+    {
+      "id": "S5",
+      "label": "Deflasioner: pertanyaan tidak memiliki jawaban faktual tunggal",
+      "description": "'Memahami' adalah konsep yang dibentuk untuk praktik antarmanusia; penerapannya pada AI tidak ditentukan oleh fakta yang tersembunyi, melainkan oleh keputusan konseptual yang bergantung pada tujuan (sains, etika, hukum). Pertanyaan yang tepat adalah kapasitas spesifik apa yang dimiliki AI dan konsep apa yang paling berguna."
+    }
+  ],
+  "frameworks": [
+    {
+      "id": "K1",
+      "label": "Fungsionalisme & semantik peran-inferensial",
+      "description": "Makna dan pemahaman ditentukan oleh peran fungsional/inferensial suatu keadaan atau ekspresi dalam sistem, bukan oleh substrat.",
+      "compatible_stances": [
+        "S1",
+        "S2",
+        "S3",
+        "S5"
+      ]
+    },
+    {
+      "id": "K2",
+      "label": "Grounding simbol & kognisi ter-embodied",
+      "description": "Simbol memperoleh makna melalui keterkaitan dengan persepsi, tindakan, dan tubuh; masalah grounding simbol menanyakan bagaimana simbol dapat bermakna bagi sistem itu sendiri."
+    },
+    {
+      "id": "K3",
+      "label": "Intensionalitas asli & kesadaran",
+      "description": "Tradisi yang membedakan intensionalitas intrinsik dari yang turunan/dipinjam (mis. argumen Ruang Cina) dan menautkan pemahaman dengan kesadaran.",
+      "compatible_stances": [
+        "S2",
+        "S3",
+        "S4"
+      ]
+    },
+    {
+      "id": "K4",
+      "label": "Sains kognitif & interpretabilitas mekanistik",
+      "description": "Studi empiris tentang representasi dan mekanisme internal (probing, analisis sirkuit), generalisasi, dan pola kegagalan sistem AI, dibandingkan dengan kognisi manusia."
+    },
+    {
+      "id": "K5",
+      "label": "Pragmatik & filsafat bahasa sosial",
+      "description": "Makna sebagai penggunaan dalam praktik (Wittgenstein), niat komunikatif (Grice), tindak tutur, dan tanggung jawab normatif atas klaim."
+    },
+    {
+      "id": "K6",
+      "label": "Interpretasionisme & epistemologi atribusi mental",
+      "description": "Atribusi keadaan mental dibenarkan oleh keberhasilan prediktif sikap intensional dan oleh standar bukti yang sama yang kita pakai untuk manusia lain, anak, dan hewan.",
+      "compatible_stances": [
+        "S1",
+        "S2",
+        "S5"
+      ]
+    }
+  ],
+  "strategies": [
+    {
+      "id": "M1",
+      "label": "Analisis konseptual",
+      "description": "Menguraikan kondisi perlu dan/atau cukup bagi 'memahami' dan memeriksa apakah AI memenuhinya."
+    },
+    {
+      "id": "M2",
+      "label": "Eksperimen pikiran",
+      "description": "Memakai skenario hipotetis (mis. Ruang Cina, gurita di dasar laut, sistem terisolasi dari dunia) untuk menguji intuisi tentang kondisi pemahaman."
+    },
+    {
+      "id": "M3",
+      "label": "Bukti empiris",
+      "description": "Bersandar pada temuan tentang kinerja, generalisasi, representasi internal, dan pola kegagalan sistem AI."
+    },
+    {
+      "id": "M4",
+      "label": "Inferensi ke penjelasan terbaik",
+      "description": "Menilai hipotesis mana (pemahaman, pencocokan pola dangkal, dsb.) yang paling baik menjelaskan keseluruhan data perilaku dan mekanistik."
+    },
+    {
+      "id": "M5",
+      "label": "Argumen paritas dan analogi",
+      "description": "Membandingkan AI dengan kasus lain yang atribusinya kita terima atau tolak (anak, hewan, penutur non-asli, kalkulator) untuk menguji konsistensi standar."
+    }
+  ],
+  "cruxes": [
+    "Apakah makna dapat muncul dari distribusi bentuk linguistik saja tanpa kontak kausal langsung dengan referen?",
+    "Apakah pemahaman mensyaratkan intensionalitas asli atau kesadaran fenomenal, atau cukup kapasitas fungsional?",
+    "Apakah kriteria behavioral (kinerja dan generalisasi lintas tugas) cukup untuk atribusi pemahaman, atau mekanisme internal yang menentukan?",
+    "Apakah representasi internal LLM tentang entitas dan keadaan dunia merupakan model dunia yang sejati atau korelasi statistik dangkal?",
+    "Bagaimana menafsirkan kegagalan sistematis (halusinasi, ketidakkonsistenan, kerentanan terhadap perubahan redaksi): bukti ketiadaan pemahaman atau pemahaman yang terbatas?",
+    "Apakah 'memahami' konsep biner atau bergradasi dan multidimensional?"
+  ],
+  "evidence_domains": [
+    "Linguistik komputasional dan NLP",
+    "Interpretabilitas mekanistik",
+    "Psikolinguistik dan perkembangan bahasa anak",
+    "Ilmu kognitif dan neurosains bahasa",
+    "Filsafat pikiran dan filsafat bahasa",
+    "Kognisi hewan (sebagai kasus pembanding atribusi)"
+  ],
+  "notes": "Topik ambigu antara klaim tentang LLM saat ini (T3a) dan klaim prinsipiel tentang AI mana pun (T3b); posisi S3 dan S4 memisahkan keduanya secara eksplisit."
+}

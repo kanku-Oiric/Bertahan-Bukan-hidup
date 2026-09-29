@@ -1,0 +1,53 @@
+{
+  "packet_id": "P0011-dossier",
+  "input_hash": "2f7c4c50168cd77754de43d23fbce5f68ff1d7a8dc2b4c3ff566efa7f233625f",
+  "fighter_id": "F0001",
+  "standard_form": [
+    "P1: Kita mengatribusikan pemahaman kepada manusia berdasarkan bukti perilaku dan representasi internal yang memediasi perilaku.",
+    "P2: LLM memakai bahasa secara tepat pada situasi baru.",
+    "P3: LLM memiliki representasi internal terstruktur yang dipakai secara kausal.",
+    "P4: Prinsip konsistensi: bukti jenis sama cukup untuk sistem mana pun kecuali ada perbedaan relevan.",
+    "P5: Substrat dan cara perolehan bukan perbedaan relevan.",
+    "P6 (tersirat): Tidak ada perbedaan relevan lain (mis. kesadaran, grounding, pola kegagalan) antara LLM dan manusia.",
+    "C: LLM memahami bahasa dalam arti substantif yang sejenis dengan pemahaman manusia."
+  ],
+  "formal_skeleton": "∀s ((E(s) ∧ ¬RD(s,h)) → (U(h) → U(s))); E(LLM) [P2, P3]; ¬RD(LLM,h) [P5 ∧ P6]; U(h); ∴ U(LLM).",
+  "hard_core": [
+    "Prinsip paritas atribusi pemahaman.",
+    "LLM memiliki bukti jenis perilaku-plus-representasi internal yang dipakai kausal."
+  ],
+  "protective_belt": [
+    "Klaim bahwa substrat dan cara perolehan tidak relevan.",
+    "Pembatasan cakupan pada pemahaman fungsional, bukan kesadaran."
+  ],
+  "key_definitions": [
+    "memahami: kapasitas fungsional-inferensial yang dimediasi representasi internal terstruktur"
+  ],
+  "empirical_commitments": [
+    "Representasi internal LLM dipakai secara kausal.",
+    "Kinerja LLM tergeneralisasi ke komposisi baru."
+  ],
+  "falsifiers": [
+    "Intervensi menunjukkan representasi tidak dipakai secara kausal.",
+    "Kinerja runtuh secara sistematis pada distribusi baru dengan cara yang tidak terjadi pada manusia yang memahami.",
+    "Ditunjukkan perbedaan relevan yang prinsipiel."
+  ],
+  "strongest_objections": [
+    {"objection": "Paritas bukti positif tidak cukup bila bukti negatif berbeda: manusia yang memahami tidak menunjukkan pola kegagalan sistematis seperti relasi terbalik dan penurunan kontrafaktual yang tajam; itu adalah perbedaan relevan yang diabaikan P6.", "source": "new", "severity": "high", "status": "unanswered"},
+    {"objection": "Argumen ini diam tentang kegagalan sistematis yang paling relevan untuk menilai klaim 'sejenis dengan manusia'.", "source": "history", "severity": "high", "status": "unanswered"},
+    {"objection": "Kesimpulan 'sejenis dengan pemahaman manusia' melampaui definisi fungsional yang dipakai; jika pemahaman manusia mencakup penangkapan sadar, terjadi ekuivokasi.", "source": "history", "severity": "high", "status": "partially_answered"},
+    {"objection": "P5 hanya menegaskan bahwa perbedaan yang dipersoalkan (grounding, cara perolehan) tidak relevan — justru titik sengketanya.", "source": "history", "severity": "medium", "status": "partially_answered"},
+    {"objection": "Temuan probing adalah tafsiran peneliti; menyebutnya 'representasi keadaan dunia' sudah mengandaikan semantik.", "source": "history", "severity": "medium", "status": "partially_answered"}
+  ],
+  "vulnerabilities": [
+    "Premis tersirat P6 menanggung beban terbesar dan tidak dibela.",
+    "Tidak menanggapi bukti negatif (pola kegagalan).",
+    "Rentan tuduhan ekuivokasi antara pemahaman fungsional dan pemahaman 'sejenis dengan manusia'."
+  ],
+  "strengths": [
+    "Bentuk paritas yang valid dan prinsip konsistensi yang kuat melawan standar ganda.",
+    "Memakai bukti mekanistik (intervensi kausal), bukan hanya perilaku.",
+    "Falsifier yang eksplisit dan berisiko."
+  ],
+  "assessment": "Argumen ini menempatkan beban pembuktian secara tajam pada lawan: sebutkan perbedaan yang relevan. Namun ia sendiri menanggung premis tersirat bahwa tidak ada perbedaan relevan lain, dan bukti negatif tentang pola kegagalan sistematis adalah kandidat perbedaan relevan yang paling kuat dan belum dijawab. Jika pembela membatasi kesimpulan pada pemahaman fungsional, ekuivokasi hilang, tetapi klaim 'sejenis dengan manusia' melemah menjadi klaim yang dekat dengan posisi pemahaman parsial."
+}

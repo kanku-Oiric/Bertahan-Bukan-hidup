@@ -1,0 +1,15 @@
+{
+  "packet_id": "P0015-debate",
+  "input_hash": "32f8a80199afed73efe46d523d8dea710ed575dedfcb4e5a209e588d5c6bd4e8",
+  "match_id": "R03-M0002",
+  "exchange": "attack",
+  "statement": "Argumen lawan berbentuk modus tollens: jika memahami, maka lulus uji kontrafaktual secara memadai; LLM tidak lulus; jadi tidak memahami. Bentuknya valid, tetapi premis pertamanya terlalu kuat dan kata kuncinya kosong. Pertama, P1 sebagai syarat perlu yang biner dibantah oleh kasus biasa: seorang siswa yang memahami penjumlahan tetapi gagal ketika pertama kali diminta menjumlah dalam basis sembilan tidak kita katakan tidak memahami penjumlahan. Kedua, 'memadai' tidak pernah ditentukan. Argumen lawan menjelaskannya secara tersirat sebagai 'kesenjangan tidak jauh lebih besar daripada manusia', tetapi seberapa jauh? Tanpa ambang, modus tollens tidak dapat dijalankan, karena kita tidak tahu apakah konsekuennya salah. Ketiga, manusia pun menunjukkan efek keakraban yang kuat: dalam tugas penalaran bersyarat yang terkenal, orang jauh lebih berhasil pada konten yang akrab daripada pada versi abstrak dengan struktur logis yang identik. Ketergantungan pada pola yang akrab bukan ciri khusus mesin yang tidak memahami; ia ciri penalar yang memahami secara terbatas. Maka data argumen lawan menunjukkan perbedaan derajat, bukan jenis. Keempat, uji kontrafaktual mengukur eksekusi prosedur di bawah aturan baru, bukan pemahaman bahasa: penutur asli yang gagal berhitung dalam basis sembilan tetap memahami kata 'tambah'. Argumen lawan memindahkan pertanyaan dari 'memahami bahasa' ke 'menguasai prosedur dalam kondisi baru'.",
+  "points": [
+    {"claim": "P1 sebagai syarat perlu biner dibantah oleh siswa yang memahami sebagian tetapi gagal pada varian kontrafaktual.", "target": "P1 argumen lawan"},
+    {"claim": "Ambang 'memadai' tidak ditentukan sehingga modus tollens tidak dapat dijalankan.", "target": "P4 tersirat argumen lawan"},
+    {"claim": "Manusia juga menunjukkan efek keakraban yang kuat; datanya menunjukkan perbedaan derajat, bukan jenis.", "target": "P3 argumen lawan"},
+    {"claim": "Uji kontrafaktual mengukur eksekusi prosedur, bukan pemahaman bahasa; kesimpulan tentang bahasa tidak mengikuti.", "target": "kesimpulan (C) argumen lawan"}
+  ],
+  "concessions": ["Kesenjangan kontrafaktual pada LLM nyata dan lebih besar daripada pada manusia pada banyak tugas."],
+  "clarifications": []
+}

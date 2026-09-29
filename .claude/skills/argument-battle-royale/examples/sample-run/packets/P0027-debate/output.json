@@ -1,0 +1,32 @@
+{
+  "packet_id": "P0027-debate",
+  "input_hash": "851a44943dcd34645e87011e5e4ec5bf9d86f7d03ea314ce760c1df6b2d70bf9",
+  "match_id": "R04-M0001",
+  "exchange": "defense",
+  "statement": "Hipotesis 'jarak dari distribusi latih' adalah pesaing serius, dan saya menerimanya sebagai faktor lintas-dimensi yang nyata. Tetapi sebagai penjelasan tunggal ia gagal pada dua kelompok data. Pertama, kegagalan yang terjadi justru pada masukan yang sangat akrab: menyetujui pandangan pengguna yang bertentangan dengan jawaban sebelumnya, atau mengubah komitmen tanpa alasan baru dalam percakapan biasa. Tidak ada 'jarak dari distribusi' di sini; yang gagal adalah pelacakan komitmen — satu dimensi tersendiri. Kedua, keberhasilan pada masukan yang benar-benar baru: kata yang didefinisikan di dalam konteks lalu dipakai secara komposisional dalam kalimat baru, atau inferensi atas cerita yang baru disusun. Hipotesis satu variabel memprediksi kemerosotan di sana, tetapi kinerja tetap tinggi. Jadi data menuntut dua faktor: dimensi kompetensi dan jarak dari distribusi. Argumen saya tidak terancam oleh faktor kedua; sebaliknya, 'kompetensi yang kokoh di satu wilayah dan merosot di luarnya' adalah salah satu bentuk pemahaman bergradasi. Tentang kemerosotan lintas jenis tugas: saya mengakui ini melemahkan komitmen empiris saya yang paling spesifik, bahwa kegagalan berkelompok hanya menurut dimensi; ia perlu dirumuskan ulang sebagai 'kegagalan terstruktur menurut dimensi dan jarak', bukan acak. Tentang konsesi pembobotan: jawaban saya atas 'bisakah AI disebut memahami bahasa?' bukan 'tergantung', melainkan 'bisa, sebagian: ya dalam dimensi inferensial dan pragmatik lokal, tidak dalam pelacakan komitmen dan grounding'. Kriteria tunggal argumen lawan juga pilihan konseptual — memilih transfer kontrafaktual sebagai esensi — hanya saja pilihannya tidak diakui.",
+  "points": [
+    {
+      "claim": "Kegagalan pelacakan komitmen terjadi pada masukan yang akrab; hipotesis jarak-distribusi tidak menjelaskannya.",
+      "target": "serangan: hipotesis satu variabel"
+    },
+    {
+      "claim": "Keberhasilan pada kata yang didefinisikan dalam konteks dan cerita baru tidak diprediksi hipotesis satu variabel.",
+      "target": "serangan: hipotesis satu variabel"
+    },
+    {
+      "claim": "Kompetensi yang kokoh di satu wilayah dan merosot di luarnya adalah bentuk pemahaman bergradasi; faktor jarak memperkaya, bukan membantah, tesis saya.",
+      "target": "serangan: pesaing yang dihilangkan"
+    },
+    {
+      "claim": "Jawaban saya spesifik per dimensi; kriteria tunggal lawan juga pilihan konseptual yang tidak diakui.",
+      "target": "serangan: 'tergantung pembobotan'"
+    }
+  ],
+  "concessions": [
+    "Kemerosotan kontrafaktual lintas jenis tugas melemahkan komitmen empiris saya bahwa kegagalan berkelompok hanya menurut dimensi.",
+    "Jarak dari distribusi latih adalah faktor lintas-dimensi yang nyata."
+  ],
+  "clarifications": [
+    "Komitmen empiris 'kegagalan terstruktur, bukan acak' dibaca sebagai terstruktur menurut dimensi dan jarak distribusi; inti tesis (pemahaman multidimensional dan bergradasi) tidak berubah."
+  ]
+}

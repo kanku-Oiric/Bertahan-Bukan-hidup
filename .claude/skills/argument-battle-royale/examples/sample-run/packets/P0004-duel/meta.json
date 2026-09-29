@@ -1,0 +1,96 @@
+{
+  "record": {
+    "id": "P0004-duel",
+    "type": "duel",
+    "stage": "round:1:judge",
+    "status": "pending",
+    "attempts": 0,
+    "input_hash": "59f90b96c40021998f93aeba8ea736d1632ec73a343b5117e82afceb3710523e",
+    "created_at": "2026-09-29T13:10:06+00:00",
+    "meta": {},
+    "errors": []
+  },
+  "payload": {
+    "round": 1,
+    "lens": {
+      "id": "L7",
+      "label": "Generalis mata-segar",
+      "focus": "Penilaian menyeluruh tanpa lensa khusus; periksa apakah argumen sungguh menjawab pertanyaan."
+    },
+    "duels": [
+      {
+        "duel_id": "R01-M0001",
+        "a": "F0005",
+        "b": "F0012",
+        "presentation": {
+          "X": "b",
+          "Y": "a"
+        }
+      },
+      {
+        "duel_id": "R01-M0002",
+        "a": "F0010",
+        "b": "F0002",
+        "presentation": {
+          "X": "a",
+          "Y": "b"
+        }
+      },
+      {
+        "duel_id": "R01-M0003",
+        "a": "F0014",
+        "b": "F0016",
+        "presentation": {
+          "X": "b",
+          "Y": "a"
+        }
+      },
+      {
+        "duel_id": "R01-M0004",
+        "a": "F0008",
+        "b": "F0007",
+        "presentation": {
+          "X": "b",
+          "Y": "a"
+        }
+      },
+      {
+        "duel_id": "R01-M0005",
+        "a": "F0009",
+        "b": "F0013",
+        "presentation": {
+          "X": "a",
+          "Y": "b"
+        }
+      },
+      {
+        "duel_id": "R01-M0006",
+        "a": "F0006",
+        "b": "F0015",
+        "presentation": {
+          "X": "a",
+          "Y": "b"
+        }
+      },
+      {
+        "duel_id": "R01-M0007",
+        "a": "F0001",
+        "b": "F0011",
+        "presentation": {
+          "X": "a",
+          "Y": "b"
+        }
+      },
+      {
+        "duel_id": "R01-M0008",
+        "a": "F0004",
+        "b": "F0003",
+        "presentation": {
+          "X": "a",
+          "Y": "b"
+        }
+      }
+    ],
+    "stage": "elimination"
+  }
+}

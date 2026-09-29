@@ -1,0 +1,15 @@
+{
+  "packet_id": "P0018-debate",
+  "input_hash": "b83ca36a9d4ae15367b404680ef83b3396b9ae1e3097417b3a67651412364ee6",
+  "match_id": "R03-M0002",
+  "exchange": "defense",
+  "statement": "Kontra-contoh siswa tidak mengenai P1. P1 berbicara tentang penerapan konsep setelah aturan yang diubah dinyatakan secara eksplisit. Siswa yang memahami penjumlahan mungkin gagal ketika pertama kali mendengar 'basis sembilan', tetapi begitu aturannya dijelaskan ia menjumlah dengan benar walau lebih lambat. Dalam uji kontrafaktual yang relevan, aturan baru diberikan secara eksplisit kepada model, dan kesenjangan tetap besar. Jadi kasus siswa bukan kontra-contoh; ia justru ilustrasi kriteria. Tentang 'memadai': ukurannya sudah tersirat dan saya nyatakan tegas di sini — kesenjangan antara versi baku dan kontrafaktual dibandingkan dengan kesenjangan pada manusia yang diberi instruksi yang sama; lulus berarti berada dalam rentang manusia. Ini membuat modus tollens dapat dijalankan dan dapat difalsifikasi. Tentang efek keakraban pada manusia: saya mengakuinya, dan itulah mengapa kriteria saya komparatif, bukan absolut. Namun pada manusia efek itu menyusut banyak setelah aturan dijelaskan dan dilatih; pada LLM, besar penurunan mengikuti frekuensi varian dalam data latih — pola khas hafalan. Tentang tuduhan bahwa uji ini mengukur prosedur, bukan bahasa: tesis saya sejak awal adalah tentang 'bahasa dan konsep yang diungkapkannya'. Memahami kata 'tambah' mencakup menguasai operasi yang diungkapkannya cukup baik untuk menerapkannya ketika latarnya dinyatakan berubah; penutur yang tidak dapat melakukannya bahkan setelah diberi aturan memahami kata itu secara dangkal.",
+  "points": [
+    {"claim": "P1 menyangkut penerapan setelah aturan baru dinyatakan; siswa yang memahami berhasil setelah diberi aturan, sehingga ia bukan kontra-contoh.", "target": "serangan terhadap P1"},
+    {"claim": "Ambang 'memadai' = kesenjangan dalam rentang manusia yang diberi instruksi yang sama.", "target": "serangan: ambang tidak ditentukan"},
+    {"claim": "Efek keakraban manusia menyusut setelah instruksi; penurunan LLM mengikuti frekuensi data latih.", "target": "serangan: manusia juga bergantung pada keakraban"},
+    {"claim": "Tesis sejak awal mencakup konsep yang diungkapkan bahasa; memahami 'tambah' mencakup penerapan operasinya di latar yang diubah.", "target": "serangan: uji mengukur prosedur, bukan bahasa"}
+  ],
+  "concessions": ["Manusia juga menunjukkan efek keakraban; kriteria saya karena itu bersifat komparatif.", "Kesimpulan saya adalah 'belum memahami dalam arti kuat', bukan 'tidak memahami sama sekali'."],
+  "clarifications": ["'Memadai' = kesenjangan kontrafaktual berada dalam rentang manusia yang diberi instruksi yang sama (merumuskan P4 tersirat).", "Kesimpulan dibaca sebagaimana tertulis: belum memahami 'dalam arti yang kuat'."]
+}

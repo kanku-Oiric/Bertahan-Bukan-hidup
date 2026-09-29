@@ -1,0 +1,49 @@
+{
+  "packet_id": "P0035-judge",
+  "input_hash": "7a9f8372a04e63114516eb128a4d7a97920587c164c85d92a97e5f1a62413b2b",
+  "judge_lens": "L5",
+  "evidence_mode_used": "internal",
+  "verdicts": [
+    {
+      "duel_id": "R04-M0001",
+      "steelman_x": "Inti pemahaman yang membedakannya dari kefasihan permukaan adalah penerapan konsep yang kokoh ketika situasi berubah; diukur dengan uji kontrafaktual berambang rentang manusia, LLM saat ini belum lulus, sehingga belum memahami dalam arti kuat.",
+      "steelman_y": "Pemahaman bahasa multidimensional dan bergradasi; LLM kompeten nyata pada dimensi inferensial dan pragmatik lokal, lemah pada pelacakan komitmen, grounding, dan kekokohan di luar distribusi latih; profil ini menuntut dua faktor (dimensi dan jarak distribusi) yang keduanya sejalan dengan pemahaman parsial.",
+      "scores_x": [
+        8,
+        7.5,
+        7.5,
+        8,
+        9,
+        6,
+        7,
+        8,
+        8,
+        7
+      ],
+      "scores_y": [
+        7.5,
+        7.5,
+        8,
+        8.5,
+        8,
+        7,
+        8.5,
+        7,
+        8,
+        8.5
+      ],
+      "fatal_x": [],
+      "fatal_y": [],
+      "winner": "Y",
+      "confidence": 0.6,
+      "decisive_factor": "integrasi bukti dari berbagai sumber",
+      "rationale": "Data kontrafaktual F0009 terkontrol, tetapi menjawab satu pertanyaan. F0005 mengintegrasikan data itu dengan dua sumber bukti independen (kegagalan komitmen pada masukan akrab, keberhasilan pada definisi dalam konteks) yang tidak dapat diturunkan dari satu variabel jarak-distribusi. Dari sudut metodologi, penjelasan yang tetap koheren di bawah beberapa jenis bukti lebih dapat dipercaya daripada penjelasan yang kuat pada satu desain.",
+      "objection_x_to_y": "Hipotesis jarak-distribusi melemahkan komitmen empiris lawan bahwa kegagalan berkelompok menurut dimensi, dan vonis lawan bergantung pada pembobotan yang tidak ditetapkan.",
+      "objection_y_to_x": "Kesimpulan argumen lawan bergeser antara semifinal dan final, dan penetapan transfer kontrafaktual sebagai inti konsep adalah pilihan definisional yang tidak dibela.",
+      "reply_quality_x": "menjawab sebagian: kekokohan dibela sebagai uji lintas dimensi, tetapi pergeseran rumusan kesimpulan antar-babak diakui",
+      "reply_quality_y": "menjawab sebagian: hipotesis jarak-distribusi diserap sebagai faktor kedua, tetapi komitmen pengelompokan per dimensi harus dirumuskan ulang",
+      "dissent_risk": "Jika bukti pendukung F0005 tentang definisi dalam konteks lemah secara metodologis (mis. terkontaminasi), bukti terkontrol F0009 menjadi dominan.",
+      "evidence": []
+    }
+  ]
+}

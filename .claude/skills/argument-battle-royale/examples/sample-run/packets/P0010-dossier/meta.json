@@ -1,0 +1,43 @@
+{
+  "record": {
+    "id": "P0010-dossier",
+    "type": "dossier",
+    "stage": "final4",
+    "status": "pending",
+    "attempts": 0,
+    "input_hash": "bcd0b8a061a482822b383f73e0929a7e5dd69978207b2391199d8bd17927fc30",
+    "created_at": "2026-09-29T13:13:54+00:00",
+    "meta": {},
+    "errors": []
+  },
+  "payload": {
+    "fighter_id": "F0009",
+    "history": [
+      {
+        "round": 0,
+        "source": "scouting",
+        "text": "Ambang 'memadai' dalam P1 kabur: manusia juga merosot pada varian yang tidak biasa, dan argumen melompat dari 'pemahaman belum kokoh' ke 'belum memahami'; temuan kontrafaktual dapat berubah pada generasi model baru."
+      },
+      {
+        "round": 1,
+        "source": "R01-M0005/L7",
+        "text": "Kegagalan pada tugas kontrafaktual hanyalah batas kinerja; bahkan sistem yang lulus uji itu tetap tanpa penutur yang bermaksud."
+      },
+      {
+        "round": 2,
+        "source": "R02-M0003/L1",
+        "text": "Bukti Y menunjukkan penurunan, bukan ketiadaan; kesimpulan biner Y tidak mengikuti dari data yang bergradasi."
+      },
+      {
+        "round": 2,
+        "source": "R02-M0003/L2",
+        "text": "Data kontrafaktual X bergradasi (penurunan, bukan nol), sehingga ia sebenarnya mendukung pemahaman bergradasi."
+      },
+      {
+        "round": 2,
+        "source": "R02-M0003/L3",
+        "text": "Siswa yang memahami sebagian gagal pada varian kontrafaktual tanpa kita simpulkan ia tidak memahami; data Y mendukung gradasi, bukan ketiadaan."
+      }
+    ]
+  }
+}

@@ -1,0 +1,908 @@
+{
+  "round": 3,
+  "slots": 4,
+  "stage": "semifinal",
+  "label": "Semifinal",
+  "method": "panel_debate",
+  "panel_size": 5,
+  "status": "done",
+  "created_at": "2026-09-29T13:13:54+00:00",
+  "matches": [
+    {
+      "match_id": "R03-M0001",
+      "a": "F0005",
+      "b": "F0014",
+      "seed_a": 1,
+      "seed_b": 4,
+      "bye": false,
+      "debate": {
+        "attack": {
+          "a": {
+            "statement": "Argumen lawan menjanjikan pelarutan: pertanyaan 'apakah AI memahami bahasa' dikatakan tidak memiliki jawaban faktual tunggal. Namun lihat apa yang diserahkannya sendiri pada akhirnya: 'ya untuk fungsional, sebagian untuk referensial, tidak diketahui untuk fenomenal'. Itu bukan pelarutan; itu jawaban faktual yang bergradasi dan multidimensional — persis tesis argumen saya. Jadi argumen lawan menghadapi dilema. Jika jawaban per dimensi itu faktual, maka pertanyaannya tidak larut; ia terjawab sebagai 'sebagian'. Jika jawaban per dimensi itu tidak faktual, maka argumen lawan tidak berhak menyatakannya. Kedua, seluruh diagnosis 'sengketa verbal' bertumpu pada P3 — bahwa para pakar sepakat tentang fakta kapasitas dan hanya berbeda soal kata — tetapi P3 tidak didukung satu bukti pun. Uji standar untuk sengketa verbal adalah melarang istilah yang disengketakan lalu melihat apakah perselisihan hilang. Larang kata 'memahami': para pihak tetap berselisih tentang apakah keadaan internal LLM memiliki isi yang terarah ke dunia, apakah kesadaran diperlukan, dan apakah kegagalan kontrafaktual menunjukkan ketiadaan penguasaan konsep. Residu non-verbal ini menunjukkan sengketanya bukan (hanya) verbal. Ketiga, P4 menyatakan tidak ada fakta non-linguistik yang dapat menentukan kriteria esensial konsep klaster. Ini klaim universal negatif yang tidak diargumentasikan. Konsep klaster berbobot dapat memberi jawaban determinat bagi kasus disosiasi ketika kriteria yang terpenuhi cukup berbobot — dan itulah sebabnya jawaban yang tepat adalah 'sebagian', bukan 'tidak ada jawaban'.",
+            "points": [
+              {
+                "claim": "Jawaban per dimensi yang diberikan argumen lawan sendiri adalah jawaban faktual bergradasi, sehingga kesimpulannya runtuh menjadi posisi 'pemahaman parsial'.",
+                "target": "kesimpulan (C) argumen lawan"
+              },
+              {
+                "claim": "P3 (para pihak sepakat tentang fakta dan hanya berselisih soal kata) tidak didukung bukti apa pun.",
+                "target": "P3 argumen lawan"
+              },
+              {
+                "claim": "Uji pelarangan istilah menyisakan perselisihan non-verbal tentang isi terarah-dunia, kesadaran, dan penguasaan konsep; sengketanya bukan murni verbal.",
+                "target": "P5 tersirat (kriteria sengketa verbal)"
+              },
+              {
+                "claim": "P4 adalah universal negatif tanpa argumen; konsep klaster berbobot dapat menentukan kasus disosiasi.",
+                "target": "P4 argumen lawan"
+              }
+            ],
+            "concessions": [
+              "Diagnosis bahwa kriteria pemahaman terbelah pada AI adalah benar dan berguna — argumen saya memakainya."
+            ],
+            "clarifications": [],
+            "packet_id": "P0012-debate"
+          },
+          "b": {
+            "statement": "Argumen lawan menyajikan diri sebagai penjelasan terbaik atas profil keberhasilan dan kegagalan LLM. Tetapi inferensi ke penjelasan terbaik hanya sekuat daftar pesaing yang dipertimbangkan, dan daftar argumen lawan tidak lengkap. Ia membandingkan 'pemahaman penuh', 'pencocokan pola dangkal', dan 'pemahaman parsial', lalu memenangkan yang terakhir. Hipotesis keempat dihilangkan: bahwa profil campuran itu adalah fakta tentang kapasitas, sementara pertanyaan apakah profil itu 'memahami' menuntut keputusan konseptual. Hipotesis itu menjelaskan data yang sama dan juga menjelaskan satu fakta yang tidak dijelaskan argumen lawan: mengapa para pakar yang mengetahui profil yang sama tetap terbelah. Kedua, konsep 'dimensi' pada argumen lawan tidak dianalisis. Dimensi diidentifikasi melalui kelompok tugas yang berhasil atau gagal; dengan begitu prediksi 'keberhasilan dan kegagalan mengikuti garis dimensi' dapat dipenuhi oleh setiap data, karena garisnya ditarik setelah data terlihat. Itu bukan prediksi berisiko. Ketiga, label 'parsial' tidak memiliki ambang. Termostat, mesin pencari, dan kamus elektronik semuanya 'memahami sebagian' jika dimensi cukup longgar. Untuk memisahkan LLM dari kasus-kasus itu, argumen lawan harus menetapkan ambang dan bobot dimensi — dan penetapan itu adalah keputusan konseptual, persis yang dikatakan argumen saya diperlukan. Jadi argumen lawan diam-diam mengandaikan pilihan konseptual yang tidak ia buat eksplisit.",
+            "points": [
+              {
+                "claim": "Inferensi ke penjelasan terbaik argumen lawan menghilangkan pesaing: 'fakta kapasitas + keputusan konseptual', yang juga menjelaskan bertahannya ketidaksepakatan pakar.",
+                "target": "P4 argumen lawan (daftar hipotesis)"
+              },
+              {
+                "claim": "Dimensi diidentifikasi setelah data dilihat, sehingga prediksi per dimensi tidak berisiko.",
+                "target": "P5 dan P3 tersirat (multidimensionalitas)"
+              },
+              {
+                "claim": "Tanpa ambang, 'parsial' berlaku bagi termostat dan kamus elektronik; memilih ambang adalah keputusan konseptual yang tidak dinyatakan.",
+                "target": "kesimpulan (C) argumen lawan"
+              }
+            ],
+            "concessions": [
+              "Profil keberhasilan dan kegagalan yang dilaporkan argumen lawan memang nyata dan penting."
+            ],
+            "clarifications": [],
+            "packet_id": "P0013-debate"
+          }
+        },
+        "defense": {
+          "a": {
+            "statement": "Serangan pertama menuduh argumen saya melewatkan pesaing: 'fakta kapasitas ditambah keputusan konseptual'. Tetapi itu bukan penjelasan pesaing atas data kinerja; ia tidak memprediksi apa pun tentang tugas mana yang berhasil dan gagal. Ia klaim tentang status kata 'memahami', dan klaim itu kompatibel dengan argumen saya: jika 'memahami' multidimensional, keputusan konseptual yang tersisa hanyalah bagaimana menimbang dimensi untuk vonis menyeluruh — dan argumen saya memang menolak bahwa vonis menyeluruh biner itu tepat. Bertahannya perbedaan pendapat pakar pun dijelaskan: mereka menimbang dimensi secara berbeda. Serangan kedua: dimensi ditarik setelah data. Tidak demikian. Dimensi yang dipakai argumen saya — inferensial-komposisional, pragmatik (pengenalan maksud), pelacakan komitmen, dan grounding referensial — adalah pembagian kompetensi yang berasal dari teori linguistik dan filsafat bahasa, bukan dari hasil evaluasi LLM; semuanya sudah disebut dalam definisi dan premis saya. Karena itu prediksinya berisiko: jika LLM gagal secara acak di dalam dimensi inferensial atau berhasil merata pada pelacakan komitmen, argumen saya salah. Serangan ketiga: tanpa ambang, termostat pun 'parsial'. Tidak: termostat dan kamus tidak memiliki kompetensi inferensial terhadap ekspresi linguistik sama sekali; skornya nol pada setiap dimensi pemahaman bahasa. 'Parsial' berarti kompetensi nyata — keberhasilan pada masukan baru — di sebagian dimensi, dan ketiadaannya di dimensi lain. Saya mengakui bahwa mengubah profil multidimensional menjadi satu kata 'ya' atau 'tidak' memerlukan pembobotan yang sebagian bersifat konseptual; itu justru alasan argumen saya menolak jawaban biner.",
+            "points": [
+              {
+                "claim": "'Fakta kapasitas + keputusan konseptual' bukan penjelasan pesaing atas pola kinerja; ia tidak memprediksi tugas mana yang berhasil atau gagal.",
+                "target": "serangan: pesaing yang dihilangkan"
+              },
+              {
+                "claim": "Dimensi berasal dari teori kompetensi linguistik yang sudah disebut dalam definisi dan premis, bukan dari hasil evaluasi; prediksinya tetap berisiko.",
+                "target": "serangan: dimensi post hoc"
+              },
+              {
+                "claim": "Termostat dan kamus tidak memiliki kompetensi inferensial terhadap ekspresi baru; 'parsial' mensyaratkan keberhasilan nyata pada masukan baru di sebagian dimensi.",
+                "target": "serangan: tidak ada ambang"
+              }
+            ],
+            "concessions": [
+              "Mengubah profil multidimensional menjadi vonis tunggal 'ya/tidak' memerlukan pembobotan yang sebagian bersifat konseptual."
+            ],
+            "clarifications": [
+              "Dimensi yang dimaksud adalah inferensial-komposisional, pragmatik, pelacakan komitmen, dan grounding referensial — sebagaimana sudah disebut dalam definisi 'pemahaman parsial' dan premis P2/P4."
+            ],
+            "packet_id": "P0016-debate"
+          },
+          "b": {
+            "statement": "Dilema yang diajukan lawan mengabaikan pembedaan yang menjadi inti argumen saya: pertanyaan per dimensi ('apakah LLM memiliki kompetensi inferensial?') berbeda dari pertanyaan satu istilah ('apakah LLM memahami bahasa?'). Argumen saya mengatakan pertanyaan per dimensi faktual dan relatif jelas, sedangkan pertanyaan satu istilah tidak memiliki jawaban faktual tunggal. Argumen lawan justru menjawab pertanyaan satu istilah dengan 'ya, sebagian' — dan untuk itu ia harus memutuskan bahwa konsep 'memahami' berlaku secara bergradasi atas profil semacam itu. Itu keputusan konseptual yang diakuinya sendiri dalam babak ini. Jadi posisi saya tidak runtuh menjadi posisinya; posisinya bergantung pada keputusan yang saya diagnosis. Tentang P3: saya mengakui bahwa konvergensi pakar ketika istilah dipecah adalah prediksi yang belum diuji, bukan temuan yang mapan; saya mencantumkannya sebagai komitmen empiris sejak awal, beserta hasil yang akan menjatuhkannya. Tentang uji pelarangan istilah: residu perselisihan yang disebut lawan — isi terarah-dunia, kesadaran, penguasaan konsep — adalah perselisihan tentang konsep lain yang faktual. Argumen saya tidak menyangkal ada subpertanyaan faktual; ia menyangkal bahwa ada fakta tambahan yang memutuskan subpertanyaan mana yang menjadi esensi 'memahami bahasa'. Tentang konsep klaster berbobot: bobot kriteria tidak ditetapkan oleh penggunaan pada kasus normal, karena di sana semua kriteria hadir bersama; memilih bobot untuk kasus disosiasi adalah keputusan — dan itulah P4.",
+            "points": [
+              {
+                "claim": "Pertanyaan per dimensi faktual; pertanyaan satu istilah tidak. Jawaban 'ya, sebagian' atas pertanyaan satu istilah bergantung pada keputusan konseptual.",
+                "target": "serangan: dilema runtuh menjadi posisi parsial"
+              },
+              {
+                "claim": "Residu perselisihan setelah pelarangan istilah adalah perselisihan tentang konsep lain (intensionalitas, kesadaran), bukan fakta tentang esensi 'memahami'.",
+                "target": "serangan: uji pelarangan istilah"
+              },
+              {
+                "claim": "Bobot kriteria konsep klaster tidak ditetapkan oleh kasus normal karena di sana semua kriteria hadir bersama.",
+                "target": "serangan terhadap P4"
+              }
+            ],
+            "concessions": [
+              "P3 adalah prediksi yang belum diuji, bukan temuan mapan.",
+              "Perbedaan praktis antara posisi saya dan posisi pemahaman parsial kecil ketika keduanya memberi jawaban per dimensi yang sama."
+            ],
+            "clarifications": [
+              "P3 dibaca sebagai komitmen empiris (prediksi), sebagaimana tercantum di daftar komitmen empiris sejak awal."
+            ],
+            "packet_id": "P0017-debate"
+          }
+        }
+      },
+      "winner": "F0005",
+      "loser": "F0014",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 4,
+        "b": 1
+      },
+      "judgments": [
+        {
+          "packet_id": "P0020-judge",
+          "judge": "L1",
+          "lens": "Logikawan formal",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              7.5,
+              7.5,
+              8,
+              8,
+              8,
+              7,
+              8,
+              7,
+              8,
+              8
+            ],
+            "b": [
+              8,
+              6.5,
+              6,
+              6,
+              6.5,
+              6,
+              7.5,
+              8,
+              7,
+              7.5
+            ]
+          },
+          "totals": {
+            "a": 77.25,
+            "b": 67.75
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "premis lawan yang tak tertopang (P3, P4)",
+          "rationale": "Setelah debat, inferensi abduktif F0005 tetap utuh: tuduhan 'pesaing yang dihilangkan' dijawab dengan tepat karena klaim tentang status kata bukan penjelasan pesaing atas pola kinerja. F0014 membangun pembedaan yang sah antara pertanyaan satu istilah dan per dimensi, tetapi kesimpulan deflasionernya masih bertumpu pada P3 yang diakui belum diuji dan P4 yang universal negatif tanpa argumen. Secara struktur logis, F0005 membutuhkan lebih sedikit premis yang tak tertopang.",
+          "objections": {
+            "a_to_b": "Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen.",
+            "b_to_a": "Menerapkan 'memahami' secara bergradasi pada profil yang terdisosiasi adalah keputusan konseptual yang diakui lawan sendiri, sehingga jawaban 'sebagian' bukan temuan faktual."
+          },
+          "confidence": 0.75,
+          "dissent_risk": "Jika pembedaan pertanyaan satu istilah vs per dimensi diterima sepenuhnya, konsesi F0005 tentang pembobotan dapat dibaca sebagai kemenangan F0014.",
+          "evidence": [],
+          "steelman": {
+            "a": "Pemahaman bahasa multidimensional; LLM nyata pada dimensi inferensial-komposisional dan pragmatik lokal, gagal pada pelacakan komitmen dan grounding; profil campuran ini hanya dijelaskan oleh hipotesis pemahaman parsial, dengan dimensi yang berasal dari teori kompetensi linguistik.",
+            "b": "Pertanyaan per dimensi faktual, tetapi pertanyaan satu istilah 'apakah AI memahami bahasa' tidak memiliki jawaban faktual tunggal karena kriteria konsep klaster terbelah; jawaban 'sebagian' pun bergantung pada keputusan konseptual tentang pembobotan."
+          },
+          "reply_quality": {
+            "a": "menjawab tuntas pada tuduhan post hoc (dimensi dari teori), menjawab sebagian pada ambang (dengan konsesi tentang pembobotan)",
+            "b": "menjawab sebagian: pembedaan pertanyaan satu istilah vs per dimensi tajam, tetapi P3 diakui belum diuji"
+          }
+        },
+        {
+          "packet_id": "P0021-judge",
+          "judge": "L2",
+          "lens": "Filsuf sains",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              7.5,
+              7.5,
+              8,
+              8.5,
+              8.5,
+              7,
+              8,
+              7,
+              8,
+              8
+            ],
+            "b": [
+              8,
+              6.5,
+              6,
+              6,
+              7,
+              6,
+              7.5,
+              8,
+              7,
+              7.5
+            ]
+          },
+          "totals": {
+            "a": 78.25,
+            "b": 68.25
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "kecukupan empiris dan prediksi berisiko",
+          "rationale": "F0005 kini mengikat dimensinya pada teori kompetensi linguistik sebelum data, sehingga prediksi per dimensinya berisiko dan dapat gagal. Komitmen empiris utama F0014 (konvergensi pakar) diakui belum diuji dalam debat; sebagai program riset, posisinya belum menghasilkan temuan yang menopang intinya. Kedua argumen sepakat tentang data kapasitas, tetapi hanya F0005 yang memanfaatkannya untuk prediksi yang dapat difalsifikasi.",
+          "objections": {
+            "a_to_b": "Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen.",
+            "b_to_a": "Menerapkan 'memahami' secara bergradasi pada profil yang terdisosiasi adalah keputusan konseptual yang diakui lawan sendiri, sehingga jawaban 'sebagian' bukan temuan faktual."
+          },
+          "confidence": 0.8,
+          "dissent_risk": "Jika survei pakar di masa depan menunjukkan konvergensi setelah istilah dipecah, F0014 memperoleh dukungan empiris yang kini tidak dimilikinya.",
+          "evidence": [],
+          "steelman": {
+            "a": "Pemahaman bahasa multidimensional; LLM nyata pada dimensi inferensial-komposisional dan pragmatik lokal, gagal pada pelacakan komitmen dan grounding; profil campuran ini hanya dijelaskan oleh hipotesis pemahaman parsial, dengan dimensi yang berasal dari teori kompetensi linguistik.",
+            "b": "Pertanyaan per dimensi faktual, tetapi pertanyaan satu istilah 'apakah AI memahami bahasa' tidak memiliki jawaban faktual tunggal karena kriteria konsep klaster terbelah; jawaban 'sebagian' pun bergantung pada keputusan konseptual tentang pembobotan."
+          },
+          "reply_quality": {
+            "a": "menjawab tuntas pada tuduhan post hoc (dimensi dari teori), menjawab sebagian pada ambang (dengan konsesi tentang pembobotan)",
+            "b": "menjawab sebagian: pembedaan pertanyaan satu istilah vs per dimensi tajam, tetapi P3 diakui belum diuji"
+          }
+        },
+        {
+          "packet_id": "P0022-judge",
+          "judge": "L3",
+          "lens": "Analis konseptual",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              8.5,
+              7.5,
+              6.5,
+              6,
+              7,
+              7,
+              8,
+              8,
+              7,
+              8
+            ],
+            "a": [
+              7,
+              7,
+              7,
+              7.5,
+              7.5,
+              6.5,
+              7.5,
+              7,
+              8,
+              7.5
+            ]
+          },
+          "totals": {
+            "a": 72.0,
+            "b": 73.0
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "b",
+          "rule_winner": "b",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "kejelasan konseptual tentang status vonis 'parsial'",
+          "rationale": "Pembedaan F0014 antara pertanyaan per dimensi dan pertanyaan satu istilah adalah analisis konseptual yang tepat, dan F0005 sendiri mengakui bahwa vonis menyeluruh memerlukan pembobotan yang sebagian konseptual. Dengan konsesi itu, klaim F0005 bahwa AI 'memahami secara parsial' sebagai jawaban atas pertanyaan satu istilah tidak lagi murni hasil penemuan. Kelemahan empiris F0014 nyata, tetapi dari sudut analisis konsep, diagnosisnya lebih jernih.",
+          "objections": {
+            "b_to_a": "Menerapkan 'memahami' secara bergradasi pada profil yang terdisosiasi adalah keputusan konseptual yang diakui lawan sendiri, sehingga jawaban 'sebagian' bukan temuan faktual.",
+            "a_to_b": "Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen."
+          },
+          "confidence": 0.55,
+          "dissent_risk": "Jika 'parsial' dibaca sebagai deskripsi profil, bukan vonis atas istilah tunggal, konsesi F0005 tidak merugikannya dan putusan berbalik.",
+          "evidence": [],
+          "steelman": {
+            "b": "Pertanyaan per dimensi faktual, tetapi pertanyaan satu istilah 'apakah AI memahami bahasa' tidak memiliki jawaban faktual tunggal karena kriteria konsep klaster terbelah; jawaban 'sebagian' pun bergantung pada keputusan konseptual tentang pembobotan.",
+            "a": "Pemahaman bahasa multidimensional; LLM nyata pada dimensi inferensial-komposisional dan pragmatik lokal, gagal pada pelacakan komitmen dan grounding; profil campuran ini hanya dijelaskan oleh hipotesis pemahaman parsial, dengan dimensi yang berasal dari teori kompetensi linguistik."
+          },
+          "reply_quality": {
+            "b": "menjawab sebagian: pembedaan pertanyaan satu istilah vs per dimensi tajam, tetapi P3 diakui belum diuji",
+            "a": "menjawab tuntas pada tuduhan post hoc (dimensi dari teori), menjawab sebagian pada ambang (dengan konsesi tentang pembobotan)"
+          }
+        },
+        {
+          "packet_id": "P0023-judge",
+          "judge": "L4",
+          "lens": "Skeptis / advokat setan",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              8,
+              6,
+              5.5,
+              6,
+              6.5,
+              5.5,
+              7,
+              8,
+              7,
+              7
+            ],
+            "a": [
+              7,
+              7,
+              7.5,
+              8,
+              8,
+              7,
+              7.5,
+              7,
+              8,
+              8
+            ]
+          },
+          "totals": {
+            "a": 74.75,
+            "b": 64.75
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "beban pembuktian atas klaim universal negatif",
+          "rationale": "Klaim bahwa tidak ada fakta yang dapat menentukan jawaban (P4) adalah klaim terkuat di duel ini dan membawa beban pembuktian terberat; F0014 tidak memikulnya, dan premis empirisnya (P3) diakui belum diuji. F0005 membuat klaim yang lebih moderat dan menanggung bebannya dengan data yang diakui kedua pihak. Serangan terkuat terhadap F0005 (ambang) dijawab dengan kriteria kompetensi pada masukan baru.",
+          "objections": {
+            "b_to_a": "Menerapkan 'memahami' secara bergradasi pada profil yang terdisosiasi adalah keputusan konseptual yang diakui lawan sendiri, sehingga jawaban 'sebagian' bukan temuan faktual.",
+            "a_to_b": "Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen."
+          },
+          "confidence": 0.75,
+          "dissent_risk": "Skeptis yang menilai bahwa F0005 juga menanggung beban untuk realitas 'dimensi' yang belum dianalisis dapat menyamakan posisi keduanya.",
+          "evidence": [],
+          "steelman": {
+            "b": "Pertanyaan per dimensi faktual, tetapi pertanyaan satu istilah 'apakah AI memahami bahasa' tidak memiliki jawaban faktual tunggal karena kriteria konsep klaster terbelah; jawaban 'sebagian' pun bergantung pada keputusan konseptual tentang pembobotan.",
+            "a": "Pemahaman bahasa multidimensional; LLM nyata pada dimensi inferensial-komposisional dan pragmatik lokal, gagal pada pelacakan komitmen dan grounding; profil campuran ini hanya dijelaskan oleh hipotesis pemahaman parsial, dengan dimensi yang berasal dari teori kompetensi linguistik."
+          },
+          "reply_quality": {
+            "b": "menjawab sebagian: pembedaan pertanyaan satu istilah vs per dimensi tajam, tetapi P3 diakui belum diuji",
+            "a": "menjawab tuntas pada tuduhan post hoc (dimensi dari teori), menjawab sebagian pada ambang (dengan konsesi tentang pembobotan)"
+          }
+        },
+        {
+          "packet_id": "P0024-judge",
+          "judge": "L5",
+          "lens": "Metodolog bukti",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              7.5,
+              7.5,
+              8,
+              8.5,
+              8,
+              7,
+              8,
+              7,
+              8,
+              8
+            ],
+            "b": [
+              8,
+              6.5,
+              5.5,
+              5.5,
+              6.5,
+              6,
+              7,
+              8,
+              7,
+              7.5
+            ]
+          },
+          "totals": {
+            "a": 77.75,
+            "b": 66.0
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "kualitas bukti",
+          "rationale": "F0005 bersandar pada pola keberhasilan dan kegagalan yang dilaporkan berulang dalam literatur evaluasi. Klaim empiris sentral F0014 tentang perilaku pakar tidak didukung data, dan dalam debat diakui sebagai prediksi. Dari sudut metodologi bukti, perbedaan ini menentukan.",
+          "objections": {
+            "a_to_b": "Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen.",
+            "b_to_a": "Menerapkan 'memahami' secara bergradasi pada profil yang terdisosiasi adalah keputusan konseptual yang diakui lawan sendiri, sehingga jawaban 'sebagian' bukan temuan faktual."
+          },
+          "confidence": 0.8,
+          "dissent_risk": "Survei pakar yang dirancang baik dapat menopang F0014.",
+          "evidence": [],
+          "steelman": {
+            "a": "Pemahaman bahasa multidimensional; LLM nyata pada dimensi inferensial-komposisional dan pragmatik lokal, gagal pada pelacakan komitmen dan grounding; profil campuran ini hanya dijelaskan oleh hipotesis pemahaman parsial, dengan dimensi yang berasal dari teori kompetensi linguistik.",
+            "b": "Pertanyaan per dimensi faktual, tetapi pertanyaan satu istilah 'apakah AI memahami bahasa' tidak memiliki jawaban faktual tunggal karena kriteria konsep klaster terbelah; jawaban 'sebagian' pun bergantung pada keputusan konseptual tentang pembobotan."
+          },
+          "reply_quality": {
+            "a": "menjawab tuntas pada tuduhan post hoc (dimensi dari teori), menjawab sebagian pada ambang (dengan konsesi tentang pembobotan)",
+            "b": "menjawab sebagian: pembedaan pertanyaan satu istilah vs per dimensi tajam, tetapi P3 diakui belum diuji"
+          }
+        }
+      ],
+      "method": "panel_debate",
+      "upset": false
+    },
+    {
+      "match_id": "R03-M0002",
+      "a": "F0009",
+      "b": "F0001",
+      "seed_a": 2,
+      "seed_b": 3,
+      "bye": false,
+      "debate": {
+        "attack": {
+          "a": {
+            "statement": "Argumen lawan dibangun di atas prinsip konsistensi: bukti jenis sama harus diperlakukan sama. Saya menerima prinsip itu — dan justru karena itu argumen lawan gagal. Konsistensi berlaku pada seluruh bukti, bukan hanya bukti positif. Pada manusia yang kita anggap memahami sebuah konsep, kita tidak menemukan pola kegagalan seperti ini: mampu menyimpulkan 'A adalah B' tetapi gagal menyimpulkan 'B adalah A'; kinerja yang runtuh begitu aturan latar diubah secara eksplisit, dengan besar keruntuhan yang mengikuti frekuensi data latih. Bukti negatif ini berbeda secara sistematis antara LLM dan manusia, dan itulah 'perbedaan relevan' yang dituntut argumen lawan untuk ditunjukkan. Argumen lawan tidak menanggapinya sama sekali; premis tersiratnya bahwa tidak ada perbedaan relevan lain dibiarkan tanpa pembelaan. Kedua, bukti mekanistik argumen lawan menunjukkan bahwa representasi terstruktur ada dan dipakai kausal. Itu tidak sama dengan menunjukkan bahwa konsep dikuasai. Representasi keadaan papan permainan dapat ada bersamaan dengan kegagalan menerapkannya ketika aturan permainan diubah; yang pertama bukti bagi representasi, yang kedua bukti terhadap penguasaan. Ketiga, kesimpulan 'sejenis dengan pemahaman manusia' melampaui apa yang didukung premisnya, yang hanya menyangkut kapasitas fungsional. Argumen lawan tidak dapat sekaligus membatasi diri pada kapasitas fungsional dan mengklaim kesetaraan jenis dengan pemahaman manusia.",
+            "points": [
+              {
+                "claim": "Prinsip konsistensi menuntut memperhitungkan bukti negatif: pola kegagalan relasi terbalik dan kontrafaktual yang khas LLM adalah perbedaan relevan yang tidak dijawab.",
+                "target": "P4 dan P6 tersirat argumen lawan"
+              },
+              {
+                "claim": "Adanya representasi yang dipakai kausal tidak sama dengan penguasaan konsep; representasi dapat ada sementara penerapan fleksibel gagal.",
+                "target": "P3 argumen lawan"
+              },
+              {
+                "claim": "Kesimpulan 'sejenis dengan pemahaman manusia' melampaui premis yang hanya menyangkut kapasitas fungsional.",
+                "target": "kesimpulan (C) argumen lawan"
+              }
+            ],
+            "concessions": [
+              "Temuan intervensi kausal pada representasi internal adalah bukti nyata bahwa LLM bukan sekadar tabel pencarian."
+            ],
+            "clarifications": [],
+            "packet_id": "P0014-debate"
+          },
+          "b": {
+            "statement": "Argumen lawan berbentuk modus tollens: jika memahami, maka lulus uji kontrafaktual secara memadai; LLM tidak lulus; jadi tidak memahami. Bentuknya valid, tetapi premis pertamanya terlalu kuat dan kata kuncinya kosong. Pertama, P1 sebagai syarat perlu yang biner dibantah oleh kasus biasa: seorang siswa yang memahami penjumlahan tetapi gagal ketika pertama kali diminta menjumlah dalam basis sembilan tidak kita katakan tidak memahami penjumlahan. Kedua, 'memadai' tidak pernah ditentukan. Argumen lawan menjelaskannya secara tersirat sebagai 'kesenjangan tidak jauh lebih besar daripada manusia', tetapi seberapa jauh? Tanpa ambang, modus tollens tidak dapat dijalankan, karena kita tidak tahu apakah konsekuennya salah. Ketiga, manusia pun menunjukkan efek keakraban yang kuat: dalam tugas penalaran bersyarat yang terkenal, orang jauh lebih berhasil pada konten yang akrab daripada pada versi abstrak dengan struktur logis yang identik. Ketergantungan pada pola yang akrab bukan ciri khusus mesin yang tidak memahami; ia ciri penalar yang memahami secara terbatas. Maka data argumen lawan menunjukkan perbedaan derajat, bukan jenis. Keempat, uji kontrafaktual mengukur eksekusi prosedur di bawah aturan baru, bukan pemahaman bahasa: penutur asli yang gagal berhitung dalam basis sembilan tetap memahami kata 'tambah'. Argumen lawan memindahkan pertanyaan dari 'memahami bahasa' ke 'menguasai prosedur dalam kondisi baru'.",
+            "points": [
+              {
+                "claim": "P1 sebagai syarat perlu biner dibantah oleh siswa yang memahami sebagian tetapi gagal pada varian kontrafaktual.",
+                "target": "P1 argumen lawan"
+              },
+              {
+                "claim": "Ambang 'memadai' tidak ditentukan sehingga modus tollens tidak dapat dijalankan.",
+                "target": "P4 tersirat argumen lawan"
+              },
+              {
+                "claim": "Manusia juga menunjukkan efek keakraban yang kuat; datanya menunjukkan perbedaan derajat, bukan jenis.",
+                "target": "P3 argumen lawan"
+              },
+              {
+                "claim": "Uji kontrafaktual mengukur eksekusi prosedur, bukan pemahaman bahasa; kesimpulan tentang bahasa tidak mengikuti.",
+                "target": "kesimpulan (C) argumen lawan"
+              }
+            ],
+            "concessions": [
+              "Kesenjangan kontrafaktual pada LLM nyata dan lebih besar daripada pada manusia pada banyak tugas."
+            ],
+            "clarifications": [],
+            "packet_id": "P0015-debate"
+          }
+        },
+        "defense": {
+          "a": {
+            "statement": "Kontra-contoh siswa tidak mengenai P1. P1 berbicara tentang penerapan konsep setelah aturan yang diubah dinyatakan secara eksplisit. Siswa yang memahami penjumlahan mungkin gagal ketika pertama kali mendengar 'basis sembilan', tetapi begitu aturannya dijelaskan ia menjumlah dengan benar walau lebih lambat. Dalam uji kontrafaktual yang relevan, aturan baru diberikan secara eksplisit kepada model, dan kesenjangan tetap besar. Jadi kasus siswa bukan kontra-contoh; ia justru ilustrasi kriteria. Tentang 'memadai': ukurannya sudah tersirat dan saya nyatakan tegas di sini — kesenjangan antara versi baku dan kontrafaktual dibandingkan dengan kesenjangan pada manusia yang diberi instruksi yang sama; lulus berarti berada dalam rentang manusia. Ini membuat modus tollens dapat dijalankan dan dapat difalsifikasi. Tentang efek keakraban pada manusia: saya mengakuinya, dan itulah mengapa kriteria saya komparatif, bukan absolut. Namun pada manusia efek itu menyusut banyak setelah aturan dijelaskan dan dilatih; pada LLM, besar penurunan mengikuti frekuensi varian dalam data latih — pola khas hafalan. Tentang tuduhan bahwa uji ini mengukur prosedur, bukan bahasa: tesis saya sejak awal adalah tentang 'bahasa dan konsep yang diungkapkannya'. Memahami kata 'tambah' mencakup menguasai operasi yang diungkapkannya cukup baik untuk menerapkannya ketika latarnya dinyatakan berubah; penutur yang tidak dapat melakukannya bahkan setelah diberi aturan memahami kata itu secara dangkal.",
+            "points": [
+              {
+                "claim": "P1 menyangkut penerapan setelah aturan baru dinyatakan; siswa yang memahami berhasil setelah diberi aturan, sehingga ia bukan kontra-contoh.",
+                "target": "serangan terhadap P1"
+              },
+              {
+                "claim": "Ambang 'memadai' = kesenjangan dalam rentang manusia yang diberi instruksi yang sama.",
+                "target": "serangan: ambang tidak ditentukan"
+              },
+              {
+                "claim": "Efek keakraban manusia menyusut setelah instruksi; penurunan LLM mengikuti frekuensi data latih.",
+                "target": "serangan: manusia juga bergantung pada keakraban"
+              },
+              {
+                "claim": "Tesis sejak awal mencakup konsep yang diungkapkan bahasa; memahami 'tambah' mencakup penerapan operasinya di latar yang diubah.",
+                "target": "serangan: uji mengukur prosedur, bukan bahasa"
+              }
+            ],
+            "concessions": [
+              "Manusia juga menunjukkan efek keakraban; kriteria saya karena itu bersifat komparatif.",
+              "Kesimpulan saya adalah 'belum memahami dalam arti kuat', bukan 'tidak memahami sama sekali'."
+            ],
+            "clarifications": [
+              "'Memadai' = kesenjangan kontrafaktual berada dalam rentang manusia yang diberi instruksi yang sama (merumuskan P4 tersirat).",
+              "Kesimpulan dibaca sebagaimana tertulis: belum memahami 'dalam arti yang kuat'."
+            ],
+            "packet_id": "P0018-debate"
+          },
+          "b": {
+            "statement": "Lawan benar bahwa konsistensi berlaku pada bukti negatif. Tetapi bukti negatif hanya menjadi 'perbedaan relevan' bila ia menunjukkan ketiadaan kapasitas, bukan karakter implementasinya. Setiap sistem yang memahami memiliki profil kegagalan khas: manusia tersesat pada kalimat garden-path, melewatkan kesalahan dalam pertanyaan yang tampak wajar, dan jauh lebih buruk pada penalaran abstrak daripada konkret. Kita tidak menyimpulkan bahwa manusia tidak memahami; kita menyimpulkan bahwa pemahaman mereka diimplementasikan dengan cara tertentu. Kasus relasi terbalik menunjukkan hal yang sama: kegagalan itu menyangkut pengetahuan yang tersimpan dalam bobot dari pelatihan, sedangkan ketika informasi yang sama diberikan dalam konteks, model membalik relasi dengan benar. Itu keterbatasan memori dan penyimpanan, bukan ketiadaan pemahaman atas relasi. Tentang representasi dan penguasaan: saya tidak mengklaim representasi saja cukup; argumen saya menggabungkan representasi yang dipakai kausal (P3) dengan generalisasi ke komposisi baru (P2). Kegagalan kontrafaktual yang lawan sebut menunjukkan batas generalisasi, yang mengurangi derajat — dan saya sejak awal menyatakan derajat dapat lebih rendah per domain. Tentang 'sejenis dengan pemahaman manusia': cakupan argumen saya menyatakan klaim terbatas pada pemahaman fungsional-inferensial dan tidak mengklaim kesadaran. 'Sejenis' berarti jenis kapasitas yang sama, bukan kesetaraan dalam segala aspek.",
+            "points": [
+              {
+                "claim": "Bukti negatif menjadi perbedaan relevan hanya bila menunjukkan ketiadaan kapasitas; manusia pun memiliki profil kegagalan khas tanpa kehilangan status memahami.",
+                "target": "serangan: asimetri bukti negatif"
+              },
+              {
+                "claim": "Kegagalan relasi terbalik menyangkut pengetahuan tersimpan dari pelatihan; dalam konteks, relasi dibalik dengan benar.",
+                "target": "serangan: relasi terbalik sebagai perbedaan relevan"
+              },
+              {
+                "claim": "Argumen menggabungkan representasi kausal dengan generalisasi; kegagalan kontrafaktual mengurangi derajat yang sudah diakui dapat lebih rendah.",
+                "target": "serangan terhadap P3"
+              },
+              {
+                "claim": "'Sejenis' berarti jenis kapasitas fungsional-inferensial yang sama, sesuai cakupan yang dinyatakan.",
+                "target": "serangan: kesimpulan melampaui premis"
+              }
+            ],
+            "concessions": [
+              "Kesenjangan kontrafaktual menunjukkan bahwa derajat pemahaman LLM di sejumlah domain lebih rendah daripada manusia."
+            ],
+            "clarifications": [
+              "'Sejenis dengan pemahaman manusia' dibaca dalam cakupan yang sudah dinyatakan: jenis kapasitas fungsional-inferensial, bukan kesadaran."
+            ],
+            "packet_id": "P0019-debate"
+          }
+        }
+      },
+      "winner": "F0009",
+      "loser": "F0001",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 4,
+        "b": 1
+      },
+      "judgments": [
+        {
+          "packet_id": "P0020-judge",
+          "judge": "L1",
+          "lens": "Logikawan formal",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              7.5,
+              7,
+              6.5,
+              7,
+              7.5,
+              6.5,
+              7,
+              8,
+              7,
+              7.5
+            ],
+            "a": [
+              8,
+              8,
+              7.5,
+              7.5,
+              9,
+              6.5,
+              7,
+              8,
+              8,
+              8
+            ]
+          },
+          "totals": {
+            "a": 77.25,
+            "b": 70.75
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "premis tersirat F0001 (tidak ada perbedaan relevan lain) tidak terbela",
+          "rationale": "Klarifikasi ambang 'memadai' membuat modus tollens F0009 dapat dijalankan dan tidak menambah premis baru, karena ukuran itu sudah tersirat. F0001 menjawab kasus relasi terbalik dengan baik, tetapi prinsip bahwa bukti negatif hanya relevan bila menunjukkan ketiadaan kapasitas dinyatakan tanpa kriteria untuk membedakan 'ketiadaan' dari 'implementasi'. Karena argumen paritas F0001 memerlukan premis tersirat bahwa tidak ada perbedaan relevan lain, celah itu lebih merusak daripada kekaburan yang tersisa pada F0009.",
+          "objections": {
+            "b_to_a": "Kriteria kontrafaktual lawan mengukur eksekusi prosedur, dan memperluas 'memahami kata' hingga mencakup operasi di latar yang diubah adalah definisi yang menguntungkan posisinya sendiri.",
+            "a_to_b": "Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan."
+          },
+          "confidence": 0.65,
+          "dissent_risk": "Kriteria yang jelas untuk memisahkan kegagalan implementasi dari ketiadaan kapasitas akan memulihkan argumen paritas F0001.",
+          "evidence": [],
+          "steelman": {
+            "b": "Paritas atribusi: bukti perilaku dan representasi yang dipakai kausal ada pada LLM; bukti negatif hanya relevan bila menunjukkan ketiadaan kapasitas, dan kegagalan seperti relasi terbalik adalah batas penyimpanan, bukan ketiadaan pemahaman fungsional.",
+            "a": "Penguasaan konsep berarti mampu menerapkannya setelah aturan latar diubah secara eksplisit; kesenjangan kontrafaktual LLM berada jauh di luar rentang manusia yang diberi instruksi yang sama, sehingga LLM belum memahami dalam arti kuat."
+          },
+          "reply_quality": {
+            "b": "menjawab tuntas pada relasi terbalik (pembedaan penyimpanan vs konteks), menjawab sebagian pada asimetri bukti negatif",
+            "a": "menjawab tuntas pada kontra-contoh siswa dan ambang; menjawab sebagian pada tuduhan prosedur vs bahasa"
+          }
+        },
+        {
+          "packet_id": "P0021-judge",
+          "judge": "L2",
+          "lens": "Filsuf sains",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              8,
+              7.5,
+              7.5,
+              8,
+              9,
+              6.5,
+              7,
+              8,
+              8,
+              8
+            ],
+            "b": [
+              7.5,
+              7.5,
+              6.5,
+              6.5,
+              7,
+              6.5,
+              7,
+              8,
+              7,
+              7.5
+            ]
+          },
+          "totals": {
+            "a": 77.0,
+            "b": 70.5
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "falsifier F0001 sendiri terpicu",
+          "rationale": "Salah satu falsifier F0001 adalah kinerja yang runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia; data kontrafaktual yang diberi instruksi eksplisit memenuhinya sebagian. Pembelaan F0001 menafsirkan ulang kegagalan itu sebagai derajat yang lebih rendah, langkah yang dari sudut filsafat sains mendekati penyelamatan sabuk pelindung. F0009 tetap mengambil risiko empiris yang jelas dan menyebut kondisi kekalahannya.",
+          "objections": {
+            "a_to_b": "Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan.",
+            "b_to_a": "Kriteria kontrafaktual lawan mengukur eksekusi prosedur, dan memperluas 'memahami kata' hingga mencakup operasi di latar yang diubah adalah definisi yang menguntungkan posisinya sendiri."
+          },
+          "confidence": 0.7,
+          "dissent_risk": "Hasil kontrafaktual pada model yang lebih baru yang masuk rentang manusia akan membalik putusan.",
+          "evidence": [],
+          "steelman": {
+            "a": "Penguasaan konsep berarti mampu menerapkannya setelah aturan latar diubah secara eksplisit; kesenjangan kontrafaktual LLM berada jauh di luar rentang manusia yang diberi instruksi yang sama, sehingga LLM belum memahami dalam arti kuat.",
+            "b": "Paritas atribusi: bukti perilaku dan representasi yang dipakai kausal ada pada LLM; bukti negatif hanya relevan bila menunjukkan ketiadaan kapasitas, dan kegagalan seperti relasi terbalik adalah batas penyimpanan, bukan ketiadaan pemahaman fungsional."
+          },
+          "reply_quality": {
+            "a": "menjawab tuntas pada kontra-contoh siswa dan ambang; menjawab sebagian pada tuduhan prosedur vs bahasa",
+            "b": "menjawab tuntas pada relasi terbalik (pembedaan penyimpanan vs konteks), menjawab sebagian pada asimetri bukti negatif"
+          }
+        },
+        {
+          "packet_id": "P0022-judge",
+          "judge": "L3",
+          "lens": "Analis konseptual",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              8,
+              7.5,
+              7,
+              7,
+              7.5,
+              7,
+              7.5,
+              8,
+              7,
+              8
+            ],
+            "a": [
+              7,
+              7,
+              7,
+              7.5,
+              9,
+              6,
+              7,
+              8,
+              8,
+              7.5
+            ]
+          },
+          "totals": {
+            "a": 73.0,
+            "b": 74.25
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "b",
+          "rule_winner": "b",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "pembedaan ketiadaan kapasitas vs profil implementasi",
+          "rationale": "F0001 menawarkan pembedaan konseptual yang penting: profil kegagalan khas tidak menghapus status memahami, sebagaimana kalimat garden-path tidak menghapus pemahaman manusia; pembedaan penyimpanan vs konteks pada relasi terbalik memperkuatnya. Pembelaan F0009 bahwa memahami 'tambah' mencakup operasi di latar yang diubah memperluas konsep dengan cara yang menguntungkan posisinya sendiri. Selisihnya tipis.",
+          "objections": {
+            "b_to_a": "Kriteria kontrafaktual lawan mengukur eksekusi prosedur, dan memperluas 'memahami kata' hingga mencakup operasi di latar yang diubah adalah definisi yang menguntungkan posisinya sendiri.",
+            "a_to_b": "Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan."
+          },
+          "confidence": 0.5,
+          "dissent_risk": "Jika kriteria kontrafaktual diterima sebagai analisis yang tepat tentang penguasaan konsep, F0009 unggul.",
+          "evidence": [],
+          "steelman": {
+            "b": "Paritas atribusi: bukti perilaku dan representasi yang dipakai kausal ada pada LLM; bukti negatif hanya relevan bila menunjukkan ketiadaan kapasitas, dan kegagalan seperti relasi terbalik adalah batas penyimpanan, bukan ketiadaan pemahaman fungsional.",
+            "a": "Penguasaan konsep berarti mampu menerapkannya setelah aturan latar diubah secara eksplisit; kesenjangan kontrafaktual LLM berada jauh di luar rentang manusia yang diberi instruksi yang sama, sehingga LLM belum memahami dalam arti kuat."
+          },
+          "reply_quality": {
+            "b": "menjawab tuntas pada relasi terbalik (pembedaan penyimpanan vs konteks), menjawab sebagian pada asimetri bukti negatif",
+            "a": "menjawab tuntas pada kontra-contoh siswa dan ambang; menjawab sebagian pada tuduhan prosedur vs bahasa"
+          }
+        },
+        {
+          "packet_id": "P0023-judge",
+          "judge": "L4",
+          "lens": "Skeptis / advokat setan",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              8,
+              7.5,
+              7.5,
+              7.5,
+              9,
+              6.5,
+              7,
+              8,
+              8,
+              8
+            ],
+            "b": [
+              7,
+              7,
+              6,
+              6.5,
+              7,
+              6,
+              6.5,
+              8,
+              7,
+              7
+            ]
+          },
+          "totals": {
+            "a": 76.5,
+            "b": 67.0
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "beban pembuktian atas klaim kesetaraan jenis",
+          "rationale": "Klaim bahwa LLM memahami 'sejenis dengan manusia' adalah klaim positif yang lebih kuat dan menanggung beban untuk menjelaskan semua bukti negatif; F0001 menjawab sebagian (relasi terbalik) tetapi tidak kesenjangan kontrafaktual setelah instruksi eksplisit. F0009 membuat klaim yang lebih terbatas dan sudah menyatakan kondisi yang akan membatalkannya. Asumsi tersembunyi bahwa tidak ada perbedaan relevan lain tetap tidak terbela.",
+          "objections": {
+            "a_to_b": "Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan.",
+            "b_to_a": "Kriteria kontrafaktual lawan mengukur eksekusi prosedur, dan memperluas 'memahami kata' hingga mencakup operasi di latar yang diubah adalah definisi yang menguntungkan posisinya sendiri."
+          },
+          "confidence": 0.7,
+          "dissent_risk": "Jika beban pembuktian dianggap simetris, keunggulan F0009 menyusut.",
+          "evidence": [],
+          "steelman": {
+            "a": "Penguasaan konsep berarti mampu menerapkannya setelah aturan latar diubah secara eksplisit; kesenjangan kontrafaktual LLM berada jauh di luar rentang manusia yang diberi instruksi yang sama, sehingga LLM belum memahami dalam arti kuat.",
+            "b": "Paritas atribusi: bukti perilaku dan representasi yang dipakai kausal ada pada LLM; bukti negatif hanya relevan bila menunjukkan ketiadaan kapasitas, dan kegagalan seperti relasi terbalik adalah batas penyimpanan, bukan ketiadaan pemahaman fungsional."
+          },
+          "reply_quality": {
+            "a": "menjawab tuntas pada kontra-contoh siswa dan ambang; menjawab sebagian pada tuduhan prosedur vs bahasa",
+            "b": "menjawab tuntas pada relasi terbalik (pembedaan penyimpanan vs konteks), menjawab sebagian pada asimetri bukti negatif"
+          }
+        },
+        {
+          "packet_id": "P0024-judge",
+          "judge": "L5",
+          "lens": "Metodolog bukti",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              7.5,
+              7.5,
+              6,
+              7,
+              7.5,
+              6.5,
+              7,
+              8,
+              7,
+              7.5
+            ],
+            "a": [
+              8,
+              7.5,
+              7.5,
+              8,
+              9,
+              6.5,
+              7,
+              8,
+              8,
+              8
+            ]
+          },
+          "totals": {
+            "a": 77.0,
+            "b": 70.75
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "desain bukti yang terkontrol",
+          "rationale": "Perbandingan kontrafaktual F0009 adalah desain terkontrol: tugas yang sama, satu aturan diubah, dibandingkan dengan manusia yang diberi instruksi yang sama. Bukti F0001 dari probing dan intervensi relevan tetapi menjawab pertanyaan lain (adakah representasi), bukan apakah konsep dikuasai secara fleksibel. Pembedaan penyimpanan vs konteks pada relasi terbalik adalah poin metodologis yang baik, tetapi tidak menjawab data kontrafaktual.",
+          "objections": {
+            "b_to_a": "Kriteria kontrafaktual lawan mengukur eksekusi prosedur, dan memperluas 'memahami kata' hingga mencakup operasi di latar yang diubah adalah definisi yang menguntungkan posisinya sendiri.",
+            "a_to_b": "Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan."
+          },
+          "confidence": 0.65,
+          "dissent_risk": "Jika data kontrafaktual terbukti terpengaruh artefak prompt atau tokenisasi, bukti F0009 melemah.",
+          "evidence": [],
+          "steelman": {
+            "b": "Paritas atribusi: bukti perilaku dan representasi yang dipakai kausal ada pada LLM; bukti negatif hanya relevan bila menunjukkan ketiadaan kapasitas, dan kegagalan seperti relasi terbalik adalah batas penyimpanan, bukan ketiadaan pemahaman fungsional.",
+            "a": "Penguasaan konsep berarti mampu menerapkannya setelah aturan latar diubah secara eksplisit; kesenjangan kontrafaktual LLM berada jauh di luar rentang manusia yang diberi instruksi yang sama, sehingga LLM belum memahami dalam arti kuat."
+          },
+          "reply_quality": {
+            "b": "menjawab tuntas pada relasi terbalik (pembedaan penyimpanan vs konteks), menjawab sebagian pada asimetri bukti negatif",
+            "a": "menjawab tuntas pada kontra-contoh siswa dan ambang; menjawab sebagian pada tuduhan prosedur vs bahasa"
+          }
+        }
+      ],
+      "method": "panel_debate",
+      "upset": false
+    }
+  ],
+  "completed_at": "2026-09-29T13:19:59+00:00"
+}

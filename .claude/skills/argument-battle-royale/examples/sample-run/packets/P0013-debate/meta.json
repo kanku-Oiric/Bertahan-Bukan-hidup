@@ -1,0 +1,21 @@
+{
+  "record": {
+    "id": "P0013-debate",
+    "type": "debate",
+    "stage": "round:3:debate:attack",
+    "status": "pending",
+    "attempts": 0,
+    "input_hash": "3806bfdd77aad9a74061b8f54b68793c1a72f73ef06dbf3be966d5d58b947f2d",
+    "created_at": "2026-09-29T13:15:50+00:00",
+    "meta": {},
+    "errors": []
+  },
+  "payload": {
+    "round": 3,
+    "match_id": "R03-M0001",
+    "side": "b",
+    "exchange": "attack",
+    "me": "F0014",
+    "opponent": "F0005"
+  }
+}

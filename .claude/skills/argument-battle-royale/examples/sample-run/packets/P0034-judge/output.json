@@ -1,0 +1,49 @@
+{
+  "packet_id": "P0034-judge",
+  "input_hash": "64d89624aa548a9a0a3ef6ec00a77afea95d65b029f0a9f892be5c27f6b415bb",
+  "judge_lens": "L4",
+  "evidence_mode_used": "internal",
+  "verdicts": [
+    {
+      "duel_id": "R04-M0001",
+      "steelman_x": "Inti pemahaman yang membedakannya dari kefasihan permukaan adalah penerapan konsep yang kokoh ketika situasi berubah; diukur dengan uji kontrafaktual berambang rentang manusia, LLM saat ini belum lulus, sehingga belum memahami dalam arti kuat.",
+      "steelman_y": "Pemahaman bahasa multidimensional dan bergradasi; LLM kompeten nyata pada dimensi inferensial dan pragmatik lokal, lemah pada pelacakan komitmen, grounding, dan kekokohan di luar distribusi latih; profil ini menuntut dua faktor (dimensi dan jarak distribusi) yang keduanya sejalan dengan pemahaman parsial.",
+      "scores_x": [
+        8,
+        7.5,
+        7.5,
+        7.5,
+        9,
+        6.5,
+        7,
+        8,
+        8,
+        7.5
+      ],
+      "scores_y": [
+        7,
+        7,
+        7,
+        7.5,
+        7.5,
+        6.5,
+        7.5,
+        7,
+        8,
+        8.5
+      ],
+      "fatal_x": [],
+      "fatal_y": [],
+      "winner": "X",
+      "confidence": 0.55,
+      "decisive_factor": "beban pembuktian atas klaim positif",
+      "rationale": "F0005 membuat klaim positif bahwa keberhasilan pada dimensi tertentu adalah pemahaman; beban pembuktiannya adalah menunjukkan bahwa keberhasilan itu bukan hasil keakraban, dan uji kekokohan belum dijalankan pada dimensi-dimensi tersebut. F0009 membuat klaim yang lebih terbatas yang didukung desain terkontrol. Kejujuran F0005 dalam mengakui kelemahan patut dihargai, tetapi asumsi tersembunyi bahwa keberhasilan pada masukan akrab adalah pemahaman tetap belum dipikul.",
+      "objection_x_to_y": "Hipotesis jarak-distribusi melemahkan komitmen empiris lawan bahwa kegagalan berkelompok menurut dimensi, dan vonis lawan bergantung pada pembobotan yang tidak ditetapkan.",
+      "objection_y_to_x": "Kesimpulan argumen lawan bergeser antara semifinal dan final, dan penetapan transfer kontrafaktual sebagai inti konsep adalah pilihan definisional yang tidak dibela.",
+      "reply_quality_x": "menjawab sebagian: kekokohan dibela sebagai uji lintas dimensi, tetapi pergeseran rumusan kesimpulan antar-babak diakui",
+      "reply_quality_y": "menjawab sebagian: hipotesis jarak-distribusi diserap sebagai faktor kedua, tetapi komitmen pengelompokan per dimensi harus dirumuskan ulang",
+      "dissent_risk": "Bukti bahwa keberhasilan inferensial dan pragmatik bertahan di bawah varian kontrafaktual akan memindahkan beban kembali ke F0009.",
+      "evidence": []
+    }
+  ]
+}

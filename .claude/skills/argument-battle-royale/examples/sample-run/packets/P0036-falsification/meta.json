@@ -1,0 +1,59 @@
+{
+  "record": {
+    "id": "P0036-falsification",
+    "type": "falsification",
+    "stage": "falsify:0",
+    "status": "pending",
+    "attempts": 0,
+    "input_hash": "2e070abd36eef2959d782a51cdb77b8a531d36e92341b1e44bea893f2f38932f",
+    "created_at": "2026-09-29T13:23:12+00:00",
+    "meta": {},
+    "errors": []
+  },
+  "payload": {
+    "fighter_id": "F0005",
+    "candidate_index": 0,
+    "tester": "T1",
+    "rivals": [
+      "F0009",
+      "F0001"
+    ],
+    "history": [
+      {
+        "round": 0,
+        "source": "scouting",
+        "text": "Batas 'dimensi' pemahaman tidak didefinisikan secara presisi sebelum data dilihat, sehingga ada risiko pengelompokan kegagalan ke dimensi dilakukan secara post hoc."
+      },
+      {
+        "round": 1,
+        "source": "R01-M0001/L7",
+        "text": "Jika pemahaman penuh mensyaratkan kesadaran, maka 'pemahaman fungsional' Y hanyalah pemrosesan dan label 'parsial' menyesatkan."
+      },
+      {
+        "round": 2,
+        "source": "R02-M0001/L1",
+        "text": "X tidak menentukan sebelum melihat data dimensi mana yang seharusnya berhasil, sehingga pengelompokan kegagalan dapat dilakukan setelah fakta."
+      },
+      {
+        "round": 2,
+        "source": "R02-M0001/L2",
+        "text": "Y tidak mengatakan apa yang terjadi jika kegagalan komitmen menghilang dengan pelatihan yang berbeda — apakah itu berarti pemahaman bertambah atau hanya perilaku yang dipoles?"
+      },
+      {
+        "round": 2,
+        "source": "R02-M0001/L3",
+        "text": "Konsep 'dimensi pemahaman' X tidak dianalisis: apa yang membuat sesuatu menjadi satu dimensi, bukan sekadar satu jenis tugas?"
+      },
+      {
+        "round": 3,
+        "source": "R03-M0001/L1",
+        "text": "Menerapkan 'memahami' secara bergradasi pada profil yang terdisosiasi adalah keputusan konseptual yang diakui lawan sendiri, sehingga jawaban 'sebagian' bukan temuan faktual."
+      },
+      {
+        "round": 4,
+        "source": "R04-M0001/L1",
+        "text": "Hipotesis jarak-distribusi melemahkan komitmen empiris lawan bahwa kegagalan berkelompok menurut dimensi, dan vonis lawan bergantung pada pembobotan yang tidak ditetapkan."
+      }
+    ]
+  }
+}

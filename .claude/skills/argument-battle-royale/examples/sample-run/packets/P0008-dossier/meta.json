@@ -1,0 +1,43 @@
+{
+  "record": {
+    "id": "P0008-dossier",
+    "type": "dossier",
+    "stage": "final4",
+    "status": "pending",
+    "attempts": 0,
+    "input_hash": "5f70921b5c859c64668fac14c93253fbf29f78a52e2bbca4b6ac50804c5d8443",
+    "created_at": "2026-09-29T13:13:54+00:00",
+    "meta": {},
+    "errors": []
+  },
+  "payload": {
+    "fighter_id": "F0005",
+    "history": [
+      {
+        "round": 0,
+        "source": "scouting",
+        "text": "Batas 'dimensi' pemahaman tidak didefinisikan secara presisi sebelum data dilihat, sehingga ada risiko pengelompokan kegagalan ke dimensi dilakukan secara post hoc."
+      },
+      {
+        "round": 1,
+        "source": "R01-M0001/L7",
+        "text": "Jika pemahaman penuh mensyaratkan kesadaran, maka 'pemahaman fungsional' Y hanyalah pemrosesan dan label 'parsial' menyesatkan."
+      },
+      {
+        "round": 2,
+        "source": "R02-M0001/L1",
+        "text": "X tidak menentukan sebelum melihat data dimensi mana yang seharusnya berhasil, sehingga pengelompokan kegagalan dapat dilakukan setelah fakta."
+      },
+      {
+        "round": 2,
+        "source": "R02-M0001/L2",
+        "text": "Y tidak mengatakan apa yang terjadi jika kegagalan komitmen menghilang dengan pelatihan yang berbeda — apakah itu berarti pemahaman bertambah atau hanya perilaku yang dipoles?"
+      },
+      {
+        "round": 2,
+        "source": "R02-M0001/L3",
+        "text": "Konsep 'dimensi pemahaman' X tidak dianalisis: apa yang membuat sesuatu menjadi satu dimensi, bukan sekadar satu jenis tugas?"
+      }
+    ]
+  }
+}

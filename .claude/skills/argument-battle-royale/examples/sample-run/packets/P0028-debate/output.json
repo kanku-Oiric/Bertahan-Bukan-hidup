@@ -1,0 +1,28 @@
+{
+  "packet_id": "P0028-debate",
+  "input_hash": "1ed57c5e3e3ba4546343eff9dd132fafbf675e80a53da99b503899e89cd16499",
+  "match_id": "R04-M0001",
+  "exchange": "defense",
+  "statement": "Lawan menuduh kesimpulan saya hanyalah kasus khusus pemahaman parsial. Perbedaannya bukan pada data, melainkan pada apa yang pantas disebut 'memahami'. Argumen saya menyatakan bahwa inti konsep memahami — yang membedakan memahami dari hafal atau fasih di permukaan — adalah kemampuan menerapkan konsep secara kokoh ketika situasi berubah. Keberhasilan pada masukan yang akrab adalah persis apa yang juga dimiliki oleh penghafal yang fasih; karena itu keberhasilan tersebut tidak cukup untuk disebut pemahaman dalam arti yang dimaksud pertanyaan. Jadi saya tidak mengakui 'pemahaman dalam arti lemah' sebagai pemahaman yang dipertaruhkan; saya mengakui kompetensi yang nyata. Kedua, lawan mengatakan P1 hanya menguji satu dimensi. Transfer kontrafaktual bukan dimensi; ia uji kekokohan yang dapat diterapkan pada dimensi apa pun — inferensi, pragmatik, maupun aritmetika. Keberhasilan lawan pada implikatur dan parafrasa belum ditunjukkan lulus uji kekokohan itu. Ketiga, lawan menyebut posisi saya rapuh terhadap waktu. Saya menerimanya: tesis saya tentang AI saat ini, dan saya sudah menyebut kondisi yang akan membatalkannya. Itu kelebihan menurut rubrik, bukan kelemahan. Saya juga mengakui bahwa contoh kata yang didefinisikan dalam konteks lalu dipakai secara komposisional adalah bukti transfer yang nyata, walau terbatas pada perubahan yang dinyatakan secara eksplisit dan sederhana.",
+  "points": [
+    {
+      "claim": "Perbedaan dengan posisi parsial adalah tentang inti konsep: keberhasilan pada masukan akrab juga dimiliki penghafal yang fasih.",
+      "target": "serangan: kasus khusus pemahaman parsial"
+    },
+    {
+      "claim": "Transfer kontrafaktual adalah uji kekokohan lintas dimensi, bukan satu dimensi.",
+      "target": "serangan terhadap P1"
+    },
+    {
+      "claim": "Keterikatan pada generasi model adalah keterujian yang eksplisit, bukan kerapuhan.",
+      "target": "serangan: rapuh terhadap waktu"
+    }
+  ],
+  "concessions": [
+    "Kompetensi LLM pada masukan akrab nyata.",
+    "Penggunaan komposisional kata yang didefinisikan dalam konteks adalah bukti transfer yang nyata walau terbatas."
+  ],
+  "clarifications": [
+    "'Arti kuat' = kemampuan menerapkan konsep secara kokoh ketika situasi berubah, sebagaimana dirumuskan dalam definisi 'memahami konsep' pada argumen saya."
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "record": {
+    "id": "P0011-dossier",
+    "type": "dossier",
+    "stage": "final4",
+    "status": "pending",
+    "attempts": 0,
+    "input_hash": "2f7c4c50168cd77754de43d23fbce5f68ff1d7a8dc2b4c3ff566efa7f233625f",
+    "created_at": "2026-09-29T13:13:54+00:00",
+    "meta": {},
+    "errors": []
+  },
+  "payload": {
+    "fighter_id": "F0001",
+    "history": [
+      {
+        "round": 0,
+        "source": "scouting",
+        "text": "P5 hanya menegaskan bahwa cara perolehan dan ketiadaan grounding bukan perbedaan relevan — justru titik yang dipersoalkan lawan — dan argumen tidak menjelaskan pola kegagalan sistematis (tugas kontrafaktual, relasi terbalik)."
+      },
+      {
+        "round": 1,
+        "source": "R01-M0007/L7",
+        "text": "Temuan probing adalah tafsiran peneliti atas pola aktivasi; menyebutnya 'representasi keadaan dunia' sudah mengandaikan semantik yang dipersoalkan."
+      },
+      {
+        "round": 2,
+        "source": "R02-M0004/L1",
+        "text": "P5 hanya menegaskan bahwa perbedaan yang dipersoalkan tidak relevan; kesadaran adalah perbedaan relevan yang ditepis X hanya dengan membatasi cakupan."
+      },
+      {
+        "round": 2,
+        "source": "R02-M0004/L2",
+        "text": "Argumen X diam tentang kegagalan sistematis (tugas kontrafaktual, relasi terbalik) yang justru paling relevan untuk menilai 'sejenis dengan manusia'."
+      },
+      {
+        "round": 2,
+        "source": "R02-M0004/L3",
+        "text": "Y membuktikan pemahaman fungsional lalu menyimpulkan pemahaman 'sejenis dengan manusia'; kedua ungkapan itu tidak ekuivalen kecuali kesadaran tidak termasuk pemahaman manusia."
+      }
+    ]
+  }
+}
