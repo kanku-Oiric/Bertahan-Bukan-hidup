@@ -1,0 +1,42 @@
+{
+  "record": {
+    "id": "P0024-judge",
+    "type": "judge",
+    "stage": "round:3:judge",
+    "status": "pending",
+    "attempts": 0,
+    "input_hash": "08f0422b8b91a9a1b7ba18c7b25333aa697aefef66c50998f16d723bf8b80d50",
+    "created_at": "2026-09-29T13:18:17+00:00",
+    "meta": {},
+    "errors": []
+  },
+  "payload": {
+    "round": 3,
+    "lens": {
+      "id": "L5",
+      "label": "Metodolog bukti",
+      "focus": "Kualitas bukti, base rate, bias seleksi, generalisasi berlebihan, klaim empiris yang tidak didukung."
+    },
+    "duels": [
+      {
+        "duel_id": "R03-M0001",
+        "a": "F0005",
+        "b": "F0014",
+        "presentation": {
+          "X": "a",
+          "Y": "b"
+        }
+      },
+      {
+        "duel_id": "R03-M0002",
+        "a": "F0009",
+        "b": "F0001",
+        "presentation": {
+          "X": "b",
+          "Y": "a"
+        }
+      }
+    ],
+    "stage": "semifinal"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "packet_id": "P0022-judge",
+  "input_hash": "07c4816ebd7be4e68119e13d7ffc711a256b88dd2bf7929115e66284bcb2455c",
+  "judge_lens": "L3",
+  "evidence_mode_used": "internal",
+  "verdicts": [
+    {
+      "duel_id": "R03-M0001",
+      "steelman_x": "Pertanyaan per dimensi faktual, tetapi pertanyaan satu istilah 'apakah AI memahami bahasa' tidak memiliki jawaban faktual tunggal karena kriteria konsep klaster terbelah; jawaban 'sebagian' pun bergantung pada keputusan konseptual tentang pembobotan.",
+      "steelman_y": "Pemahaman bahasa multidimensional; LLM nyata pada dimensi inferensial-komposisional dan pragmatik lokal, gagal pada pelacakan komitmen dan grounding; profil campuran ini hanya dijelaskan oleh hipotesis pemahaman parsial, dengan dimensi yang berasal dari teori kompetensi linguistik.",
+      "scores_x": [
+        8.5,
+        7.5,
+        6.5,
+        6,
+        7,
+        7,
+        8,
+        8,
+        7,
+        8
+      ],
+      "scores_y": [
+        7,
+        7,
+        7,
+        7.5,
+        7.5,
+        6.5,
+        7.5,
+        7,
+        8,
+        7.5
+      ],
+      "fatal_x": [],
+      "fatal_y": [],
+      "winner": "X",
+      "confidence": 0.55,
+      "decisive_factor": "kejelasan konseptual tentang status vonis 'parsial'",
+      "rationale": "Pembedaan F0014 antara pertanyaan per dimensi dan pertanyaan satu istilah adalah analisis konseptual yang tepat, dan F0005 sendiri mengakui bahwa vonis menyeluruh memerlukan pembobotan yang sebagian konseptual. Dengan konsesi itu, klaim F0005 bahwa AI 'memahami secara parsial' sebagai jawaban atas pertanyaan satu istilah tidak lagi murni hasil penemuan. Kelemahan empiris F0014 nyata, tetapi dari sudut analisis konsep, diagnosisnya lebih jernih.",
+      "objection_x_to_y": "Menerapkan 'memahami' secara bergradasi pada profil yang terdisosiasi adalah keputusan konseptual yang diakui lawan sendiri, sehingga jawaban 'sebagian' bukan temuan faktual.",
+      "objection_y_to_x": "Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen.",
+      "reply_quality_x": "menjawab sebagian: pembedaan pertanyaan satu istilah vs per dimensi tajam, tetapi P3 diakui belum diuji",
+      "reply_quality_y": "menjawab tuntas pada tuduhan post hoc (dimensi dari teori), menjawab sebagian pada ambang (dengan konsesi tentang pembobotan)",
+      "dissent_risk": "Jika 'parsial' dibaca sebagai deskripsi profil, bukan vonis atas istilah tunggal, konsesi F0005 tidak merugikannya dan putusan berbalik.",
+      "evidence": []
+    },
+    {
+      "duel_id": "R03-M0002",
+      "steelman_x": "Paritas atribusi: bukti perilaku dan representasi yang dipakai kausal ada pada LLM; bukti negatif hanya relevan bila menunjukkan ketiadaan kapasitas, dan kegagalan seperti relasi terbalik adalah batas penyimpanan, bukan ketiadaan pemahaman fungsional.",
+      "steelman_y": "Penguasaan konsep berarti mampu menerapkannya setelah aturan latar diubah secara eksplisit; kesenjangan kontrafaktual LLM berada jauh di luar rentang manusia yang diberi instruksi yang sama, sehingga LLM belum memahami dalam arti kuat.",
+      "scores_x": [
+        8,
+        7.5,
+        7,
+        7,
+        7.5,
+        7,
+        7.5,
+        8,
+        7,
+        8
+      ],
+      "scores_y": [
+        7,
+        7,
+        7,
+        7.5,
+        9,
+        6,
+        7,
+        8,
+        8,
+        7.5
+      ],
+      "fatal_x": [],
+      "fatal_y": [],
+      "winner": "X",
+      "confidence": 0.5,
+      "decisive_factor": "pembedaan ketiadaan kapasitas vs profil implementasi",
+      "rationale": "F0001 menawarkan pembedaan konseptual yang penting: profil kegagalan khas tidak menghapus status memahami, sebagaimana kalimat garden-path tidak menghapus pemahaman manusia; pembedaan penyimpanan vs konteks pada relasi terbalik memperkuatnya. Pembelaan F0009 bahwa memahami 'tambah' mencakup operasi di latar yang diubah memperluas konsep dengan cara yang menguntungkan posisinya sendiri. Selisihnya tipis.",
+      "objection_x_to_y": "Kriteria kontrafaktual lawan mengukur eksekusi prosedur, dan memperluas 'memahami kata' hingga mencakup operasi di latar yang diubah adalah definisi yang menguntungkan posisinya sendiri.",
+      "objection_y_to_x": "Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan.",
+      "reply_quality_x": "menjawab tuntas pada relasi terbalik (pembedaan penyimpanan vs konteks), menjawab sebagian pada asimetri bukti negatif",
+      "reply_quality_y": "menjawab tuntas pada kontra-contoh siswa dan ambang; menjawab sebagian pada tuduhan prosedur vs bahasa",
+      "dissent_risk": "Jika kriteria kontrafaktual diterima sebagai analisis yang tepat tentang penguasaan konsep, F0009 unggul.",
+      "evidence": []
+    }
+  ]
+}

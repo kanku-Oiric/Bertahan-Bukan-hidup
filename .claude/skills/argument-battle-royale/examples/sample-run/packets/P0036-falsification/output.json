@@ -1,0 +1,116 @@
+{
+  "packet_id": "P0036-falsification",
+  "input_hash": "2e070abd36eef2959d782a51cdb77b8a531d36e92341b1e44bea893f2f38932f",
+  "fighter_id": "F0005",
+  "evidence_mode_used": "internal",
+  "commitments": [
+    {
+      "id": "C1",
+      "claim": "Pemahaman bahasa bersifat multidimensional dan bergradasi.",
+      "type": "conceptual",
+      "core": true
+    },
+    {
+      "id": "C2",
+      "claim": "LLM memiliki kompetensi nyata, bukan hafalan, pada dimensi inferensial-komposisional dan pragmatik lokal.",
+      "type": "empirical",
+      "core": true
+    },
+    {
+      "id": "C3",
+      "claim": "LLM lemah pada pelacakan komitmen diskursif.",
+      "type": "empirical",
+      "core": false
+    },
+    {
+      "id": "C4",
+      "claim": "Kegagalan LLM terstruktur menurut dimensi pemahaman, bukan acak.",
+      "type": "empirical",
+      "core": false
+    },
+    {
+      "id": "C5",
+      "claim": "LLM berbasis teks lemah pada grounding referensial.",
+      "type": "empirical",
+      "core": false
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "kind": "counterexample",
+      "target_commitment": "C2",
+      "description": "Tabel-pencarian raksasa yang menjawab setiap masukan berpanjang terbatas dengan benar: apakah kriteria 'berhasil pada masukan baru' memaksa argumen mengatribusikan pemahaman parsial kepadanya?",
+      "result": "damaged",
+      "reasoning": "Argumen menyingkirkan kasus ini hanya melalui komitmen empiris bahwa keberhasilan tidak dijelaskan oleh hafalan/kontaminasi; klausul mekanisme itu tersirat, tidak menjadi bagian eksplisit kriteria kompetensi. Tanpa klausul itu, kriteria perilaku saja akan memasukkan tabel-pencarian."
+    },
+    {
+      "id": "T2",
+      "kind": "empirical_prediction",
+      "target_commitment": "C2",
+      "description": "Jika C2 benar, kinerja pada butir inferensi komposisional yang disusun baru (entitas dan kombinasi yang tidak ada di data latih) tetap jauh di atas baseline yang hanya memanfaatkan statistik permukaan.",
+      "result": "passed",
+      "reasoning": "Evaluasi dengan butir yang disusun baru secara konsisten menunjukkan kinerja LLM mutakhir jauh di atas baseline statistik permukaan; prediksi yang berisiko ini tidak terbantah."
+    },
+    {
+      "id": "T3",
+      "kind": "empirical_prediction",
+      "target_commitment": "C4",
+      "description": "Jika kegagalan terstruktur menurut dimensi, kemerosotan pada varian kontrafaktual harus terkonsentrasi pada dimensi tertentu, bukan merata lintas jenis tugas.",
+      "result": "failed",
+      "reasoning": "Kemerosotan kontrafaktual yang dilaporkan terjadi lintas aritmetika, logika, kode, dan permainan — pola yang lebih cocok dengan faktor lintas-dimensi (jarak dari distribusi latih). Rumusan asli C4 tidak bertahan; argumen sendiri merevisinya di final."
+    },
+    {
+      "id": "T4",
+      "kind": "reductio",
+      "target_commitment": "C1",
+      "description": "Jika setiap kompetensi tidak-nol dihitung sebagai 'pemahaman parsial', maka pelengkap-otomatis di ponsel juga memahami bahasa sebagian — absurd.",
+      "result": "passed",
+      "reasoning": "Argumen mensyaratkan kompetensi inferensial terhadap ekspresi pada masukan baru; pelengkap-otomatis tidak menarik inferensi atas isi. Reductio tidak berlaku terhadap kriteria yang dinyatakan di semifinal."
+    },
+    {
+      "id": "T5",
+      "kind": "rival_comparison",
+      "target_commitment": "C1",
+      "description": "Bandingkan dengan Rival 1 (kriteria tunggal kekokohan kontrafaktual) dan Rival 2 (paritas penuh dengan manusia).",
+      "result": "passed",
+      "reasoning": "Argumen menjelaskan keberhasilan yang menjadi andalan Rival 2 dan kegagalan yang menjadi andalan Rival 1, serta kegagalan komitmen pada masukan akrab yang tidak dijelaskan keduanya. Keunggulannya atas Rival 1 tipis, tetapi nyata."
+    },
+    {
+      "id": "T6",
+      "kind": "edge_case",
+      "target_commitment": "C1",
+      "description": "Afasia pada manusia: penutur fasih dengan pemahaman terganggu, atau sebaliknya. Apakah kasus disosiasi manusia cocok dengan konsep multidimensional?",
+      "result": "passed",
+      "reasoning": "Disosiasi klinis antara produksi fasih dan pemahaman menunjukkan bahwa kemampuan bahasa manusia sendiri terdiri dari komponen yang dapat terpisah, sejalan dengan C1."
+    },
+    {
+      "id": "T7",
+      "kind": "immunization_check",
+      "target_commitment": "C1",
+      "description": "Apakah argumen menyelamatkan diri dengan menyebut setiap kegagalan 'dimensi yang hilang' dan setiap keberhasilan 'dimensi yang ada'?",
+      "result": "damaged",
+      "reasoning": "Dimensi ditautkan ke teori kompetensi linguistik (semifinal), yang membatasi keleluasaan. Namun faktor 'jarak distribusi' ditambahkan setelah lawan mengajukannya, dan data yang dipakai untuk membelanya sudah diketahui, bukan prediksi baru. Ini revisi sabuk pelindung yang jujur tetapi belum terbukti progresif."
+    },
+    {
+      "id": "T8",
+      "kind": "empirical_prediction",
+      "target_commitment": "C3",
+      "description": "Jika C3 benar, kelemahan pelacakan komitmen muncul juga pada topik yang sangat akrab, tidak hanya di luar distribusi.",
+      "result": "passed",
+      "reasoning": "Perilaku menjilat dan pergeseran komitmen tanpa alasan dilaporkan pada topik sehari-hari yang sangat akrab; prediksi ini sesuai."
+    }
+  ],
+  "immunization_detected": false,
+  "ad_hoc_notes": "Penambahan faktor 'jarak dari distribusi latih' di final menyelamatkan C4 dari data kontrafaktual; ia diakui terbuka dan tidak mengubah inti, tetapi belum menghasilkan prediksi baru yang terkonfirmasi.",
+  "verdict": "SURVIVED_WITH_DAMAGE",
+  "required_qualifications": [
+    "Nyatakan klausul mekanisme secara eksplisit: keberhasilan dihitung sebagai kompetensi hanya bila tidak dapat dijelaskan oleh hafalan atau pencarian.",
+    "Rumuskan ulang komitmen empiris: kegagalan terstruktur menurut dimensi kompetensi dan jarak dari distribusi latih.",
+    "Kunci daftar dimensi beserta uji operasionalnya sebelum evaluasi baru agar prediksi tetap berisiko.",
+    "Batasi klaim kompetensi pada wilayah dekat distribusi latih kecuali lolos uji kontrafaktual."
+  ],
+  "residual_confidence": 0.6,
+  "summary": "Inti argumen — pemahaman multidimensional dan bergradasi, dengan kompetensi nyata LLM di sebagian dimensi — bertahan dari kontra-contoh, reductio, perbandingan rival, dan kasus batas. Satu komitmen bantu (kegagalan berkelompok hanya menurut dimensi) gugur oleh data kontrafaktual lintas tugas, dan dua komitmen inti rusak ringan: kriteria kompetensi memerlukan klausul mekanisme eksplisit, dan penambahan faktor jarak-distribusi belum terbukti progresif. Argumen tetap dapat dipertahankan dengan kualifikasi yang dicantumkan.",
+  "evidence": []
+}

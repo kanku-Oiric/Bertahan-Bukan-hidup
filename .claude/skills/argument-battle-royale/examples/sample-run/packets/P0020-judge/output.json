@@ -1,0 +1,90 @@
+{
+  "packet_id": "P0020-judge",
+  "input_hash": "0a6ce8ec332708473d21237e90d8c63f995ab52397f76ccdc92909ea37a1df3d",
+  "judge_lens": "L1",
+  "evidence_mode_used": "internal",
+  "verdicts": [
+    {
+      "duel_id": "R03-M0001",
+      "steelman_x": "Pemahaman bahasa multidimensional; LLM nyata pada dimensi inferensial-komposisional dan pragmatik lokal, gagal pada pelacakan komitmen dan grounding; profil campuran ini hanya dijelaskan oleh hipotesis pemahaman parsial, dengan dimensi yang berasal dari teori kompetensi linguistik.",
+      "steelman_y": "Pertanyaan per dimensi faktual, tetapi pertanyaan satu istilah 'apakah AI memahami bahasa' tidak memiliki jawaban faktual tunggal karena kriteria konsep klaster terbelah; jawaban 'sebagian' pun bergantung pada keputusan konseptual tentang pembobotan.",
+      "scores_x": [
+        7.5,
+        7.5,
+        8,
+        8,
+        8,
+        7,
+        8,
+        7,
+        8,
+        8
+      ],
+      "scores_y": [
+        8,
+        6.5,
+        6,
+        6,
+        6.5,
+        6,
+        7.5,
+        8,
+        7,
+        7.5
+      ],
+      "fatal_x": [],
+      "fatal_y": [],
+      "winner": "X",
+      "confidence": 0.75,
+      "decisive_factor": "premis lawan yang tak tertopang (P3, P4)",
+      "rationale": "Setelah debat, inferensi abduktif F0005 tetap utuh: tuduhan 'pesaing yang dihilangkan' dijawab dengan tepat karena klaim tentang status kata bukan penjelasan pesaing atas pola kinerja. F0014 membangun pembedaan yang sah antara pertanyaan satu istilah dan per dimensi, tetapi kesimpulan deflasionernya masih bertumpu pada P3 yang diakui belum diuji dan P4 yang universal negatif tanpa argumen. Secara struktur logis, F0005 membutuhkan lebih sedikit premis yang tak tertopang.",
+      "objection_x_to_y": "Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen.",
+      "objection_y_to_x": "Menerapkan 'memahami' secara bergradasi pada profil yang terdisosiasi adalah keputusan konseptual yang diakui lawan sendiri, sehingga jawaban 'sebagian' bukan temuan faktual.",
+      "reply_quality_x": "menjawab tuntas pada tuduhan post hoc (dimensi dari teori), menjawab sebagian pada ambang (dengan konsesi tentang pembobotan)",
+      "reply_quality_y": "menjawab sebagian: pembedaan pertanyaan satu istilah vs per dimensi tajam, tetapi P3 diakui belum diuji",
+      "dissent_risk": "Jika pembedaan pertanyaan satu istilah vs per dimensi diterima sepenuhnya, konsesi F0005 tentang pembobotan dapat dibaca sebagai kemenangan F0014.",
+      "evidence": []
+    },
+    {
+      "duel_id": "R03-M0002",
+      "steelman_x": "Paritas atribusi: bukti perilaku dan representasi yang dipakai kausal ada pada LLM; bukti negatif hanya relevan bila menunjukkan ketiadaan kapasitas, dan kegagalan seperti relasi terbalik adalah batas penyimpanan, bukan ketiadaan pemahaman fungsional.",
+      "steelman_y": "Penguasaan konsep berarti mampu menerapkannya setelah aturan latar diubah secara eksplisit; kesenjangan kontrafaktual LLM berada jauh di luar rentang manusia yang diberi instruksi yang sama, sehingga LLM belum memahami dalam arti kuat.",
+      "scores_x": [
+        7.5,
+        7,
+        6.5,
+        7,
+        7.5,
+        6.5,
+        7,
+        8,
+        7,
+        7.5
+      ],
+      "scores_y": [
+        8,
+        8,
+        7.5,
+        7.5,
+        9,
+        6.5,
+        7,
+        8,
+        8,
+        8
+      ],
+      "fatal_x": [],
+      "fatal_y": [],
+      "winner": "Y",
+      "confidence": 0.65,
+      "decisive_factor": "premis tersirat F0001 (tidak ada perbedaan relevan lain) tidak terbela",
+      "rationale": "Klarifikasi ambang 'memadai' membuat modus tollens F0009 dapat dijalankan dan tidak menambah premis baru, karena ukuran itu sudah tersirat. F0001 menjawab kasus relasi terbalik dengan baik, tetapi prinsip bahwa bukti negatif hanya relevan bila menunjukkan ketiadaan kapasitas dinyatakan tanpa kriteria untuk membedakan 'ketiadaan' dari 'implementasi'. Karena argumen paritas F0001 memerlukan premis tersirat bahwa tidak ada perbedaan relevan lain, celah itu lebih merusak daripada kekaburan yang tersisa pada F0009.",
+      "objection_x_to_y": "Kriteria kontrafaktual lawan mengukur eksekusi prosedur, dan memperluas 'memahami kata' hingga mencakup operasi di latar yang diubah adalah definisi yang menguntungkan posisinya sendiri.",
+      "objection_y_to_x": "Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan.",
+      "reply_quality_x": "menjawab tuntas pada relasi terbalik (pembedaan penyimpanan vs konteks), menjawab sebagian pada asimetri bukti negatif",
+      "reply_quality_y": "menjawab tuntas pada kontra-contoh siswa dan ambang; menjawab sebagian pada tuduhan prosedur vs bahasa",
+      "dissent_risk": "Kriteria yang jelas untuk memisahkan kegagalan implementasi dari ketiadaan kapasitas akan memulihkan argumen paritas F0001.",
+      "evidence": []
+    }
+  ]
+}

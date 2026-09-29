@@ -1,0 +1,201 @@
+{
+  "topic": "Apakah AI bisa disebut memahami bahasa?",
+  "topic_restated": "Apakah sistem kecerdasan buatan — khususnya model bahasa besar (LLM) yang ada saat ini, dan sistem AI secara prinsip — dapat secara tepat dikatakan memahami bahasa, dan jika ya, dalam arti 'memahami' yang mana?",
+  "formula": "Pemenang adalah argumen yang paling tahan terhadap rubrik pengujian yang diterapkan dalam simulasi ini.",
+  "generated_at": "2026-09-29T13:25:32+00:00",
+  "config": {
+    "topic": "Apakah AI bisa disebut memahami bahasa?",
+    "mode": "balanced",
+    "population": 16,
+    "deep_round_threshold": 8,
+    "max_parallel": 5,
+    "random_seed": 3171064302,
+    "evidence_mode": "internal",
+    "language": "id",
+    "gen_batch": 25,
+    "scout_batch": 25,
+    "early_method": "llm_single",
+    "duel_batch": 20,
+    "deep_panel": 3,
+    "deep_batch": 4,
+    "semifinal_panel": 5,
+    "final_panel": 5,
+    "falsification_panel": 2,
+    "dedup_review": true,
+    "max_refill_rounds": 2,
+    "output_dir": ".claude/skills/argument-battle-royale/examples/sample-run"
+  },
+  "counts": {
+    "generated": 16,
+    "status": {
+      "valid": 16
+    },
+    "dq_codes": {},
+    "bracket_entrants": 16,
+    "bracket_size": 16,
+    "byes": 0
+  },
+  "champion": {
+    "id": "F0005",
+    "title": "Profil campuran pragmatik: penjelasan terbaik adalah pemahaman parsial",
+    "thesis": "Pola keberhasilan dan kegagalan LLM yang khas — kuat pada semantik literal dan banyak implikatur, rapuh pada komitmen jangka panjang, referensi dunia nyata, dan konsistensi — paling baik dijelaskan oleh hipotesis pemahaman parsial, bukan oleh pemahaman penuh maupun pencocokan pola belaka.",
+    "stance_id": "S2",
+    "stance": "Ya secara parsial dan bergradasi",
+    "framework_id": "K5",
+    "seed": 1
+  },
+  "runner_up": {
+    "id": "F0009",
+    "title": "Uji dunia kontrafaktual",
+    "thesis": "Memahami sebuah konsep mencakup kemampuan menerapkannya kembali ketika konvensi atau dunia diubah secara eksplisit; LLM saat ini merosot tajam pada varian kontrafaktual tugas yang mereka kuasai, menandakan ketergantungan pada pola hafalan, sehingga belum memahami — meski sistem yang lulus uji ini akan memahami.",
+    "stance_id": "S3",
+    "stance": "Tidak untuk AI saat ini, mungkin secara prinsip",
+    "framework_id": "K4",
+    "seed": 2
+  },
+  "semifinalists": [
+    {
+      "id": "F0014",
+      "title": "Konsep klaster yang terbelah: sengketa verbal",
+      "thesis": "Perselisihan tentang apakah AI memahami bahasa paling baik dijelaskan sebagai sengketa verbal: 'memahami' adalah konsep klaster yang kriterianya selalu muncul bersama pada manusia tetapi terbelah pada AI, dan tidak ada fakta lebih lanjut yang menentukan kriteria mana yang esensial.",
+      "stance_id": "S5",
+      "stance": "Deflasioner: pertanyaan tidak memiliki jawaban faktual tunggal",
+      "framework_id": "K1",
+      "seed": 4
+    },
+    {
+      "id": "F0001",
+      "title": "Paritas mekanistik: representasi dunia internal",
+      "thesis": "LLM mutakhir memahami bahasa dalam arti yang sejenis dengan manusia, karena jenis bukti yang kita terima untuk atribusi pemahaman pada manusia — penggunaan inferensial yang sistematis ditambah representasi internal terstruktur yang secara kausal mengendalikan perilaku — juga ada pada LLM.",
+      "stance_id": "S1",
+      "stance": "Ya, secara substantif",
+      "framework_id": "K4",
+      "seed": 3
+    }
+  ],
+  "winner": {
+    "id": "F0005",
+    "title": "Profil campuran pragmatik: penjelasan terbaik adalah pemahaman parsial",
+    "thesis": "Pola keberhasilan dan kegagalan LLM yang khas — kuat pada semantik literal dan banyak implikatur, rapuh pada komitmen jangka panjang, referensi dunia nyata, dan konsistensi — paling baik dijelaskan oleh hipotesis pemahaman parsial, bukan oleh pemahaman penuh maupun pencocokan pola belaka.",
+    "stance_id": "S2",
+    "stance": "Ya secara parsial dan bergradasi",
+    "framework_id": "K5",
+    "seed": 1
+  },
+  "winner_falsification_status": "SURVIVED_WITH_DAMAGE",
+  "falsification": [
+    {
+      "fighter_id": "F0005",
+      "aggregate": "SURVIVED_WITH_DAMAGE",
+      "testers": [
+        {
+          "tester": "T1",
+          "verdict": "SURVIVED_WITH_DAMAGE",
+          "residual_confidence": 0.6,
+          "required_qualifications": [
+            "Nyatakan klausul mekanisme secara eksplisit: keberhasilan dihitung sebagai kompetensi hanya bila tidak dapat dijelaskan oleh hafalan atau pencarian.",
+            "Rumuskan ulang komitmen empiris: kegagalan terstruktur menurut dimensi kompetensi dan jarak dari distribusi latih.",
+            "Kunci daftar dimensi beserta uji operasionalnya sebelum evaluasi baru agar prediksi tetap berisiko.",
+            "Batasi klaim kompetensi pada wilayah dekat distribusi latih kecuali lolos uji kontrafaktual."
+          ],
+          "summary": "Inti argumen — pemahaman multidimensional dan bergradasi, dengan kompetensi nyata LLM di sebagian dimensi — bertahan dari kontra-contoh, reductio, perbandingan rival, dan kasus batas. Satu komitmen bantu (kegagalan berkelompok hanya menurut dimensi) gugur oleh data kontrafaktual lintas tugas, dan dua komitmen inti rusak ringan: kriteria kompetensi memerlukan klausul mekanisme eksplisit, dan penambahan faktor jarak-distribusi belum terbukti progresif. Argumen tetap dapat dipertahankan dengan kualifikasi yang dicantumkan."
+        },
+        {
+          "tester": "T2",
+          "verdict": "SURVIVED_WITH_DAMAGE",
+          "residual_confidence": 0.55,
+          "required_qualifications": [
+            "Pisahkan pelacakan komitmen (agensi rasional) dari pemahaman isi agar tidak menghasilkan vonis aneh bagi manusia sugestibel.",
+            "Akui bahwa kompetensi inferensial LLM terikat pada prior yang kuat dan melemah ketika definisi dalam konteks bertentangan dengan makna lazim.",
+            "Uji apakah kegagalan komitmen bertahan setelah artefak optimisasi preferensi dikendalikan; bila tidak, dimensi itu harus dihapus."
+          ],
+          "summary": "Argumen bertahan terhadap reductio dan tekanan konseptual terhadap gagasan gradasi, dan prediksinya tentang model multimodal sesuai. Kerusakan terletak pada dimensi pelacakan komitmen (yang tampaknya milik agensi rasional, bukan pemahaman), pada keterikatan kompetensi inferensial terhadap prior, dan pada keunggulan parsimoni rival satu-variabel. Satu komitmen bantu (C4 dalam rumusan asli) gugur. Tidak ada komitmen inti yang gagal."
+        }
+      ]
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "label": "Babak 16 besar (Eliminasi)",
+      "stage": "elimination",
+      "method": "llm_single",
+      "panel": 1,
+      "duels": 8,
+      "upsets": 0,
+      "inconsistencies": 0
+    },
+    {
+      "round": 2,
+      "label": "Babak 8 besar (Deep review)",
+      "stage": "deep_review",
+      "method": "panel",
+      "panel": 3,
+      "duels": 4,
+      "upsets": 0,
+      "inconsistencies": 0
+    },
+    {
+      "round": 3,
+      "label": "Semifinal",
+      "stage": "semifinal",
+      "method": "panel_debate",
+      "panel": 5,
+      "duels": 2,
+      "upsets": 0,
+      "inconsistencies": 0
+    },
+    {
+      "round": 4,
+      "label": "Final",
+      "stage": "final",
+      "method": "panel_debate",
+      "panel": 5,
+      "duels": 1,
+      "upsets": 0,
+      "inconsistencies": 0
+    }
+  ],
+  "stance_survival": {
+    "S1": [
+      3,
+      1,
+      1,
+      0,
+      0
+    ],
+    "S2": [
+      3,
+      3,
+      1,
+      1,
+      1
+    ],
+    "S3": [
+      4,
+      3,
+      1,
+      1,
+      0
+    ],
+    "S4": [
+      3,
+      0,
+      0,
+      0,
+      0
+    ],
+    "S5": [
+      3,
+      1,
+      1,
+      0,
+      0
+    ]
+  },
+  "flags": [],
+  "integrity_pre_report": {
+    "ok": true,
+    "digest": "e1307287b0d478acac872b02fc65efcc01c3ba7a7dfa9cec287e14884634bac5"
+  }
+}

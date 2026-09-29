@@ -1,0 +1,60 @@
+{
+  "record": {
+    "id": "P0006-judge",
+    "type": "judge",
+    "stage": "round:2:judge",
+    "status": "pending",
+    "attempts": 0,
+    "input_hash": "25ee35efa8df2ab89198e6c633eed17f48083403c6b8762fd7fa2f8ffb997ced",
+    "created_at": "2026-09-29T13:11:03+00:00",
+    "meta": {},
+    "errors": []
+  },
+  "payload": {
+    "round": 2,
+    "lens": {
+      "id": "L2",
+      "label": "Filsuf sains",
+      "focus": "Kecukupan empiris, falsifiabilitas (Popper), inferensi ke penjelasan terbaik, parsimoni, program riset (Lakatos): inti keras vs sabuk pelindung."
+    },
+    "duels": [
+      {
+        "duel_id": "R02-M0001",
+        "a": "F0005",
+        "b": "F0010",
+        "presentation": {
+          "X": "b",
+          "Y": "a"
+        }
+      },
+      {
+        "duel_id": "R02-M0002",
+        "a": "F0014",
+        "b": "F0008",
+        "presentation": {
+          "X": "b",
+          "Y": "a"
+        }
+      },
+      {
+        "duel_id": "R02-M0003",
+        "a": "F0009",
+        "b": "F0006",
+        "presentation": {
+          "X": "a",
+          "Y": "b"
+        }
+      },
+      {
+        "duel_id": "R02-M0004",
+        "a": "F0001",
+        "b": "F0004",
+        "presentation": {
+          "X": "a",
+          "Y": "b"
+        }
+      }
+    ],
+    "stage": "deep_review"
+  }
+}

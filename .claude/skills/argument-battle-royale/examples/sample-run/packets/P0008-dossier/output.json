@@ -1,0 +1,53 @@
+{
+  "packet_id": "P0008-dossier",
+  "input_hash": "5f70921b5c859c64668fac14c93253fbf29f78a52e2bbca4b6ac50804c5d8443",
+  "fighter_id": "F0005",
+  "standard_form": [
+    "P1: LLM berhasil pada inferensi komposisional baru dan implikatur yang tidak dapat dipecahkan dengan pencocokan literal.",
+    "P2: LLM menunjukkan kegagalan sistematis (relasi terbalik, kepekaan redaksi, menjilat) yang jarang terjadi pada penutur yang memahami.",
+    "P3 (tersirat): Pemahaman terdiri dari beberapa dimensi yang dapat berdisosiasi.",
+    "P4: Hipotesis pemahaman penuh tidak menjelaskan P2; hipotesis pencocokan pola dangkal tidak menjelaskan P1.",
+    "P5: Hipotesis pemahaman parsial memprediksi profil campuran per dimensi.",
+    "P6 (tersirat): Hipotesis yang menjelaskan semua data relevan dan membuat prediksi yang dapat diuji lebih layak diterima.",
+    "C: AI kontemporer memahami bahasa secara parsial dan bergradasi."
+  ],
+  "formal_skeleton": "D1 ∧ D2; H_penuh ⊬ D2; H_pola ⊬ D1; (M ∧ H_parsial) ⊢ D1 ∧ D2; ⇒ (IBE, P6) terima H_parsial, dengan M = asumsi multidimensionalitas (P3).",
+  "hard_core": [
+    "Pemahaman bersifat multidimensional dan bergradasi.",
+    "LLM memiliki sebagian dimensi pemahaman secara nyata, bukan semata hafalan."
+  ],
+  "protective_belt": [
+    "Daftar dimensi spesifik (inferensial, pragmatik lokal, pelacakan komitmen, grounding referensial).",
+    "Tafsiran bahwa kegagalan tertentu (relasi terbalik, menjilat) mencerminkan dimensi yang hilang, bukan batas kinerja sementara."
+  ],
+  "key_definitions": [
+    "pemahaman parsial: memiliki sebagian dimensi pemahaman tanpa dimensi lain"
+  ],
+  "empirical_commitments": [
+    "Keberhasilan LLM pada inferensi komposisional baru tidak dapat dijelaskan oleh kontaminasi data latih.",
+    "Kegagalan LLM bersifat sistematis dan berkelompok menurut dimensi, bukan acak."
+  ],
+  "falsifiers": [
+    "Kegagalan sistematis hilang sepenuhnya dengan skala atau pelatihan tanpa perubahan arsitektur.",
+    "Keberhasilan pada inferensi baru terbukti berasal dari kontaminasi.",
+    "Kegagalan tersebar acak dan tidak mengikuti garis dimensi mana pun."
+  ],
+  "strongest_objections": [
+    {"objection": "Pengelompokan kegagalan ke dalam 'dimensi' dapat dilakukan setelah melihat data, sehingga prediksi per dimensi tidak benar-benar berisiko.", "source": "history", "severity": "high", "status": "partially_answered"},
+    {"objection": "Apa yang membuat sesuatu menjadi satu dimensi pemahaman, bukan sekadar satu jenis tugas? Tanpa analisis konseptual, 'dimensi' hanya label untuk kelompok tugas.", "source": "history", "severity": "medium", "status": "unanswered"},
+    {"objection": "Jika pemahaman penuh mensyaratkan kesadaran, 'pemahaman fungsional' hanyalah pemrosesan dan label 'parsial' menyesatkan.", "source": "history", "severity": "medium", "status": "partially_answered"},
+    {"objection": "Tanpa ambang minimum, hampir semua sistem pemroses informasi (bahkan termostat) memahami 'sebagian', sehingga label itu kehilangan daya pembeda.", "source": "new", "severity": "medium", "status": "partially_answered"},
+    {"objection": "Jika kegagalan komitmen hilang karena pelatihan yang berbeda, tidak jelas apakah pemahaman bertambah atau hanya perilaku yang dipoles.", "source": "history", "severity": "low", "status": "answered"}
+  ],
+  "vulnerabilities": [
+    "Daftar dimensi belum dikunci secara eksplisit sebelum pengujian.",
+    "Tidak ada kriteria ambang yang memisahkan 'parsial' dari 'tidak ada'.",
+    "Bergantung pada karakterisasi empiris kegagalan yang dapat berubah antar-generasi model."
+  ],
+  "strengths": [
+    "Menjelaskan data keberhasilan dan kegagalan sekaligus, termasuk data yang dipakai lawan.",
+    "Membuat prediksi yang dapat diuji dan menyebut falsifier yang jelas.",
+    "Cakupan klaim sesuai dengan dukungannya; adil terhadap kedua kubu."
+  ],
+  "assessment": "Argumen ini paling kokoh secara empiris di antara finalis karena menyerap data yang dipakai lawan-lawannya ke dalam satu penjelasan. Titik rawannya konseptual, bukan empiris: 'dimensi' belum dianalisis dan belum dikunci sebelum data dilihat, sehingga keunggulan abduktifnya dapat dituduh post hoc. Jika penyerang berhasil menunjukkan bahwa label 'parsial' tidak memiliki ambang, posisi ini dapat terlihat seperti kompromi yang tidak berisiko. Pembela perlu menunjukkan bahwa dimensi dapat diidentifikasi secara independen dari hasil tugas."
+}

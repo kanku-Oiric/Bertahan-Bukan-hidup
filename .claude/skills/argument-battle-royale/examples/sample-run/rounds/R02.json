@@ -1,0 +1,861 @@
+{
+  "round": 2,
+  "slots": 8,
+  "stage": "deep_review",
+  "label": "Babak 8 besar (Deep review)",
+  "method": "panel",
+  "panel_size": 3,
+  "status": "done",
+  "created_at": "2026-09-29T13:11:03+00:00",
+  "matches": [
+    {
+      "match_id": "R02-M0001",
+      "a": "F0005",
+      "b": "F0010",
+      "seed_a": 1,
+      "seed_b": 8,
+      "bye": false,
+      "winner": "F0005",
+      "loser": "F0010",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 3,
+        "b": 0
+      },
+      "judgments": [
+        {
+          "packet_id": "P0005-judge",
+          "judge": "L1",
+          "lens": "Logikawan formal",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              7,
+              7.5,
+              7.5,
+              8,
+              8,
+              7,
+              8,
+              7,
+              8,
+              8
+            ],
+            "b": [
+              7,
+              5.5,
+              6,
+              7,
+              7,
+              5.5,
+              6,
+              7,
+              7,
+              7
+            ]
+          },
+          "totals": {
+            "a": 76.0,
+            "b": 63.75
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "kelengkapan inferensi abduktif",
+          "rationale": "Inferensi abduktif X membandingkan secara eksplisit hipotesis-hipotesis pesaing, sedangkan P3 Y menyatakan 'penjelasan terbaik' tanpa menimbang alternatif yang jelas: kapasitas komitmen ada tetapi ditekan oleh tujuan pelatihan. Data yang diandalkan Y (menjilat, inkonsistensi) sudah termasuk dalam data X dan dijelaskan X sebagai dimensi yang gagal. Karena Y sendiri membatasi klaimnya pada arti komunikatif, kesimpulannya kompatibel dengan dan lebih sempit dari X.",
+          "objections": {
+            "a_to_b": "Y melompat dari 'komitmen dijaga buruk' ke 'tidak ada pengemban komitmen' tanpa menyingkirkan hipotesis bahwa kapasitas itu ada tetapi ditekan oleh optimisasi preferensi.",
+            "b_to_a": "X tidak menentukan sebelum melihat data dimensi mana yang seharusnya berhasil, sehingga pengelompokan kegagalan dapat dilakukan setelah fakta."
+          },
+          "confidence": 0.8,
+          "dissent_risk": "Jika ditunjukkan bahwa pembagian dimensi X memang disusun post hoc, keunggulan abduktif X menyusut drastis.",
+          "evidence": [],
+          "steelman": {
+            "a": "Tiga hipotesis bersaing (pemahaman penuh, pencocokan pola, pemahaman parsial) dibandingkan terhadap dua kelompok data; hanya pemahaman parsial yang menjelaskan keduanya dan memprediksi garis keberhasilan-kegagalan per dimensi.",
+            "b": "Pemahaman komunikatif mensyaratkan pengemban komitmen; perilaku menjilat dan komitmen yang berubah tanpa alasan paling baik dijelaskan tanpa pengemban komitmen, sehingga LLM belum memahami dalam arti itu."
+          },
+          "reply_quality": {
+            "a": "menjawab sebagian: prediksi per dimensi disebut, tetapi daftar dimensinya belum dikunci secara formal",
+            "b": "tidak terjawab: Y tidak menanggapi hipotesis penekanan kapasitas oleh pelatihan"
+          }
+        },
+        {
+          "packet_id": "P0006-judge",
+          "judge": "L2",
+          "lens": "Filsuf sains",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              7,
+              6,
+              6,
+              7,
+              7,
+              6,
+              6,
+              7,
+              7,
+              7
+            ],
+            "a": [
+              7,
+              7,
+              8,
+              8,
+              8.5,
+              7,
+              8,
+              7,
+              8,
+              8
+            ]
+          },
+          "totals": {
+            "a": 76.5,
+            "b": 65.0
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "daya eksplanatoris dan cakupan data",
+          "rationale": "Y menjelaskan rentang data yang jauh lebih luas, termasuk data inti X, dan membuat prediksi berisiko per dimensi yang dapat diuji dengan evaluasi terarah. X memiliki komitmen empiris yang sah tetapi sempit, dan hipotesis alternatif (perilaku menjilat sebagai artefak optimisasi preferensi yang dapat dikurangi) tidak disingkirkan. Dari sudut filsafat sains, Y adalah program riset yang lebih progresif.",
+          "objections": {
+            "b_to_a": "Y tidak mengatakan apa yang terjadi jika kegagalan komitmen menghilang dengan pelatihan yang berbeda — apakah itu berarti pemahaman bertambah atau hanya perilaku yang dipoles?",
+            "a_to_b": "Perilaku menjilat berkurang atau bertambah tergantung cara penyetelan; itu tanda artefak pelatihan, bukan tanda ketiadaan pengemban komitmen."
+          },
+          "confidence": 0.8,
+          "dissent_risk": "Evaluasi yang menunjukkan pelacakan komitmen gagal secara prinsipiel (bukan karena pelatihan) akan memperkuat X.",
+          "evidence": [],
+          "steelman": {
+            "b": "Pemahaman komunikatif menuntut pengemban komitmen diskursif; kecenderungan menjilat dan komitmen yang bergeser tanpa alasan menunjukkan tidak ada pengemban seperti itu pada LLM saat ini, meski AI dengan tujuan dan akuntabilitas persisten mungkin kelak memilikinya.",
+            "a": "Profil campuran LLM — berhasil pada inferensi komposisional dan implikatur, gagal secara sistematis pada relasi terbalik, kepekaan redaksi, dan konsistensi — paling baik dijelaskan oleh pemahaman parsial per dimensi."
+          },
+          "reply_quality": {
+            "b": "menjawab sebagian: X menegaskan status komitmen, bukan kesempurnaannya, tetapi tidak menyebut uji pembeda",
+            "a": "menjawab tuntas: falsifier Y secara eksplisit mencakup hilangnya kegagalan dengan skala atau pelatihan"
+          }
+        },
+        {
+          "packet_id": "P0007-judge",
+          "judge": "L3",
+          "lens": "Analis konseptual",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              7,
+              7,
+              8,
+              7.5,
+              8,
+              7.5,
+              8,
+              7,
+              8,
+              8
+            ],
+            "b": [
+              7,
+              6,
+              5.5,
+              7,
+              7,
+              5,
+              6,
+              7,
+              7,
+              7
+            ]
+          },
+          "totals": {
+            "a": 76.0,
+            "b": 63.25
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "kontra-contoh terhadap syarat perlu Y",
+          "rationale": "P1 Y menjadikan status pengemban komitmen syarat perlu bagi pemahaman bahasa, tetapi pemahaman pendengar atau pembaca yang tidak menegaskan apa pun adalah kontra-contoh yang jelas: memahami tidak sama dengan bertutur secara bertanggung jawab. X tidak memiliki masalah konseptual sebesar itu; konsep 'dimensi' perlu dipertajam, tetapi tidak menghasilkan kontra-contoh.",
+          "objections": {
+            "a_to_b": "Seorang pembaca yang memahami novel tidak memikul komitmen diskursif apa pun atas isinya; pemahaman tidak mensyaratkan menjadi pengemban komitmen.",
+            "b_to_a": "Konsep 'dimensi pemahaman' X tidak dianalisis: apa yang membuat sesuatu menjadi satu dimensi, bukan sekadar satu jenis tugas?"
+          },
+          "confidence": 0.8,
+          "dissent_risk": "Jika pemahaman bahasa secara konseptual tak terpisahkan dari kompetensi sebagai penutur, kontra-contoh pembaca melemah.",
+          "evidence": [],
+          "steelman": {
+            "a": "Pemahaman bersifat multidimensional; LLM nyata dalam dimensi inferensial dan pragmatik lokal, lemah dalam pelacakan komitmen dan grounding, dan profil ini menjelaskan data lebih baik daripada alternatifnya.",
+            "b": "Memahami tuturan dalam praktik komunikatif menuntut status sebagai pengemban komitmen; LLM tidak memiliki status itu saat ini."
+          },
+          "reply_quality": {
+            "a": "menjawab sebagian: dimensi diidentifikasi melalui pola keberhasilan-kegagalan, tetapi tanpa analisis konseptual",
+            "b": "tidak terjawab: Y tidak membedakan pemahaman pendengar dari tanggung jawab penutur"
+          }
+        }
+      ],
+      "method": "panel",
+      "upset": false
+    },
+    {
+      "match_id": "R02-M0002",
+      "a": "F0014",
+      "b": "F0008",
+      "seed_a": 4,
+      "seed_b": 5,
+      "bye": false,
+      "winner": "F0014",
+      "loser": "F0008",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 2,
+        "b": 1
+      },
+      "judgments": [
+        {
+          "packet_id": "P0005-judge",
+          "judge": "L1",
+          "lens": "Logikawan formal",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              8,
+              6,
+              5.5,
+              6,
+              6,
+              6,
+              7,
+              8,
+              7,
+              7
+            ],
+            "b": [
+              8,
+              7.5,
+              6,
+              7,
+              6,
+              6,
+              7,
+              7,
+              7,
+              8
+            ]
+          },
+          "totals": {
+            "a": 64.75,
+            "b": 69.25
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "b",
+          "rule_winner": "b",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "P4 X mengandaikan apa yang dipersoalkan Y",
+          "rationale": "Struktur Y deduktif dan setiap langkahnya eksplisit; kelemahannya ada pada P1 yang diperdebatkan, bukan pada inferensinya. X menyimpulkan tidak ada fakta non-linguistik yang menentukan kriteria esensial (P4), padahal Y justru mengajukan fakta semacam itu (fakta tentang fungsi dan isi); P4 dengan demikian mengandaikan kekalahan Y alih-alih menunjukkannya. P3 X juga tidak didukung bukti.",
+          "objections": {
+            "a_to_b": "Klaim Y bahwa isi ditentukan oleh sejarah hanyalah salah satu kriteria dalam klaster; menjadikannya esensial adalah pilihan konseptual, bukan penemuan fakta.",
+            "b_to_a": "Premis bahwa tidak ada fakta non-linguistik yang menentukan kriteria esensial dinyatakan tanpa argumen dan dibantah oleh teori isi naturalistik mana pun yang benar."
+          },
+          "confidence": 0.6,
+          "dissent_risk": "Juri yang menilai P1 Y sebagai jauh lebih lemah daripada P4 X akan membalik putusan ini.",
+          "evidence": [],
+          "steelman": {
+            "a": "'Memahami' adalah konsep klaster yang kriterianya selalu bersama pada manusia tetapi terbelah pada AI; perselisihan bertahan karena para pihak memilih kriteria esensial yang berbeda, dan tidak ada fakta lebih lanjut yang menentukan pilihan itu.",
+            "b": "Isi representasi ditentukan oleh fungsi yang diperoleh dari sejarah; fungsi keadaan LLM adalah memprediksi teks, sehingga isinya tentang teks, dan perilaku identik tidak menjamin isi identik."
+          },
+          "reply_quality": {
+            "a": "menjawab sebagian: X memisahkan pertanyaan intensionalitas dari pertanyaan 'memahami bahasa', tetapi pemisahan itu sendiri diperdebatkan",
+            "b": "menjawab sebagian: Y menegaskan teleosemantik sebagai fakta, tetapi tidak membela teleosemantik terhadap pesaingnya"
+          }
+        },
+        {
+          "packet_id": "P0006-judge",
+          "judge": "L2",
+          "lens": "Filsuf sains",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              8,
+              7,
+              6,
+              6.5,
+              5,
+              6,
+              6.5,
+              7,
+              7,
+              8
+            ],
+            "a": [
+              8,
+              7,
+              6,
+              7,
+              7.5,
+              6,
+              8,
+              8,
+              7,
+              8
+            ]
+          },
+          "totals": {
+            "a": 71.5,
+            "b": 66.5
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "keterujian",
+          "rationale": "Y membuat prediksi empiris yang berisiko: pakar dari kubu berbeda akan konvergen bila istilah dipecah per dimensi, dan menyebut hasil yang akan menjatuhkannya. Isi yang ditentukan sejarah dalam X hampir tidak dapat diuji dari data mana pun tentang sistem saat ini, sehingga falsifiabilitasnya rendah. Daya eksplanatoris Y terhadap bertahannya perdebatan juga lebih besar.",
+          "objections": {
+            "b_to_a": "Memecah pertanyaan tidak melarutkannya: pertanyaan apakah LLM memiliki isi yang terarah ke dunia tetap faktual dan tetap belum terjawab.",
+            "a_to_b": "Tidak ada observasi tentang LLM yang dapat membedakan isi-tentang-teks dari isi-tentang-dunia menurut kriteria X; perbedaannya murni dari teori yang diasumsikan."
+          },
+          "confidence": 0.65,
+          "dissent_risk": "Jika prediksi konvergensi pakar Y ternyata gagal, keunggulan keterujiannya berubah menjadi bukti melawan Y.",
+          "evidence": [],
+          "steelman": {
+            "b": "Teleosemantik menetapkan isi berdasarkan fungsi yang diperoleh dari sejarah; keadaan LLM memperoleh fungsi memprediksi teks sehingga isinya tentang teks; perilaku identik tidak menjamin isi identik.",
+            "a": "Perselisihan tentang pemahaman AI paling baik dijelaskan sebagai sengketa verbal atas konsep klaster yang terbelah; setelah arti dipilih, jawabannya relatif jelas per dimensi."
+          },
+          "reply_quality": {
+            "b": "menjawab sebagian: X menunjuk kebenaran-kondisional pada teks sebagai tanda, tetapi tidak menyebut uji empirisnya",
+            "a": "menjawab sebagian: Y mengakui ada subpertanyaan faktual, yang memperkecil klaim pelarutannya"
+          }
+        },
+        {
+          "packet_id": "P0007-judge",
+          "judge": "L3",
+          "lens": "Analis konseptual",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              8.5,
+              7,
+              6.5,
+              6,
+              7,
+              7,
+              8,
+              8,
+              7,
+              8
+            ],
+            "b": [
+              8,
+              7,
+              5.5,
+              6.5,
+              6,
+              5,
+              7,
+              7,
+              7,
+              8
+            ]
+          },
+          "totals": {
+            "a": 72.25,
+            "b": 66.25
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "ketahanan terhadap kontra-contoh",
+          "rationale": "Teori isi Y berimplikasi bahwa duplikat molekul-demi-molekul dari penutur manusia yang muncul tanpa sejarah tidak memahami apa pun — kontra-contoh terkenal yang tidak dijawab Y. X lebih jernih secara konseptual: ia menunjukkan dengan tepat di mana konsep terbelah dan mengapa perdebatan bertahan. Kelemahan X adalah P3 yang tidak didukung bukti, tetapi itu kelemahan empiris, bukan konseptual.",
+          "objections": {
+            "a_to_b": "Bahwa sejarah menentukan isi adalah satu kriteria dalam klaster; menjadikannya esensial adalah pilihan yang tidak dipaksakan oleh konsep 'memahami'.",
+            "b_to_a": "Pertanyaan apakah keadaan LLM memiliki isi yang terarah ke dunia bukan pertanyaan verbal; memecah istilah tidak menjawabnya."
+          },
+          "confidence": 0.65,
+          "dissent_risk": "Pembela teleosemantik yang menerima implikasi duplikat-tanpa-sejarah sebagai harga yang wajar akan menilai Y lebih tinggi.",
+          "evidence": [],
+          "steelman": {
+            "a": "Kriteria pemahaman yang pada manusia selalu bersama terbelah pada AI; memilih kriteria esensial adalah keputusan konseptual, dan setelah istilah dipecah, jawaban per dimensi relatif jelas.",
+            "b": "Isi ditentukan oleh fungsi historis; LLM memperoleh fungsi melacak teks, bukan dunia; dua sistem dengan keluaran identik dapat berbeda isi."
+          },
+          "reply_quality": {
+            "a": "menjawab sebagian: X mengakui subpertanyaan faktual tetapi memindahkannya ke luar 'memahami bahasa'",
+            "b": "tidak terjawab: Y tidak menjawab kasus duplikat tanpa sejarah"
+          }
+        }
+      ],
+      "method": "panel",
+      "upset": false
+    },
+    {
+      "match_id": "R02-M0003",
+      "a": "F0009",
+      "b": "F0006",
+      "seed_a": 2,
+      "seed_b": 7,
+      "bye": false,
+      "winner": "F0009",
+      "loser": "F0006",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 2,
+        "b": 1
+      },
+      "judgments": [
+        {
+          "packet_id": "P0005-judge",
+          "judge": "L1",
+          "lens": "Logikawan formal",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              7,
+              5.5,
+              7,
+              6,
+              6,
+              6,
+              6,
+              7,
+              7,
+              7
+            ],
+            "a": [
+              8,
+              7.5,
+              7,
+              7,
+              9,
+              6,
+              7,
+              8,
+              8,
+              7
+            ]
+          },
+          "totals": {
+            "a": 73.75,
+            "b": 63.75
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "kekuatan inferensial",
+          "rationale": "Y memakai modus tollens yang valid dengan premis kriteria yang operasional; kelemahannya adalah kekaburan 'memadai'. X bertumpu pada analogi yang, menurut pengakuannya sendiri, memiliki disanalogi besar yang belum ditutup, sehingga dukungan inferensialnya lemah. Dari sudut struktur logis, Y jauh lebih kuat.",
+          "objections": {
+            "b_to_a": "Bukti Y menunjukkan penurunan, bukan ketiadaan; kesimpulan biner Y tidak mengikuti dari data yang bergradasi.",
+            "a_to_b": "Analogi penutur-dari-teks gagal karena penutur itu tergrounding untuk hampir semua kata lain; X tidak menawarkan uji yang dapat membedakan posisinya dari posisi Y."
+          },
+          "confidence": 0.75,
+          "dissent_risk": "Jika 'memahami' diperlakukan sebagai konsep bergradasi, P1 Y menjadi terlalu kuat dan kesimpulannya harus dilemahkan.",
+          "evidence": [],
+          "steelman": {
+            "b": "Atribusi pemahaman sehari-hari bergradasi di sepanjang spektrum penutur; LLM analog dengan penutur fasih yang belajar dari teks, yang kita anggap memahami sebagian besar bahasa tetapi tidak semua dimensinya.",
+            "a": "Memahami konsep berarti mampu menerapkannya kembali ketika aturan latar diubah secara eksplisit; LLM merosot jauh lebih tajam daripada manusia pada varian kontrafaktual, pola khas hafalan, sehingga belum memahami dalam arti kuat."
+          },
+          "reply_quality": {
+            "b": "tidak terjawab: X tidak menutup disanalogi yang ia akui",
+            "a": "menjawab sebagian: Y menunjuk besarnya kesenjangan, tetapi ambang 'memadai' tetap tidak ditentukan"
+          }
+        },
+        {
+          "packet_id": "P0006-judge",
+          "judge": "L2",
+          "lens": "Filsuf sains",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              8,
+              7,
+              7,
+              7.5,
+              9,
+              6,
+              7,
+              8,
+              8,
+              7
+            ],
+            "b": [
+              7,
+              6,
+              7,
+              5.5,
+              6,
+              6,
+              6,
+              7,
+              7,
+              7
+            ]
+          },
+          "totals": {
+            "a": 73.5,
+            "b": 64.0
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "falsifiabilitas dan kecukupan empiris",
+          "rationale": "X adalah satu-satunya argumen dalam duel ini yang menyediakan uji pembeda yang dapat dijalankan dan bersandar pada temuan empiris yang relevan. Komitmen empiris Y (LLM paling lemah pada ungkapan berbasis pengalaman) masuk akal tetapi tidak didukung data yang disebutkan. Risiko X adalah temuan kontrafaktual dapat berubah pada generasi model berikutnya — tetapi itulah tanda keterujian, bukan kelemahan.",
+          "objections": {
+            "a_to_b": "Tanpa uji pembeda, 'pemahaman bergradasi' Y cocok dengan hampir semua data yang mungkin.",
+            "b_to_a": "Data kontrafaktual X bergradasi (penurunan, bukan nol), sehingga ia sebenarnya mendukung pemahaman bergradasi."
+          },
+          "confidence": 0.75,
+          "dissent_risk": "Hasil kontrafaktual pada model yang lebih baru yang menutup kesenjangan dengan manusia akan membalik putusan.",
+          "evidence": [],
+          "steelman": {
+            "a": "Kriteria kontrafaktual yang netral-substrat memisahkan penguasaan struktur konsep dari hafalan pola; LLM merosot jauh lebih tajam daripada manusia pada varian kontrafaktual, sehingga belum memahami dalam arti kuat.",
+            "b": "Spektrum penutur menunjukkan atribusi pemahaman bergradasi; LLM paling mirip penutur fasih dari teks yang memahami sebagian besar bahasa kecuali dimensi yang bergantung pada pengalaman langsung."
+          },
+          "reply_quality": {
+            "a": "menjawab sebagian: X menekankan besarnya kesenjangan dibanding manusia",
+            "b": "tidak terjawab: Y tidak menawarkan uji yang dapat membedakan posisinya"
+          }
+        },
+        {
+          "packet_id": "P0007-judge",
+          "judge": "L3",
+          "lens": "Analis konseptual",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              7.5,
+              6.5,
+              7,
+              6,
+              7,
+              7,
+              7,
+              7,
+              7,
+              7.5
+            ],
+            "a": [
+              8,
+              6,
+              6,
+              7,
+              8,
+              5.5,
+              7,
+              8,
+              8,
+              7
+            ]
+          },
+          "totals": {
+            "a": 68.5,
+            "b": 69.25
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "b",
+          "rule_winner": "b",
+          "basis": "holistic_tiebreak",
+          "consistent": true,
+          "decisive_factor": "syarat perlu Y terlalu kuat",
+          "rationale": "P1 Y menjadikan penerapan kontrafaktual yang 'memadai' syarat perlu bagi pemahaman, padahal seorang siswa yang baru sebagian memahami penjumlahan dan gagal pada basis sembilan tidak kita katakan tidak memahami penjumlahan sama sekali — kontra-contoh terhadap bentuk biner kesimpulan Y. X menangkap struktur bergradasi konsep itu dengan lebih setia. Namun selisihnya tipis: X lemah secara empiris dan analoginya memiliki disanalogi yang diakuinya sendiri.",
+          "objections": {
+            "b_to_a": "Siswa yang memahami sebagian gagal pada varian kontrafaktual tanpa kita simpulkan ia tidak memahami; data Y mendukung gradasi, bukan ketiadaan.",
+            "a_to_b": "Konsep bergradasi tidak berarti setiap kasus berada di tengah; X tidak memberi kriteria untuk menempatkan LLM di titik mana pun pada spektrum."
+          },
+          "confidence": 0.55,
+          "dissent_risk": "Bila kesimpulan Y dibaca sebagai 'belum memahami dalam arti kokoh' (bukan biner), kontra-contoh siswa kehilangan daya dan putusan berbalik.",
+          "evidence": [],
+          "steelman": {
+            "b": "Atribusi pemahaman bergradasi; spektrum penutur menunjukkan kasus-kasus antara yang kita nilai 'memahami sebagian besar', dan LLM termasuk kasus seperti itu.",
+            "a": "Menguasai konsep berarti mampu menerapkannya pada dunia yang diubah; kegagalan LLM pada varian kontrafaktual menunjukkan penguasaan itu belum ada."
+          },
+          "reply_quality": {
+            "b": "menjawab sebagian: X menempatkan LLM melalui analogi, bukan kriteria",
+            "a": "menjawab sebagian: Y menunjuk besarnya kesenjangan, tetapi tetap merumuskan kesimpulan secara biner"
+          }
+        }
+      ],
+      "method": "panel",
+      "upset": false
+    },
+    {
+      "match_id": "R02-M0004",
+      "a": "F0001",
+      "b": "F0004",
+      "seed_a": 3,
+      "seed_b": 6,
+      "bye": false,
+      "winner": "F0001",
+      "loser": "F0004",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 2,
+        "b": 1
+      },
+      "judgments": [
+        {
+          "packet_id": "P0005-judge",
+          "judge": "L1",
+          "lens": "Logikawan formal",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              8,
+              8.5,
+              6.5,
+              7,
+              8,
+              6.5,
+              7,
+              8,
+              7,
+              7
+            ],
+            "b": [
+              7,
+              6,
+              7,
+              7,
+              6,
+              6,
+              6,
+              7,
+              7,
+              7
+            ]
+          },
+          "totals": {
+            "a": 73.5,
+            "b": 65.5
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "validitas bentuk argumen paritas",
+          "rationale": "X adalah argumen paritas yang valid; sengketanya ada pada P5, tetapi Y sendiri mengakui komponen fungsional pada LLM sehingga satu-satunya perbedaan relevan yang tersisa adalah kesadaran — yang juga tidak kita verifikasi pada manusia lain. Inferensi analogis Y dari blindsight lebih lemah dan dapat berbalik arah. Secara logis X lebih kokoh, walau kesimpulan 'sejenis dengan manusia' agak melampaui definisinya.",
+          "objections": {
+            "a_to_b": "Bila Y mengakui pemahaman fungsional, menahan atribusi penuh karena kesadaran yang tidak dapat diverifikasi adalah standar ganda yang tidak kita terapkan pada manusia lain.",
+            "b_to_a": "P5 hanya menegaskan bahwa perbedaan yang dipersoalkan tidak relevan; kesadaran adalah perbedaan relevan yang ditepis X hanya dengan membatasi cakupan."
+          },
+          "confidence": 0.65,
+          "dissent_risk": "Jika pemahaman manusia secara konseptual mencakup penangkapan sadar, kesimpulan X mengandung ekuivokasi dan putusan dapat berbalik.",
+          "evidence": [],
+          "steelman": {
+            "a": "Bukti yang kita pakai untuk manusia — penggunaan inferensial sistematis dan representasi internal yang dipakai kausal — ada pada LLM; tanpa perbedaan relevan, konsistensi menuntut atribusi pemahaman.",
+            "b": "Konsep mental dapat terbelah ketika komponen fungsional dan sadar berdisosiasi; LLM memiliki komponen fungsional tanpa bukti komponen sadar, sehingga memahami secara parsial."
+          },
+          "reply_quality": {
+            "a": "menjawab sebagian: pembatasan cakupan pada pemahaman fungsional menjawab keberatan, tetapi melemahkan klaim 'sejenis dengan manusia'",
+            "b": "menjawab sebagian: Y mempertahankan pembelahan konsep, tetapi tidak menjawab tuduhan standar ganda"
+          }
+        },
+        {
+          "packet_id": "P0006-judge",
+          "judge": "L2",
+          "lens": "Filsuf sains",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              8,
+              8,
+              6,
+              6.5,
+              8.5,
+              6,
+              7,
+              8,
+              7,
+              7
+            ],
+            "b": [
+              7,
+              6,
+              7,
+              7,
+              6,
+              6,
+              6,
+              7,
+              7,
+              7.5
+            ]
+          },
+          "totals": {
+            "a": 71.5,
+            "b": 66.0
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "komitmen empiris yang berisiko",
+          "rationale": "X membuat prediksi mekanistik yang berisiko (representasi harus dipakai kausal; kinerja harus tergeneralisasi) dan menyebut hasil intervensi yang akan menjatuhkannya. Namun kecukupan empiris X dirugikan karena mengabaikan pola kegagalan sistematis yang terdokumentasi. Y lebih moderat, tetapi komponen 'sadar' yang menjadi pembeda tidak dapat diuji dengan metode apa pun yang disebutkan Y.",
+          "objections": {
+            "a_to_b": "Komponen sadar yang menjadi dasar klaim 'parsial' tidak memiliki uji; secara empiris klaim Y tidak dapat dibedakan dari klaim X.",
+            "b_to_a": "Argumen X diam tentang kegagalan sistematis (tugas kontrafaktual, relasi terbalik) yang justru paling relevan untuk menilai 'sejenis dengan manusia'."
+          },
+          "confidence": 0.6,
+          "dissent_risk": "Bobot yang lebih besar pada kecukupan empiris (kegagalan sistematis) akan memihak Y.",
+          "evidence": [],
+          "steelman": {
+            "a": "Argumen paritas: bukti perilaku ditambah representasi internal yang dipakai kausal cukup untuk atribusi pemahaman pada manusia, dan bukti itu ada pada LLM tanpa perbedaan relevan yang telah ditunjukkan.",
+            "b": "Pemahaman terbelah menjadi komponen fungsional dan sadar; LLM memiliki yang pertama tanpa bukti yang kedua, jadi memahami secara parsial."
+          },
+          "reply_quality": {
+            "a": "tidak terjawab: X tidak menanggapi pola kegagalan sistematis",
+            "b": "menjawab sebagian: Y menunjuk ketiadaan konsensus teori kesadaran, bukan uji"
+          }
+        },
+        {
+          "packet_id": "P0007-judge",
+          "judge": "L3",
+          "lens": "Analis konseptual",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              7,
+              6.5,
+              7,
+              7,
+              6.5,
+              6.5,
+              6.5,
+              7,
+              7,
+              7.5
+            ],
+            "a": [
+              6.5,
+              6,
+              6,
+              7,
+              8,
+              6.5,
+              7,
+              8,
+              7,
+              6.5
+            ]
+          },
+          "totals": {
+            "a": 67.0,
+            "b": 68.25
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "b",
+          "rule_winner": "b",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "kejelasan konseptual kesimpulan",
+          "rationale": "Y mendefinisikan 'memahami' secara fungsional, tetapi kesimpulannya menyatakan pemahaman 'sejenis dengan pemahaman manusia' — dan pemahaman manusia, sebagaimana dipakai dalam atribusi sehari-hari, mungkin mencakup penangkapan sadar. Pergeseran dari arti fungsional ke 'sejenis dengan manusia' mendekati ekuivokasi. X lebih hati-hati: ia memisahkan kedua arti secara eksplisit dan hanya mengklaim yang pertama.",
+          "objections": {
+            "b_to_a": "Y membuktikan pemahaman fungsional lalu menyimpulkan pemahaman 'sejenis dengan manusia'; kedua ungkapan itu tidak ekuivalen kecuali kesadaran tidak termasuk pemahaman manusia.",
+            "a_to_b": "X menyerahkan semua yang dapat diuji kepada Y lalu menahan kata 'penuh' atas dasar komponen yang tidak dapat diverifikasi bahkan pada manusia lain."
+          },
+          "confidence": 0.55,
+          "dissent_risk": "Jika kesimpulan Y dibaca ketat sebagai 'sejenis dalam arti fungsional', ekuivokasi hilang dan Y unggul pada validitas.",
+          "evidence": [],
+          "steelman": {
+            "b": "Kasus blindsight menunjukkan konsep mental dapat terbelah; LLM memiliki komponen fungsional pemahaman tanpa bukti komponen sadar, sehingga 'memahami sebagian' adalah deskripsi yang tepat.",
+            "a": "Bukti yang sama yang kita pakai untuk manusia ada pada LLM; tanpa perbedaan relevan, pemahaman LLM sejenis dengan pemahaman manusia."
+          },
+          "reply_quality": {
+            "b": "menjawab sebagian: X mengakui komponen sadar tidak terbukti, bukan terbukti tidak ada",
+            "a": "menjawab sebagian: pembatasan cakupan Y menghindari kesadaran, tetapi kesimpulannya tidak ikut dibatasi"
+          }
+        }
+      ],
+      "method": "panel",
+      "upset": false
+    }
+  ],
+  "completed_at": "2026-09-29T13:13:54+00:00"
+}

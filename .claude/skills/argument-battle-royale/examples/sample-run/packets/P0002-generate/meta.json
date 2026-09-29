@@ -1,0 +1,156 @@
+{
+  "record": {
+    "id": "P0002-generate",
+    "type": "generate",
+    "stage": "gen:0",
+    "status": "pending",
+    "attempts": 0,
+    "input_hash": "b3e051aa006dbcb993c07dbd79dbface3d4664c6b7bf29dbf3d026b8082c06b4",
+    "created_at": "2026-09-29T13:03:36+00:00",
+    "meta": {},
+    "errors": []
+  },
+  "payload": {
+    "slots": [
+      {
+        "cell_id": "S1-K4-M5",
+        "stance_id": "S1",
+        "framework_id": "K4",
+        "strategy_id": "M5",
+        "variant": 1,
+        "slot_id": "G0-S0001"
+      },
+      {
+        "cell_id": "S1-K5-M3",
+        "stance_id": "S1",
+        "framework_id": "K5",
+        "strategy_id": "M3",
+        "variant": 1,
+        "slot_id": "G0-S0002"
+      },
+      {
+        "cell_id": "S1-K6-M5",
+        "stance_id": "S1",
+        "framework_id": "K6",
+        "strategy_id": "M5",
+        "variant": 1,
+        "slot_id": "G0-S0003"
+      },
+      {
+        "cell_id": "S2-K3-M5",
+        "stance_id": "S2",
+        "framework_id": "K3",
+        "strategy_id": "M5",
+        "variant": 1,
+        "slot_id": "G0-S0004"
+      },
+      {
+        "cell_id": "S2-K5-M4",
+        "stance_id": "S2",
+        "framework_id": "K5",
+        "strategy_id": "M4",
+        "variant": 1,
+        "slot_id": "G0-S0005"
+      },
+      {
+        "cell_id": "S2-K6-M2",
+        "stance_id": "S2",
+        "framework_id": "K6",
+        "strategy_id": "M2",
+        "variant": 1,
+        "slot_id": "G0-S0006"
+      },
+      {
+        "cell_id": "S3-K2-M2",
+        "stance_id": "S3",
+        "framework_id": "K2",
+        "strategy_id": "M2",
+        "variant": 1,
+        "slot_id": "G0-S0007"
+      },
+      {
+        "cell_id": "S3-K3-M2",
+        "stance_id": "S3",
+        "framework_id": "K3",
+        "strategy_id": "M2",
+        "variant": 1,
+        "slot_id": "G0-S0008"
+      },
+      {
+        "cell_id": "S3-K4-M2",
+        "stance_id": "S3",
+        "framework_id": "K4",
+        "strategy_id": "M2",
+        "variant": 1,
+        "slot_id": "G0-S0009"
+      },
+      {
+        "cell_id": "S3-K5-M4",
+        "stance_id": "S3",
+        "framework_id": "K5",
+        "strategy_id": "M4",
+        "variant": 1,
+        "slot_id": "G0-S0010"
+      },
+      {
+        "cell_id": "S4-K2-M1",
+        "stance_id": "S4",
+        "framework_id": "K2",
+        "strategy_id": "M1",
+        "variant": 1,
+        "slot_id": "G0-S0011"
+      },
+      {
+        "cell_id": "S4-K3-M3",
+        "stance_id": "S4",
+        "framework_id": "K3",
+        "strategy_id": "M3",
+        "variant": 1,
+        "slot_id": "G0-S0012"
+      },
+      {
+        "cell_id": "S4-K5-M5",
+        "stance_id": "S4",
+        "framework_id": "K5",
+        "strategy_id": "M5",
+        "variant": 1,
+        "slot_id": "G0-S0013"
+      },
+      {
+        "cell_id": "S5-K1-M4",
+        "stance_id": "S5",
+        "framework_id": "K1",
+        "strategy_id": "M4",
+        "variant": 1,
+        "slot_id": "G0-S0014"
+      },
+      {
+        "cell_id": "S5-K2-M1",
+        "stance_id": "S5",
+        "framework_id": "K2",
+        "strategy_id": "M1",
+        "variant": 1,
+        "slot_id": "G0-S0015"
+      },
+      {
+        "cell_id": "S5-K5-M3",
+        "stance_id": "S5",
+        "framework_id": "K5",
+        "strategy_id": "M3",
+        "variant": 1,
+        "slot_id": "G0-S0016"
+      }
+    ],
+    "reading_ids": [
+      "T1a",
+      "T1b",
+      "T1c",
+      "T1d",
+      "T2a",
+      "T2b",
+      "T3a",
+      "T3b"
+    ],
+    "generation_round": 0
+  }
+}

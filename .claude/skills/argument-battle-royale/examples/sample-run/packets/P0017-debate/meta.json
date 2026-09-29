@@ -1,0 +1,21 @@
+{
+  "record": {
+    "id": "P0017-debate",
+    "type": "debate",
+    "stage": "round:3:debate:defense",
+    "status": "pending",
+    "attempts": 0,
+    "input_hash": "e979421a3c2e8f85a283aa81938affdf63cc4db963d9f171595901430b12fef7",
+    "created_at": "2026-09-29T13:16:58+00:00",
+    "meta": {},
+    "errors": []
+  },
+  "payload": {
+    "round": 3,
+    "match_id": "R03-M0001",
+    "side": "b",
+    "exchange": "defense",
+    "me": "F0014",
+    "opponent": "F0005"
+  }
+}

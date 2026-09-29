@@ -1,0 +1,62 @@
+{
+  "ok": true,
+  "checked_at": "2026-09-29T13:25:32+00:00",
+  "checks": [
+    {
+      "name": "ledger_chain",
+      "ok": true,
+      "detail": "106 entri, hash terakhir 9e3565ae4dc26238"
+    },
+    {
+      "name": "packet_outputs",
+      "ok": true,
+      "detail": "37 output diperiksa"
+    },
+    {
+      "name": "population_counts",
+      "ok": true,
+      "detail": "16 petarung; status tidak dikenal: 0; rujukan duplikat rusak: 0"
+    },
+    {
+      "name": "locked_population",
+      "ok": true,
+      "detail": "petarung, populasi, dan seeding tidak berubah sejak dikunci"
+    },
+    {
+      "name": "seeding",
+      "ok": true,
+      "detail": "16 unggulan dihitung ulang dari skor scouting"
+    },
+    {
+      "name": "bracket",
+      "ok": true,
+      "detail": "4 ronde konsisten"
+    },
+    {
+      "name": "verdicts",
+      "ok": true,
+      "detail": "35 penilaian juri dihitung ulang"
+    },
+    {
+      "name": "round_files",
+      "ok": true,
+      "detail": "semua ronde tertutup cocok dengan ledger"
+    },
+    {
+      "name": "champion",
+      "ok": true,
+      "detail": "juara F0005 = pemenang final"
+    },
+    {
+      "name": "falsification",
+      "ok": true,
+      "detail": "pemenang tahan-uji: F0005"
+    },
+    {
+      "name": "report",
+      "ok": true,
+      "detail": "laporan konsisten dengan state dan memuat formula pemenang"
+    }
+  ],
+  "digest": "e1307287b0d478acac872b02fc65efcc01c3ba7a7dfa9cec287e14884634bac5"
+}

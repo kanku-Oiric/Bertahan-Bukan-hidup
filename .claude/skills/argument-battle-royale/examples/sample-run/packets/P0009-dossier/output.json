@@ -1,0 +1,50 @@
+{
+  "packet_id": "P0009-dossier",
+  "input_hash": "a8444b37d113d5d62577e18ae8658956b69dda04604052d1926b70f916d65e43",
+  "fighter_id": "F0014",
+  "standard_form": [
+    "P1: Pada manusia, kompetensi inferensial, grounding referensial, pengalaman sadar, dan partisipasi sosial hampir selalu muncul bersama.",
+    "P2: Pada AI, kriteria-kriteria itu berdisosiasi.",
+    "P3: Para pihak umumnya sepakat tentang fakta kapasitas AI tetapi berbeda tentang kriteria mana yang menentukan 'memahami'.",
+    "P4: Tidak ada fakta non-linguistik yang menentukan kriteria esensial konsep klaster pada kasus disosiasi.",
+    "P5 (tersirat): Perselisihan yang bertahan hanya karena perbedaan pilihan kriteria esensial adalah sengketa verbal.",
+    "C: Pertanyaan tidak memiliki jawaban faktual tunggal; setelah arti dipilih, jawaban per dimensi relatif jelas."
+  ],
+  "formal_skeleton": "(P1 ∧ P2) → konsep terbelah; (P3 ∧ P5) → sengketa verbal; P4 → tidak ada fakta penentu; ⇒ (IBE atas bertahannya sengketa) ¬∃ jawaban faktual tunggal.",
+  "hard_core": [
+    "'Memahami' adalah konsep klaster yang kriteria esensialnya tidak ditetapkan oleh fakta non-linguistik.",
+    "Perselisihan saat ini sebagian besar bersifat verbal."
+  ],
+  "protective_belt": [
+    "Prediksi konvergensi pakar bila istilah dipecah per dimensi (P3).",
+    "Jawaban per dimensi: ya untuk fungsional, sebagian untuk referensial, tidak diketahui untuk fenomenal."
+  ],
+  "key_definitions": [
+    "sengketa verbal: perselisihan yang lenyap ketika arti istilah disepakati"
+  ],
+  "empirical_commitments": [
+    "Pakar dari kubu berbeda akan konvergen bila pertanyaan dipecah per dimensi."
+  ],
+  "falsifiers": [
+    "Pakar yang sepakat tentang semua fakta per dimensi tetap berselisih dengan alasan yang merujuk pada fakta lebih lanjut.",
+    "Penutur kompeten secara konsisten menolak atribusi tanpa satu kriteria tertentu, menjadikannya syarat perlu."
+  ],
+  "strongest_objections": [
+    {"objection": "P3 (konvergensi pakar bila istilah dipecah) sama sekali tidak didukung bukti; seluruh diagnosis 'verbal' bertumpu padanya.", "source": "history", "severity": "high", "status": "unanswered"},
+    {"objection": "P4 mengandaikan kekalahan teori isi naturalistik yang mengklaim ada fakta tentang isi terarah-dunia; ia tidak menunjukkannya.", "source": "history", "severity": "high", "status": "partially_answered"},
+    {"objection": "Memecah istilah tidak melarutkan pertanyaan faktual apakah keadaan LLM memiliki isi yang terarah ke dunia.", "source": "history", "severity": "high", "status": "partially_answered"},
+    {"objection": "Konsep klaster berbobot (model prototipe) dapat memberi jawaban determinat untuk kasus disosiasi bila sebagian besar kriteria berbobot terpenuhi; status klaster tidak menyiratkan ketiadaan jawaban.", "source": "new", "severity": "medium", "status": "unanswered"},
+    {"objection": "Karena jawaban per dimensinya substantif, posisi ini dapat runtuh menjadi posisi 'pemahaman parsial' alih-alih melarutkan pertanyaan.", "source": "history", "severity": "medium", "status": "partially_answered"}
+  ],
+  "vulnerabilities": [
+    "Premis empiris kunci (P3) tidak didukung data.",
+    "P4 adalah klaim universal negatif yang sulit dibela.",
+    "Identitas posisi rapuh: dekat dengan posisi pemahaman parsial."
+  ],
+  "strengths": [
+    "Menjelaskan mengapa perdebatan bertahan walau fakta disepakati.",
+    "Membuat prediksi yang dapat diuji tentang konvergensi pakar.",
+    "Jernih secara konseptual dalam memisahkan dimensi."
+  ],
+  "assessment": "Diagnosis konsep klaster yang terbelah adalah wawasan konseptual yang kuat dan berguna bagi semua kubu. Namun klaim deflasioner penuh ('tidak ada jawaban faktual tunggal') bertumpu pada premis empiris yang belum didukung (P3) dan premis universal negatif (P4) yang rentan terhadap teori isi naturalistik maupun model konsep berbobot. Tekanan terbesar datang dari arah posisi 'parsial': jika jawaban per dimensi sudah substantif, apa yang tersisa untuk dilarutkan?"
+}

@@ -1,0 +1,597 @@
+{
+  "round": 1,
+  "slots": 16,
+  "stage": "elimination",
+  "label": "Babak 16 besar (Eliminasi)",
+  "method": "llm_single",
+  "panel_size": 1,
+  "status": "done",
+  "created_at": "2026-09-29T13:10:06+00:00",
+  "matches": [
+    {
+      "match_id": "R01-M0001",
+      "a": "F0005",
+      "b": "F0012",
+      "seed_a": 1,
+      "seed_b": 16,
+      "bye": false,
+      "winner": "F0005",
+      "loser": "F0012",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 1,
+        "b": 0
+      },
+      "judgments": [
+        {
+          "packet_id": "P0004-duel",
+          "judge": "L7",
+          "lens": "Generalis mata-segar",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              7,
+              4,
+              3,
+              4,
+              6,
+              4,
+              4,
+              5,
+              4,
+              6
+            ],
+            "a": [
+              7,
+              7,
+              8,
+              8,
+              8,
+              7,
+              8,
+              7,
+              8,
+              8
+            ]
+          },
+          "totals": {
+            "a": 76.0,
+            "b": 46.0
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "plausibilitas premis dan kekuatan inferensi",
+          "rationale": "X menarik kesimpulan kategoris dari fakta bahwa sebuah teori kesadaran yang sangat diperdebatkan menyiratkannya; Y menjelaskan data keberhasilan dan kegagalan sekaligus dengan prediksi yang dapat diuji.",
+          "objections": {
+            "b_to_a": "Jika pemahaman penuh mensyaratkan kesadaran, maka 'pemahaman fungsional' Y hanyalah pemrosesan dan label 'parsial' menyesatkan.",
+            "a_to_b": "Dari 'teori T menyiratkan AI tidak sadar' tidak mengikuti 'AI tidak memahami' kecuali T benar, dan X sendiri mengakui status T diperdebatkan."
+          }
+        }
+      ],
+      "method": "llm_single",
+      "upset": false
+    },
+    {
+      "match_id": "R01-M0002",
+      "a": "F0010",
+      "b": "F0002",
+      "seed_a": 8,
+      "seed_b": 9,
+      "bye": false,
+      "winner": "F0010",
+      "loser": "F0002",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 1,
+        "b": 0
+      },
+      "judgments": [
+        {
+          "packet_id": "P0004-duel",
+          "judge": "L7",
+          "lens": "Generalis mata-segar",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              7,
+              6,
+              6,
+              7,
+              7,
+              6,
+              6,
+              7,
+              7,
+              7
+            ],
+            "b": [
+              7,
+              6,
+              5,
+              6,
+              7,
+              5,
+              6,
+              7,
+              6,
+              6
+            ]
+          },
+          "totals": {
+            "a": 65.0,
+            "b": 60.0
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "bukti X merobohkan premis kunci Y",
+          "rationale": "Premis Y bahwa LLM menjalankan praktik memberi dan meminta alasan (merevisi karena alasan) langsung dilemahkan oleh bukti X bahwa revisi sering terjadi karena tekanan pengguna tanpa alasan baru; X juga lebih hati-hati membatasi cakupan klaimnya.",
+          "objections": {
+            "a_to_b": "Merevisi klaim karena pengguna tidak setuju, bukan karena alasan baru, adalah kebalikan dari praktik memberi dan meminta alasan yang menjadi kriteria Y sendiri.",
+            "b_to_a": "Perilaku menjilat adalah artefak pelatihan yang dapat dikurangi; itu menunjukkan komitmen yang dijaga buruk, bukan ketiadaan pemahaman, dan manusia pun sering menyesuaikan diri."
+          }
+        }
+      ],
+      "method": "llm_single",
+      "upset": false
+    },
+    {
+      "match_id": "R01-M0003",
+      "a": "F0014",
+      "b": "F0016",
+      "seed_a": 4,
+      "seed_b": 13,
+      "bye": false,
+      "winner": "F0014",
+      "loser": "F0016",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 1,
+        "b": 0
+      },
+      "judgments": [
+        {
+          "packet_id": "P0004-duel",
+          "judge": "L7",
+          "lens": "Generalis mata-segar",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              7,
+              5,
+              6,
+              7,
+              7,
+              5,
+              6,
+              7,
+              6,
+              6
+            ],
+            "a": [
+              8,
+              7,
+              6,
+              6,
+              7,
+              6,
+              8,
+              8,
+              7,
+              8
+            ]
+          },
+          "totals": {
+            "a": 70.0,
+            "b": 61.0
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "daya eksplanatoris dan kekuatan inferensi",
+          "rationale": "Kedua argumen deflasioner, tetapi Y memberi mekanisme (konsep klaster yang terbelah) yang menjelaskan mengapa ketidaksepakatan bertahan, sedangkan X melompat dari ketidaksepakatan ke ketiadaan fakta.",
+          "objections": {
+            "b_to_a": "Klaim Y bahwa pakar akan konvergen bila istilah dipecah (P3) tidak didukung bukti apa pun.",
+            "a_to_b": "Ketidaksepakatan dan kepekaan framing tidak menunjukkan tidak ada fakta; X tidak menunjukkan bahwa pihak yang berselisih sepakat tentang semua fakta kapasitas."
+          }
+        }
+      ],
+      "method": "llm_single",
+      "upset": false
+    },
+    {
+      "match_id": "R01-M0004",
+      "a": "F0008",
+      "b": "F0007",
+      "seed_a": 5,
+      "seed_b": 12,
+      "bye": false,
+      "winner": "F0008",
+      "loser": "F0007",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 1,
+        "b": 0
+      },
+      "judgments": [
+        {
+          "packet_id": "P0004-duel",
+          "judge": "L7",
+          "lens": "Generalis mata-segar",
+          "presentation": {
+            "X": "b",
+            "Y": "a"
+          },
+          "scores": {
+            "b": [
+              8,
+              6,
+              5,
+              5,
+              6,
+              5,
+              6,
+              7,
+              6,
+              6
+            ],
+            "a": [
+              8,
+              7,
+              6,
+              7,
+              6,
+              6,
+              7,
+              7,
+              7,
+              8
+            ]
+          },
+          "totals": {
+            "a": 68.5,
+            "b": 59.0
+          },
+          "fatal": {
+            "b": [],
+            "a": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "ketahanan terhadap bukti representasi dunia",
+          "rationale": "Kedua argumen menyatakan LLM belum memahami; Y menempatkan masalah pada fungsi dan sejarah representasi sehingga tidak dibantah oleh temuan bahwa struktur dunia dapat dipulihkan dari teks, sedangkan P2 X justru dibantah temuan itu.",
+          "objections": {
+            "b_to_a": "Teleosemantik mengimplikasikan duplikat identik tanpa sejarah tidak memiliki isi apa pun, harga teoretis yang sangat mahal.",
+            "a_to_b": "Klaim bahwa relasi bentuk-dunia tidak dapat dipelajari dari bentuk dibantah oleh representasi keadaan dunia yang dipulihkan dari teks; balasan 'grounding pinjaman' membuat tesis kebal uji."
+          }
+        }
+      ],
+      "method": "llm_single",
+      "upset": false
+    },
+    {
+      "match_id": "R01-M0005",
+      "a": "F0009",
+      "b": "F0013",
+      "seed_a": 2,
+      "seed_b": 15,
+      "bye": false,
+      "winner": "F0009",
+      "loser": "F0013",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 1,
+        "b": 0
+      },
+      "judgments": [
+        {
+          "packet_id": "P0004-duel",
+          "judge": "L7",
+          "lens": "Generalis mata-segar",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              8,
+              7,
+              7,
+              7,
+              9,
+              6,
+              7,
+              8,
+              8,
+              7
+            ],
+            "b": [
+              7,
+              5,
+              4,
+              5,
+              5,
+              4,
+              4,
+              6,
+              5,
+              6
+            ]
+          },
+          "totals": {
+            "a": 73.0,
+            "b": 50.0
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "keterujian dan plausibilitas premis",
+          "rationale": "X menawarkan kriteria operasional dengan falsifier tajam dan bukti empiris yang relevan; Y bersandar pada analogi yang mengabaikan kemampuan generalisasi dan pada premis bahwa semua tujuan artefak pasti turunan tanpa argumen.",
+          "objections": {
+            "a_to_b": "Rekaman tidak dapat menanggapi situasi baru secara tepat; analogi beo gagal justru pada ciri yang membuat pertanyaan ini sulit.",
+            "b_to_a": "Kegagalan pada tugas kontrafaktual hanyalah batas kinerja; bahkan sistem yang lulus uji itu tetap tanpa penutur yang bermaksud."
+          }
+        }
+      ],
+      "method": "llm_single",
+      "upset": false
+    },
+    {
+      "match_id": "R01-M0006",
+      "a": "F0006",
+      "b": "F0015",
+      "seed_a": 7,
+      "seed_b": 10,
+      "bye": false,
+      "winner": "F0006",
+      "loser": "F0015",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 1,
+        "b": 0
+      },
+      "judgments": [
+        {
+          "packet_id": "P0004-duel",
+          "judge": "L7",
+          "lens": "Generalis mata-segar",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              7,
+              6,
+              7,
+              6,
+              7,
+              6,
+              6,
+              7,
+              7,
+              7
+            ],
+            "b": [
+              7,
+              6,
+              6,
+              5,
+              6,
+              5,
+              6,
+              8,
+              6,
+              7
+            ]
+          },
+          "totals": {
+            "a": 65.5,
+            "b": 61.0
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "ketahanan terhadap kontra-contoh",
+          "rationale": "Spektrum penutur X menunjukkan bahwa praktik bahasa sudah menangani kasus pemahaman parsial secara bergradasi, yang melemahkan klaim Y bahwa konsep 'memahami' diam terhadap kasus disosiasi.",
+          "objections": {
+            "a_to_b": "Praktik bahasa sudah memutuskan kasus disosiasi terdahulu (penutur tunanetra, pembelajar dari teks) dengan atribusi bergradasi, jadi konsep tidak sepenuhnya terbuka.",
+            "b_to_a": "Semua kasus dalam spektrum X tetap tergrounding secara perseptual; kasus AI adalah disosiasi total yang tidak diantisipasi spektrum itu."
+          }
+        }
+      ],
+      "method": "llm_single",
+      "upset": false
+    },
+    {
+      "match_id": "R01-M0007",
+      "a": "F0001",
+      "b": "F0011",
+      "seed_a": 3,
+      "seed_b": 14,
+      "bye": false,
+      "winner": "F0001",
+      "loser": "F0011",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 1,
+        "b": 0
+      },
+      "judgments": [
+        {
+          "packet_id": "P0004-duel",
+          "judge": "L7",
+          "lens": "Generalis mata-segar",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              8,
+              8,
+              6.5,
+              7,
+              8,
+              6,
+              7,
+              8,
+              7,
+              7
+            ],
+            "b": [
+              7,
+              6,
+              4,
+              5,
+              4,
+              4,
+              4,
+              6,
+              5,
+              6
+            ]
+          },
+          "totals": {
+            "a": 72.25,
+            "b": 50.5
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "Y membuktikan terlalu banyak",
+          "rationale": "Argumen Y tentang semantik yang hanya dapat ditafsirkan pengamat berlaku pula bagi otak yang dideskripsikan secara komputasional, dan balasan 'daya kausal' tidak menjelaskan perbedaan relevannya; X lebih teruji dan bersandar pada bukti intervensi kausal.",
+          "objections": {
+            "a_to_b": "Jika deskripsi formal membuat makna bergantung pada penafsir, otak pun demikian; Y memerlukan perbedaan relevan yang tidak pernah ia sebutkan.",
+            "b_to_a": "Temuan probing adalah tafsiran peneliti atas pola aktivasi; menyebutnya 'representasi keadaan dunia' sudah mengandaikan semantik yang dipersoalkan."
+          }
+        }
+      ],
+      "method": "llm_single",
+      "upset": false
+    },
+    {
+      "match_id": "R01-M0008",
+      "a": "F0004",
+      "b": "F0003",
+      "seed_a": 6,
+      "seed_b": 11,
+      "bye": false,
+      "winner": "F0004",
+      "loser": "F0003",
+      "winner_side": "a",
+      "basis": "majority",
+      "votes": {
+        "a": 1,
+        "b": 0
+      },
+      "judgments": [
+        {
+          "packet_id": "P0004-duel",
+          "judge": "L7",
+          "lens": "Generalis mata-segar",
+          "presentation": {
+            "X": "a",
+            "Y": "b"
+          },
+          "scores": {
+            "a": [
+              7,
+              6,
+              7,
+              7,
+              7,
+              6,
+              6,
+              7,
+              7,
+              7
+            ],
+            "b": [
+              7,
+              7,
+              5,
+              6,
+              6,
+              4,
+              6,
+              8,
+              6,
+              6
+            ]
+          },
+          "totals": {
+            "a": 66.5,
+            "b": 60.0
+          },
+          "fatal": {
+            "a": [],
+            "b": []
+          },
+          "stated_winner": "a",
+          "rule_winner": "a",
+          "basis": "rubric_total",
+          "consistent": true,
+          "decisive_factor": "ketahanan terhadap kontra-contoh",
+          "rationale": "Y sepenuhnya bergantung pada interpretasionisme dan rentan terhadap kasus tabel-pencarian raksasa yang berperilaku identik; X membuat klaim yang lebih moderat yang didukung preseden disosiasi nyata.",
+          "objections": {
+            "a_to_b": "Tabel-pencarian raksasa dengan perilaku identik akan dinyatakan memahami oleh Y, padahal jelas tidak memahami apa pun.",
+            "b_to_a": "Pasien blindsight sendiri menyangkal melihat; analogi itu justru mendukung keraguan untuk menyebut kapasitas fungsional sebagai pemahaman."
+          }
+        }
+      ],
+      "method": "llm_single",
+      "upset": false
+    }
+  ],
+  "completed_at": "2026-09-29T13:11:03+00:00"
+}

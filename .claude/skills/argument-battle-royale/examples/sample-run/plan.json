@@ -1,0 +1,891 @@
+{
+  "cells": [
+    {
+      "cell_id": "S1-K1-M1",
+      "stance_id": "S1",
+      "framework_id": "K1",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S1-K1-M2",
+      "stance_id": "S1",
+      "framework_id": "K1",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S1-K1-M3",
+      "stance_id": "S1",
+      "framework_id": "K1",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S1-K1-M4",
+      "stance_id": "S1",
+      "framework_id": "K1",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S1-K1-M5",
+      "stance_id": "S1",
+      "framework_id": "K1",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S1-K2-M1",
+      "stance_id": "S1",
+      "framework_id": "K2",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S1-K2-M2",
+      "stance_id": "S1",
+      "framework_id": "K2",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S1-K2-M3",
+      "stance_id": "S1",
+      "framework_id": "K2",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S1-K2-M4",
+      "stance_id": "S1",
+      "framework_id": "K2",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S1-K2-M5",
+      "stance_id": "S1",
+      "framework_id": "K2",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S1-K4-M1",
+      "stance_id": "S1",
+      "framework_id": "K4",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S1-K4-M2",
+      "stance_id": "S1",
+      "framework_id": "K4",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S1-K4-M3",
+      "stance_id": "S1",
+      "framework_id": "K4",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S1-K4-M4",
+      "stance_id": "S1",
+      "framework_id": "K4",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S1-K4-M5",
+      "stance_id": "S1",
+      "framework_id": "K4",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S1-K5-M1",
+      "stance_id": "S1",
+      "framework_id": "K5",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S1-K5-M2",
+      "stance_id": "S1",
+      "framework_id": "K5",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S1-K5-M3",
+      "stance_id": "S1",
+      "framework_id": "K5",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S1-K5-M4",
+      "stance_id": "S1",
+      "framework_id": "K5",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S1-K5-M5",
+      "stance_id": "S1",
+      "framework_id": "K5",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S1-K6-M1",
+      "stance_id": "S1",
+      "framework_id": "K6",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S1-K6-M2",
+      "stance_id": "S1",
+      "framework_id": "K6",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S1-K6-M3",
+      "stance_id": "S1",
+      "framework_id": "K6",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S1-K6-M4",
+      "stance_id": "S1",
+      "framework_id": "K6",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S1-K6-M5",
+      "stance_id": "S1",
+      "framework_id": "K6",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S2-K1-M1",
+      "stance_id": "S2",
+      "framework_id": "K1",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S2-K1-M2",
+      "stance_id": "S2",
+      "framework_id": "K1",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S2-K1-M3",
+      "stance_id": "S2",
+      "framework_id": "K1",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S2-K1-M4",
+      "stance_id": "S2",
+      "framework_id": "K1",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S2-K1-M5",
+      "stance_id": "S2",
+      "framework_id": "K1",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S2-K2-M1",
+      "stance_id": "S2",
+      "framework_id": "K2",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S2-K2-M2",
+      "stance_id": "S2",
+      "framework_id": "K2",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S2-K2-M3",
+      "stance_id": "S2",
+      "framework_id": "K2",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S2-K2-M4",
+      "stance_id": "S2",
+      "framework_id": "K2",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S2-K2-M5",
+      "stance_id": "S2",
+      "framework_id": "K2",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S2-K3-M1",
+      "stance_id": "S2",
+      "framework_id": "K3",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S2-K3-M2",
+      "stance_id": "S2",
+      "framework_id": "K3",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S2-K3-M3",
+      "stance_id": "S2",
+      "framework_id": "K3",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S2-K3-M4",
+      "stance_id": "S2",
+      "framework_id": "K3",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S2-K3-M5",
+      "stance_id": "S2",
+      "framework_id": "K3",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S2-K4-M1",
+      "stance_id": "S2",
+      "framework_id": "K4",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S2-K4-M2",
+      "stance_id": "S2",
+      "framework_id": "K4",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S2-K4-M3",
+      "stance_id": "S2",
+      "framework_id": "K4",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S2-K4-M4",
+      "stance_id": "S2",
+      "framework_id": "K4",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S2-K4-M5",
+      "stance_id": "S2",
+      "framework_id": "K4",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S2-K5-M1",
+      "stance_id": "S2",
+      "framework_id": "K5",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S2-K5-M2",
+      "stance_id": "S2",
+      "framework_id": "K5",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S2-K5-M3",
+      "stance_id": "S2",
+      "framework_id": "K5",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S2-K5-M4",
+      "stance_id": "S2",
+      "framework_id": "K5",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S2-K5-M5",
+      "stance_id": "S2",
+      "framework_id": "K5",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S2-K6-M1",
+      "stance_id": "S2",
+      "framework_id": "K6",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S2-K6-M2",
+      "stance_id": "S2",
+      "framework_id": "K6",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S2-K6-M3",
+      "stance_id": "S2",
+      "framework_id": "K6",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S2-K6-M4",
+      "stance_id": "S2",
+      "framework_id": "K6",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S2-K6-M5",
+      "stance_id": "S2",
+      "framework_id": "K6",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S3-K1-M1",
+      "stance_id": "S3",
+      "framework_id": "K1",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S3-K1-M2",
+      "stance_id": "S3",
+      "framework_id": "K1",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S3-K1-M3",
+      "stance_id": "S3",
+      "framework_id": "K1",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S3-K1-M4",
+      "stance_id": "S3",
+      "framework_id": "K1",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S3-K1-M5",
+      "stance_id": "S3",
+      "framework_id": "K1",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S3-K2-M1",
+      "stance_id": "S3",
+      "framework_id": "K2",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S3-K2-M2",
+      "stance_id": "S3",
+      "framework_id": "K2",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S3-K2-M3",
+      "stance_id": "S3",
+      "framework_id": "K2",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S3-K2-M4",
+      "stance_id": "S3",
+      "framework_id": "K2",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S3-K2-M5",
+      "stance_id": "S3",
+      "framework_id": "K2",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S3-K3-M1",
+      "stance_id": "S3",
+      "framework_id": "K3",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S3-K3-M2",
+      "stance_id": "S3",
+      "framework_id": "K3",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S3-K3-M3",
+      "stance_id": "S3",
+      "framework_id": "K3",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S3-K3-M4",
+      "stance_id": "S3",
+      "framework_id": "K3",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S3-K3-M5",
+      "stance_id": "S3",
+      "framework_id": "K3",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S3-K4-M1",
+      "stance_id": "S3",
+      "framework_id": "K4",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S3-K4-M2",
+      "stance_id": "S3",
+      "framework_id": "K4",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S3-K4-M3",
+      "stance_id": "S3",
+      "framework_id": "K4",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S3-K4-M4",
+      "stance_id": "S3",
+      "framework_id": "K4",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S3-K4-M5",
+      "stance_id": "S3",
+      "framework_id": "K4",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S3-K5-M1",
+      "stance_id": "S3",
+      "framework_id": "K5",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S3-K5-M2",
+      "stance_id": "S3",
+      "framework_id": "K5",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S3-K5-M3",
+      "stance_id": "S3",
+      "framework_id": "K5",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S3-K5-M4",
+      "stance_id": "S3",
+      "framework_id": "K5",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S3-K5-M5",
+      "stance_id": "S3",
+      "framework_id": "K5",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S4-K2-M1",
+      "stance_id": "S4",
+      "framework_id": "K2",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S4-K2-M2",
+      "stance_id": "S4",
+      "framework_id": "K2",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S4-K2-M3",
+      "stance_id": "S4",
+      "framework_id": "K2",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S4-K2-M4",
+      "stance_id": "S4",
+      "framework_id": "K2",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S4-K2-M5",
+      "stance_id": "S4",
+      "framework_id": "K2",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S4-K3-M1",
+      "stance_id": "S4",
+      "framework_id": "K3",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S4-K3-M2",
+      "stance_id": "S4",
+      "framework_id": "K3",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S4-K3-M3",
+      "stance_id": "S4",
+      "framework_id": "K3",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S4-K3-M4",
+      "stance_id": "S4",
+      "framework_id": "K3",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S4-K3-M5",
+      "stance_id": "S4",
+      "framework_id": "K3",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S4-K4-M1",
+      "stance_id": "S4",
+      "framework_id": "K4",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S4-K4-M2",
+      "stance_id": "S4",
+      "framework_id": "K4",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S4-K4-M3",
+      "stance_id": "S4",
+      "framework_id": "K4",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S4-K4-M4",
+      "stance_id": "S4",
+      "framework_id": "K4",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S4-K4-M5",
+      "stance_id": "S4",
+      "framework_id": "K4",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S4-K5-M1",
+      "stance_id": "S4",
+      "framework_id": "K5",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S4-K5-M2",
+      "stance_id": "S4",
+      "framework_id": "K5",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S4-K5-M3",
+      "stance_id": "S4",
+      "framework_id": "K5",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S4-K5-M4",
+      "stance_id": "S4",
+      "framework_id": "K5",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S4-K5-M5",
+      "stance_id": "S4",
+      "framework_id": "K5",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S5-K1-M1",
+      "stance_id": "S5",
+      "framework_id": "K1",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S5-K1-M2",
+      "stance_id": "S5",
+      "framework_id": "K1",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S5-K1-M3",
+      "stance_id": "S5",
+      "framework_id": "K1",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S5-K1-M4",
+      "stance_id": "S5",
+      "framework_id": "K1",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S5-K1-M5",
+      "stance_id": "S5",
+      "framework_id": "K1",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S5-K2-M1",
+      "stance_id": "S5",
+      "framework_id": "K2",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S5-K2-M2",
+      "stance_id": "S5",
+      "framework_id": "K2",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S5-K2-M3",
+      "stance_id": "S5",
+      "framework_id": "K2",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S5-K2-M4",
+      "stance_id": "S5",
+      "framework_id": "K2",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S5-K2-M5",
+      "stance_id": "S5",
+      "framework_id": "K2",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S5-K4-M1",
+      "stance_id": "S5",
+      "framework_id": "K4",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S5-K4-M2",
+      "stance_id": "S5",
+      "framework_id": "K4",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S5-K4-M3",
+      "stance_id": "S5",
+      "framework_id": "K4",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S5-K4-M4",
+      "stance_id": "S5",
+      "framework_id": "K4",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S5-K4-M5",
+      "stance_id": "S5",
+      "framework_id": "K4",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S5-K5-M1",
+      "stance_id": "S5",
+      "framework_id": "K5",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S5-K5-M2",
+      "stance_id": "S5",
+      "framework_id": "K5",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S5-K5-M3",
+      "stance_id": "S5",
+      "framework_id": "K5",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S5-K5-M4",
+      "stance_id": "S5",
+      "framework_id": "K5",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S5-K5-M5",
+      "stance_id": "S5",
+      "framework_id": "K5",
+      "strategy_id": "M5"
+    },
+    {
+      "cell_id": "S5-K6-M1",
+      "stance_id": "S5",
+      "framework_id": "K6",
+      "strategy_id": "M1"
+    },
+    {
+      "cell_id": "S5-K6-M2",
+      "stance_id": "S5",
+      "framework_id": "K6",
+      "strategy_id": "M2"
+    },
+    {
+      "cell_id": "S5-K6-M3",
+      "stance_id": "S5",
+      "framework_id": "K6",
+      "strategy_id": "M3"
+    },
+    {
+      "cell_id": "S5-K6-M4",
+      "stance_id": "S5",
+      "framework_id": "K6",
+      "strategy_id": "M4"
+    },
+    {
+      "cell_id": "S5-K6-M5",
+      "stance_id": "S5",
+      "framework_id": "K6",
+      "strategy_id": "M5"
+    }
+  ],
+  "stance_quota": {
+    "S1": 3,
+    "S2": 3,
+    "S3": 4,
+    "S4": 3,
+    "S5": 3
+  },
+  "slots": [
+    {
+      "cell_id": "S1-K4-M5",
+      "stance_id": "S1",
+      "framework_id": "K4",
+      "strategy_id": "M5",
+      "variant": 1,
+      "slot_id": "G0-S0001"
+    },
+    {
+      "cell_id": "S1-K5-M3",
+      "stance_id": "S1",
+      "framework_id": "K5",
+      "strategy_id": "M3",
+      "variant": 1,
+      "slot_id": "G0-S0002"
+    },
+    {
+      "cell_id": "S1-K6-M5",
+      "stance_id": "S1",
+      "framework_id": "K6",
+      "strategy_id": "M5",
+      "variant": 1,
+      "slot_id": "G0-S0003"
+    },
+    {
+      "cell_id": "S2-K3-M5",
+      "stance_id": "S2",
+      "framework_id": "K3",
+      "strategy_id": "M5",
+      "variant": 1,
+      "slot_id": "G0-S0004"
+    },
+    {
+      "cell_id": "S2-K5-M4",
+      "stance_id": "S2",
+      "framework_id": "K5",
+      "strategy_id": "M4",
+      "variant": 1,
+      "slot_id": "G0-S0005"
+    },
+    {
+      "cell_id": "S2-K6-M2",
+      "stance_id": "S2",
+      "framework_id": "K6",
+      "strategy_id": "M2",
+      "variant": 1,
+      "slot_id": "G0-S0006"
+    },
+    {
+      "cell_id": "S3-K2-M2",
+      "stance_id": "S3",
+      "framework_id": "K2",
+      "strategy_id": "M2",
+      "variant": 1,
+      "slot_id": "G0-S0007"
+    },
+    {
+      "cell_id": "S3-K3-M2",
+      "stance_id": "S3",
+      "framework_id": "K3",
+      "strategy_id": "M2",
+      "variant": 1,
+      "slot_id": "G0-S0008"
+    },
+    {
+      "cell_id": "S3-K4-M2",
+      "stance_id": "S3",
+      "framework_id": "K4",
+      "strategy_id": "M2",
+      "variant": 1,
+      "slot_id": "G0-S0009"
+    },
+    {
+      "cell_id": "S3-K5-M4",
+      "stance_id": "S3",
+      "framework_id": "K5",
+      "strategy_id": "M4",
+      "variant": 1,
+      "slot_id": "G0-S0010"
+    },
+    {
+      "cell_id": "S4-K2-M1",
+      "stance_id": "S4",
+      "framework_id": "K2",
+      "strategy_id": "M1",
+      "variant": 1,
+      "slot_id": "G0-S0011"
+    },
+    {
+      "cell_id": "S4-K3-M3",
+      "stance_id": "S4",
+      "framework_id": "K3",
+      "strategy_id": "M3",
+      "variant": 1,
+      "slot_id": "G0-S0012"
+    },
+    {
+      "cell_id": "S4-K5-M5",
+      "stance_id": "S4",
+      "framework_id": "K5",
+      "strategy_id": "M5",
+      "variant": 1,
+      "slot_id": "G0-S0013"
+    },
+    {
+      "cell_id": "S5-K1-M4",
+      "stance_id": "S5",
+      "framework_id": "K1",
+      "strategy_id": "M4",
+      "variant": 1,
+      "slot_id": "G0-S0014"
+    },
+    {
+      "cell_id": "S5-K2-M1",
+      "stance_id": "S5",
+      "framework_id": "K2",
+      "strategy_id": "M1",
+      "variant": 1,
+      "slot_id": "G0-S0015"
+    },
+    {
+      "cell_id": "S5-K5-M3",
+      "stance_id": "S5",
+      "framework_id": "K5",
+      "strategy_id": "M3",
+      "variant": 1,
+      "slot_id": "G0-S0016"
+    }
+  ]
+}

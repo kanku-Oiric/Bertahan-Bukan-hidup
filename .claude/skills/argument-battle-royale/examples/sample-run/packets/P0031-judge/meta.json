@@ -1,0 +1,33 @@
+{
+  "record": {
+    "id": "P0031-judge",
+    "type": "judge",
+    "stage": "round:4:judge",
+    "status": "pending",
+    "attempts": 0,
+    "input_hash": "c2847e3692353f82d5856c849e9023f27beed68d38363a0170eb616b6c1cc114",
+    "created_at": "2026-09-29T13:22:25+00:00",
+    "meta": {},
+    "errors": []
+  },
+  "payload": {
+    "round": 4,
+    "lens": {
+      "id": "L1",
+      "label": "Logikawan formal",
+      "focus": "Rekonstruksi bentuk logis, validitas/kekuatan inferensi, sesat pikir formal dan informal, ekuivokasi."
+    },
+    "duels": [
+      {
+        "duel_id": "R04-M0001",
+        "a": "F0005",
+        "b": "F0009",
+        "presentation": {
+          "X": "a",
+          "Y": "b"
+        }
+      }
+    ],
+    "stage": "final"
+  }
+}

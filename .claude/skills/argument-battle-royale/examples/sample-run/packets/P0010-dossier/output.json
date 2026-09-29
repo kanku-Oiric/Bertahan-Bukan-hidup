@@ -1,0 +1,50 @@
+{
+  "packet_id": "P0010-dossier",
+  "input_hash": "bcd0b8a061a482822b383f73e0929a7e5dd69978207b2391199d8bd17927fc30",
+  "fighter_id": "F0009",
+  "standard_form": [
+    "P1: Jika sebuah sistem memahami konsep C, ia mampu menerapkan C secara memadai ketika aturan latar yang tidak esensial bagi C diubah secara eksplisit.",
+    "P2: Kinerja LLM turun tajam pada varian kontrafaktual, jauh lebih tajam daripada manusia.",
+    "P3: Penurunan itu paling baik dijelaskan oleh ketergantungan pada pola yang sering muncul dalam data latih.",
+    "P4 (tersirat): 'Memadai' berarti kesenjangan kinerja tidak jauh lebih besar daripada kesenjangan pada manusia yang memahami.",
+    "P5: Tidak ada alasan prinsipiel mengapa sistem buatan tidak dapat lulus uji ini.",
+    "C: LLM saat ini belum memahami dalam arti kuat; AI yang lulus uji akan layak disebut memahami."
+  ],
+  "formal_skeleton": "∀s (U(s,C) → K(s,C)); ¬K(LLM,C) [P2, P3, P4]; ∴ ¬U(LLM,C) (modus tollens); ◇∃a (AI(a) ∧ K(a,C)) [P5].",
+  "hard_core": [
+    "Kemampuan penerapan kontrafaktual adalah syarat perlu bagi pemahaman konsep.",
+    "LLM saat ini tidak memenuhi syarat itu secara memadai."
+  ],
+  "protective_belt": [
+    "Ambang 'memadai' relatif terhadap kinerja manusia.",
+    "Penjelasan penurunan melalui frekuensi dalam data latih."
+  ],
+  "key_definitions": [
+    "uji dunia kontrafaktual: mengubah satu aturan secara eksplisit lalu memeriksa penerapan ulang konsep"
+  ],
+  "empirical_commitments": [
+    "Kesenjangan kinerja antara versi baku dan kontrafaktual pada LLM jauh lebih besar daripada pada manusia."
+  ],
+  "falsifiers": [
+    "LLM mutakhir menunjukkan kinerja kontrafaktual yang sebanding dengan manusia.",
+    "Manusia yang jelas memahami menunjukkan penurunan setajam LLM."
+  ],
+  "strongest_objections": [
+    {"objection": "Data kontrafaktual bergradasi (penurunan, bukan nol); kesimpulan biner 'belum memahami' tidak mengikuti dan data justru mendukung pemahaman bergradasi.", "source": "history", "severity": "high", "status": "partially_answered"},
+    {"objection": "Siswa yang baru sebagian memahami penjumlahan gagal pada basis sembilan tanpa kita katakan ia tidak memahami penjumlahan: kontra-contoh terhadap P1 sebagai syarat perlu biner.", "source": "history", "severity": "high", "status": "partially_answered"},
+    {"objection": "Ambang 'memadai' tidak ditentukan secara kuantitatif.", "source": "history", "severity": "medium", "status": "partially_answered"},
+    {"objection": "Uji kontrafaktual mungkin mengukur eksekusi prosedural di bawah beban baru, bukan pemahaman bahasa; penutur fasih pun dapat gagal berhitung dalam basis sembilan.", "source": "new", "severity": "medium", "status": "partially_answered"},
+    {"objection": "Bahkan sistem yang lulus uji tetap tanpa penutur yang bermaksud.", "source": "history", "severity": "low", "status": "answered"}
+  ],
+  "vulnerabilities": [
+    "Bentuk biner kesimpulan tidak sejalan dengan data yang bergradasi.",
+    "Ambang 'memadai' kabur.",
+    "Temuan empiris dapat bergeser pada generasi model baru."
+  ],
+  "strengths": [
+    "Kriteria operasional dan netral-substrat dengan falsifier yang sangat spesifik.",
+    "Didukung temuan empiris yang relevan dan dapat direplikasi.",
+    "Tidak membuat klaim prinsipiel yang berlebihan tentang AI di masa depan."
+  ],
+  "assessment": "Argumen ini adalah yang paling dapat diuji di antara finalis dan mengambil risiko empiris yang nyata. Kelemahannya terletak pada ketidaksesuaian antara premis syarat perlu yang biner dan data yang bergradasi: jika kesimpulan dilemahkan menjadi 'belum memahami secara kokoh', ia bertahan tetapi menjadi dekat dengan posisi pemahaman parsial; jika dipertahankan biner, kontra-contoh siswa menekan P1. Ambang kuantitatif akan sangat memperkuatnya."
+}

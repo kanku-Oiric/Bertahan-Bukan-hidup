@@ -1,0 +1,90 @@
+{
+  "packet_id": "P0023-judge",
+  "input_hash": "cf26176a5fea7717c6d6d4c2f430efe9883d92bd1dd9a28fe95dd681b0516187",
+  "judge_lens": "L4",
+  "evidence_mode_used": "internal",
+  "verdicts": [
+    {
+      "duel_id": "R03-M0001",
+      "steelman_x": "Pertanyaan per dimensi faktual, tetapi pertanyaan satu istilah 'apakah AI memahami bahasa' tidak memiliki jawaban faktual tunggal karena kriteria konsep klaster terbelah; jawaban 'sebagian' pun bergantung pada keputusan konseptual tentang pembobotan.",
+      "steelman_y": "Pemahaman bahasa multidimensional; LLM nyata pada dimensi inferensial-komposisional dan pragmatik lokal, gagal pada pelacakan komitmen dan grounding; profil campuran ini hanya dijelaskan oleh hipotesis pemahaman parsial, dengan dimensi yang berasal dari teori kompetensi linguistik.",
+      "scores_x": [
+        8,
+        6,
+        5.5,
+        6,
+        6.5,
+        5.5,
+        7,
+        8,
+        7,
+        7
+      ],
+      "scores_y": [
+        7,
+        7,
+        7.5,
+        8,
+        8,
+        7,
+        7.5,
+        7,
+        8,
+        8
+      ],
+      "fatal_x": [],
+      "fatal_y": [],
+      "winner": "Y",
+      "confidence": 0.75,
+      "decisive_factor": "beban pembuktian atas klaim universal negatif",
+      "rationale": "Klaim bahwa tidak ada fakta yang dapat menentukan jawaban (P4) adalah klaim terkuat di duel ini dan membawa beban pembuktian terberat; F0014 tidak memikulnya, dan premis empirisnya (P3) diakui belum diuji. F0005 membuat klaim yang lebih moderat dan menanggung bebannya dengan data yang diakui kedua pihak. Serangan terkuat terhadap F0005 (ambang) dijawab dengan kriteria kompetensi pada masukan baru.",
+      "objection_x_to_y": "Menerapkan 'memahami' secara bergradasi pada profil yang terdisosiasi adalah keputusan konseptual yang diakui lawan sendiri, sehingga jawaban 'sebagian' bukan temuan faktual.",
+      "objection_y_to_x": "Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen.",
+      "reply_quality_x": "menjawab sebagian: pembedaan pertanyaan satu istilah vs per dimensi tajam, tetapi P3 diakui belum diuji",
+      "reply_quality_y": "menjawab tuntas pada tuduhan post hoc (dimensi dari teori), menjawab sebagian pada ambang (dengan konsesi tentang pembobotan)",
+      "dissent_risk": "Skeptis yang menilai bahwa F0005 juga menanggung beban untuk realitas 'dimensi' yang belum dianalisis dapat menyamakan posisi keduanya.",
+      "evidence": []
+    },
+    {
+      "duel_id": "R03-M0002",
+      "steelman_x": "Penguasaan konsep berarti mampu menerapkannya setelah aturan latar diubah secara eksplisit; kesenjangan kontrafaktual LLM berada jauh di luar rentang manusia yang diberi instruksi yang sama, sehingga LLM belum memahami dalam arti kuat.",
+      "steelman_y": "Paritas atribusi: bukti perilaku dan representasi yang dipakai kausal ada pada LLM; bukti negatif hanya relevan bila menunjukkan ketiadaan kapasitas, dan kegagalan seperti relasi terbalik adalah batas penyimpanan, bukan ketiadaan pemahaman fungsional.",
+      "scores_x": [
+        8,
+        7.5,
+        7.5,
+        7.5,
+        9,
+        6.5,
+        7,
+        8,
+        8,
+        8
+      ],
+      "scores_y": [
+        7,
+        7,
+        6,
+        6.5,
+        7,
+        6,
+        6.5,
+        8,
+        7,
+        7
+      ],
+      "fatal_x": [],
+      "fatal_y": [],
+      "winner": "X",
+      "confidence": 0.7,
+      "decisive_factor": "beban pembuktian atas klaim kesetaraan jenis",
+      "rationale": "Klaim bahwa LLM memahami 'sejenis dengan manusia' adalah klaim positif yang lebih kuat dan menanggung beban untuk menjelaskan semua bukti negatif; F0001 menjawab sebagian (relasi terbalik) tetapi tidak kesenjangan kontrafaktual setelah instruksi eksplisit. F0009 membuat klaim yang lebih terbatas dan sudah menyatakan kondisi yang akan membatalkannya. Asumsi tersembunyi bahwa tidak ada perbedaan relevan lain tetap tidak terbela.",
+      "objection_x_to_y": "Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan.",
+      "objection_y_to_x": "Kriteria kontrafaktual lawan mengukur eksekusi prosedur, dan memperluas 'memahami kata' hingga mencakup operasi di latar yang diubah adalah definisi yang menguntungkan posisinya sendiri.",
+      "reply_quality_x": "menjawab tuntas pada kontra-contoh siswa dan ambang; menjawab sebagian pada tuduhan prosedur vs bahasa",
+      "reply_quality_y": "menjawab tuntas pada relasi terbalik (pembedaan penyimpanan vs konteks), menjawab sebagian pada asimetri bukti negatif",
+      "dissent_risk": "Jika beban pembuktian dianggap simetris, keunggulan F0009 menyusut.",
+      "evidence": []
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "packet_id": "P0014-debate",
+  "input_hash": "0290714137337a22ef0d825cb606bb77c918ce0b31076a1db27699e9dae86464",
+  "match_id": "R03-M0002",
+  "exchange": "attack",
+  "statement": "Argumen lawan dibangun di atas prinsip konsistensi: bukti jenis sama harus diperlakukan sama. Saya menerima prinsip itu — dan justru karena itu argumen lawan gagal. Konsistensi berlaku pada seluruh bukti, bukan hanya bukti positif. Pada manusia yang kita anggap memahami sebuah konsep, kita tidak menemukan pola kegagalan seperti ini: mampu menyimpulkan 'A adalah B' tetapi gagal menyimpulkan 'B adalah A'; kinerja yang runtuh begitu aturan latar diubah secara eksplisit, dengan besar keruntuhan yang mengikuti frekuensi data latih. Bukti negatif ini berbeda secara sistematis antara LLM dan manusia, dan itulah 'perbedaan relevan' yang dituntut argumen lawan untuk ditunjukkan. Argumen lawan tidak menanggapinya sama sekali; premis tersiratnya bahwa tidak ada perbedaan relevan lain dibiarkan tanpa pembelaan. Kedua, bukti mekanistik argumen lawan menunjukkan bahwa representasi terstruktur ada dan dipakai kausal. Itu tidak sama dengan menunjukkan bahwa konsep dikuasai. Representasi keadaan papan permainan dapat ada bersamaan dengan kegagalan menerapkannya ketika aturan permainan diubah; yang pertama bukti bagi representasi, yang kedua bukti terhadap penguasaan. Ketiga, kesimpulan 'sejenis dengan pemahaman manusia' melampaui apa yang didukung premisnya, yang hanya menyangkut kapasitas fungsional. Argumen lawan tidak dapat sekaligus membatasi diri pada kapasitas fungsional dan mengklaim kesetaraan jenis dengan pemahaman manusia.",
+  "points": [
+    {"claim": "Prinsip konsistensi menuntut memperhitungkan bukti negatif: pola kegagalan relasi terbalik dan kontrafaktual yang khas LLM adalah perbedaan relevan yang tidak dijawab.", "target": "P4 dan P6 tersirat argumen lawan"},
+    {"claim": "Adanya representasi yang dipakai kausal tidak sama dengan penguasaan konsep; representasi dapat ada sementara penerapan fleksibel gagal.", "target": "P3 argumen lawan"},
+    {"claim": "Kesimpulan 'sejenis dengan pemahaman manusia' melampaui premis yang hanya menyangkut kapasitas fungsional.", "target": "kesimpulan (C) argumen lawan"}
+  ],
+  "concessions": ["Temuan intervensi kausal pada representasi internal adalah bukti nyata bahwa LLM bukan sekadar tabel pencarian."],
+  "clarifications": []
+}

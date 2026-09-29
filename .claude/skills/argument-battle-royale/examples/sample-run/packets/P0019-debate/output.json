@@ -1,0 +1,15 @@
+{
+  "packet_id": "P0019-debate",
+  "input_hash": "81acb6e17a4766935bc529f01ab916f6d9c1babe3b7a2ab3397a1856ca3e7757",
+  "match_id": "R03-M0002",
+  "exchange": "defense",
+  "statement": "Lawan benar bahwa konsistensi berlaku pada bukti negatif. Tetapi bukti negatif hanya menjadi 'perbedaan relevan' bila ia menunjukkan ketiadaan kapasitas, bukan karakter implementasinya. Setiap sistem yang memahami memiliki profil kegagalan khas: manusia tersesat pada kalimat garden-path, melewatkan kesalahan dalam pertanyaan yang tampak wajar, dan jauh lebih buruk pada penalaran abstrak daripada konkret. Kita tidak menyimpulkan bahwa manusia tidak memahami; kita menyimpulkan bahwa pemahaman mereka diimplementasikan dengan cara tertentu. Kasus relasi terbalik menunjukkan hal yang sama: kegagalan itu menyangkut pengetahuan yang tersimpan dalam bobot dari pelatihan, sedangkan ketika informasi yang sama diberikan dalam konteks, model membalik relasi dengan benar. Itu keterbatasan memori dan penyimpanan, bukan ketiadaan pemahaman atas relasi. Tentang representasi dan penguasaan: saya tidak mengklaim representasi saja cukup; argumen saya menggabungkan representasi yang dipakai kausal (P3) dengan generalisasi ke komposisi baru (P2). Kegagalan kontrafaktual yang lawan sebut menunjukkan batas generalisasi, yang mengurangi derajat — dan saya sejak awal menyatakan derajat dapat lebih rendah per domain. Tentang 'sejenis dengan pemahaman manusia': cakupan argumen saya menyatakan klaim terbatas pada pemahaman fungsional-inferensial dan tidak mengklaim kesadaran. 'Sejenis' berarti jenis kapasitas yang sama, bukan kesetaraan dalam segala aspek.",
+  "points": [
+    {"claim": "Bukti negatif menjadi perbedaan relevan hanya bila menunjukkan ketiadaan kapasitas; manusia pun memiliki profil kegagalan khas tanpa kehilangan status memahami.", "target": "serangan: asimetri bukti negatif"},
+    {"claim": "Kegagalan relasi terbalik menyangkut pengetahuan tersimpan dari pelatihan; dalam konteks, relasi dibalik dengan benar.", "target": "serangan: relasi terbalik sebagai perbedaan relevan"},
+    {"claim": "Argumen menggabungkan representasi kausal dengan generalisasi; kegagalan kontrafaktual mengurangi derajat yang sudah diakui dapat lebih rendah.", "target": "serangan terhadap P3"},
+    {"claim": "'Sejenis' berarti jenis kapasitas fungsional-inferensial yang sama, sesuai cakupan yang dinyatakan.", "target": "serangan: kesimpulan melampaui premis"}
+  ],
+  "concessions": ["Kesenjangan kontrafaktual menunjukkan bahwa derajat pemahaman LLM di sejumlah domain lebih rendah daripada manusia."],
+  "clarifications": ["'Sejenis dengan pemahaman manusia' dibaca dalam cakupan yang sudah dinyatakan: jenis kapasitas fungsional-inferensial, bukan kesadaran."]
+}
