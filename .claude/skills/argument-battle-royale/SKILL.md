@@ -101,6 +101,8 @@ Jangan membaca isi `packet.md` sendiri saat mendelegasikan — cukup teruskan pa
 
 Bila tidak ada kemampuan subagent: untuk setiap paket, baca `packet_path`, kerjakan tugasnya sendiri dengan standar yang sama, tulis `output_path`, jalankan perintah `check` di paket sampai `OK`, lalu lanjut ke paket berikutnya. Jalankan `next` setelah setiap beberapa paket. Karena semua state ada di disk, pekerjaan tetap aman bila konteks dipadatkan atau sesi terputus — cukup jalankan `init ... resume=true` atau `next` lagi.
 
+**Lingkungan chat tanpa subagent (mis. Claude.ai).** Semua paket dikerjakan dalam satu percakapan, sehingga panjang konteks menjadi batas nyata. Bila pengguna tidak menyebut `population`, sebelum `init` sampaikan dalam satu atau dua kalimat bahwa default 1000 petarung (~80–290 paket) terlalu besar untuk satu percakapan, lalu tawarkan skala yang layak — `population=16`–`32` untuk run lengkap dengan semua tahap, atau hingga `64` dengan `mode=efficient` — dan ikuti pilihan pengguna. File sandbox belum tentu bertahan antar-percakapan: bila lingkungan menyediakan cara memberikan file kepada pengguna, serahkan `report.md` saat selesai, dan tawarkan arsip direktori run bila pengguna ingin melanjutkan atau mengaudit di tempat lain.
+
 ### Standar kerja (berlaku untuk worker mana pun)
 
 - Kerjakan tugas paket dengan sungguh-sungguh; paket sudah memuat rubrik, aturan anti-bias, dan format output.
