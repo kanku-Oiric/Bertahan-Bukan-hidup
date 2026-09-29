@@ -81,6 +81,15 @@ $ABR next --run RUN_DIR
 
 Setelah setiap gelombang, beri pengguna satu baris progres dari field `progress` (mis. "Babak 256 besar (Eliminasi): 3/11 paket juri selesai").
 
+### Animasi progres (Clawd)
+
+`next` juga mengembalikan objek `anim` agar progres tidak membosankan:
+
+- **Flipbook di chat.** Bila `anim.show` bernilai `true` (tahap atau babak baru dimulai), tampilkan `anim.frame` apa adanya di dalam blok kode `text`: Clawd berganti pose per tahap (penyihir saat persiapan, duel saat bracket, roket saat uji falsifikasi, piala saat selesai). Bila `show` bernilai `false`, cukup satu baris progres dari `anim.caption` dan `anim.percent`.
+- **Arena HTML.** `anim.arena` menunjuk `arena.html` di direktori run: animasi pixel art penuh, jalur tahap, bracket 8 besar, dan kartu hasil, diperbarui setiap `next`. Sebutkan path-nya sekali di awal run. Saat run selesai, tampilkan atau serahkan arena itu bila lingkungan dapat menampilkan HTML (artifact, panel pratinjau, file untuk pengguna); bila tidak, cukup sebutkan path-nya.
+- **Terminal live.** Output tool tidak ditampilkan secara live, jadi jangan menjalankan `watch` sendiri. Bila pengguna memakai Claude Code di mesin lokal, sebutkan sekali bahwa mereka dapat membuka terminal lain dan menjalankan `python3 SKILL_DIR/scripts/abr.py watch --run RUN_DIR`.
+- Bila pengguna meminta tanpa animasi, lewati flipbook dan tampilkan baris progres saja.
+
 ## 4. Mengerjakan paket
 
 ### Jalur paralel (bila tool Agent/subagent tersedia)
@@ -101,7 +110,7 @@ Jangan membaca isi `packet.md` sendiri saat mendelegasikan — cukup teruskan pa
 
 Bila tidak ada kemampuan subagent: untuk setiap paket, baca `packet_path`, kerjakan tugasnya sendiri dengan standar yang sama, tulis `output_path`, jalankan perintah `check` di paket sampai `OK`, lalu lanjut ke paket berikutnya. Jalankan `next` setelah setiap beberapa paket. Karena semua state ada di disk, pekerjaan tetap aman bila konteks dipadatkan atau sesi terputus — cukup jalankan `init ... resume=true` atau `next` lagi.
 
-**Lingkungan chat tanpa subagent (mis. Claude.ai).** Semua paket dikerjakan dalam satu percakapan, sehingga panjang konteks menjadi batas nyata. Bila pengguna tidak menyebut `population`, sebelum `init` sampaikan dalam satu atau dua kalimat bahwa default 1000 petarung (~80–290 paket) terlalu besar untuk satu percakapan, lalu tawarkan skala yang layak — `population=16`–`32` untuk run lengkap dengan semua tahap, atau hingga `64` dengan `mode=efficient` — dan ikuti pilihan pengguna. File sandbox belum tentu bertahan antar-percakapan: bila lingkungan menyediakan cara memberikan file kepada pengguna, serahkan `report.md` saat selesai, dan tawarkan arsip direktori run bila pengguna ingin melanjutkan atau mengaudit di tempat lain.
+**Lingkungan chat tanpa subagent (mis. Claude.ai).** Semua paket dikerjakan dalam satu percakapan, sehingga panjang konteks menjadi batas nyata. Bila pengguna tidak menyebut `population`, sebelum `init` sampaikan dalam satu atau dua kalimat bahwa default 1000 petarung (~80–290 paket) terlalu besar untuk satu percakapan, lalu tawarkan skala yang layak — `population=16`–`32` untuk run lengkap dengan semua tahap, atau hingga `64` dengan `mode=efficient` — dan ikuti pilihan pengguna. File sandbox belum tentu bertahan antar-percakapan: bila lingkungan menyediakan cara memberikan file kepada pengguna, serahkan `report.md` dan `arena.html` saat selesai (di Claude.ai, arena dapat ditampilkan sebagai artifact HTML agar animasinya berjalan), dan tawarkan arsip direktori run bila pengguna ingin melanjutkan atau mengaudit di tempat lain.
 
 ### Standar kerja (berlaku untuk worker mana pun)
 
@@ -155,4 +164,7 @@ Untuk uji cepat gunakan `population=32 mode=efficient`. Rincian profil mode ada 
 | `$ABR retry --run DIR --packet ID` | Ulangi paket saat run `blocked` |
 | `$ABR report --run DIR` | Bangun ulang laporan run yang selesai |
 | `$ABR verify --run DIR` | Verifikasi integritas penuh (exit 0 = lulus) |
+| `$ABR arena --run DIR` | Tulis ulang `arena.html` (atau `--demo` untuk pratinjau tanpa run) |
+| `$ABR frame --run DIR` | Cetak frame flipbook saat ini |
+| `$ABR watch --run DIR` | Animasi live di terminal pengguna sendiri (bukan untuk dijalankan lewat tool) |
 | `python3 SKILL_DIR/scripts/selftest.py` | Uji engine end-to-end dengan worker sintetis |

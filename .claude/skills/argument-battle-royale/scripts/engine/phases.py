@@ -76,8 +76,39 @@ class Engine:
                 self.run.save_state()
                 if not progressed:
                     break
+            self._anim = self._anim_update()
             self.run.save_state()
+            self._write_arena()
             return self.summary()
+
+    def _anim_update(self):
+        """Frame flipbook untuk chat: tampil sekali per tahap/babak baru."""
+        from . import anim
+
+        try:
+            info = anim.status_info(self.run)
+        except Exception as exc:  # animasi tidak boleh menghentikan turnamen
+            return {"show": False, "error": str(exc)}
+        show = info["key"] != self.st.get("anim_key")
+        if show:
+            self.st["anim_key"] = info["key"]
+            self.st["anim_n"] = self.st.get("anim_n", 0) + 1
+        out = {k: v for k, v in info.items() if k != "key"}
+        out["show"] = show
+        out["arena"] = self.run.path("arena.html")
+        if show:
+            out["frame"] = anim.mini(info, self.st["anim_n"])
+        return out
+
+    def _write_arena(self):
+        from . import arena
+
+        try:
+            arena.write(self.run)
+        except Exception as exc:
+            import sys
+
+            sys.stderr.write("peringatan: arena.html tidak diperbarui: %s\n" % exc)
 
     def summary(self):
         st = self.st
@@ -100,6 +131,8 @@ class Engine:
             out["integrity"] = self.run.path("integrity.json")
         else:
             out["action"] = "execute_packets"
+        if getattr(self, "_anim", None):
+            out["anim"] = self._anim
         out["pending_count"] = len(pending)
         out["packets"] = [
             {

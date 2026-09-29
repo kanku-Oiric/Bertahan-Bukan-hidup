@@ -34,6 +34,7 @@ RUN_DIR/
 │   ├── output.json       output worker (setelah diserap: tidak boleh berubah)
 │   └── output.rejected.N.json   output yang gagal validasi (untuk audit)
 ├── report.md / report.json   laporan akhir
+├── arena.html            halaman beranimasi (progres, bracket, hasil); ditulis ulang setiap `next`
 └── integrity.json        hasil verifikasi integritas + digest
 ```
 
@@ -165,6 +166,22 @@ PACKET_RECORD:
 ## Ledger
 
 Setiap baris: `{seq, ts, event, data, prev, hash}` dengan `hash = sha256(prev + canonical_json({seq, ts, event, data, prev}))`. Peristiwa utama: `run_initialized`, `packet_created`, `packet_ingested` (hash output), `packet_rejected`, `packet_abandoned`, `phase_changed`, `plan_created`, `fighters_ingested`, `dedup_done`, `validation_applied`, `refill_planned`, `seeding_locked` (hash petarung, populasi, seeding), `round_created`, `round_completed` (hash file ronde), `final4_dossiers`, `champion_decided`, `falsification_result`, `winner_declared`, `report_generated`, `flag`, `blocked`.
+
+## Objek `anim` pada output `next`
+
+```json
+{
+  "scene": "battle",            // wizard | battle | rocket | trophy | idle | blocked | nowinner
+  "stage": "ELIMINASI", "stage_index": 7, "stage_count": 15,
+  "percent": 52, "caption": "Babak 256 besar (Eliminasi): duel berlangsung",
+  "round": 3, "done": false,
+  "show": true,                 // true sekali per tahap/babak baru
+  "frame": "…teks flipbook…",   // hanya ada bila show = true
+  "arena": "/…/RUN_DIR/arena.html"
+}
+```
+
+State menyimpan `anim_key` dan `anim_n` agar flipbook hanya muncul saat tahap atau babak berganti. Keduanya tidak memengaruhi hasil turnamen dan tidak termasuk digest integritas.
 
 ## Format output paket
 

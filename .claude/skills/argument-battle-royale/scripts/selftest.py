@@ -231,10 +231,17 @@ def run_case(mode, population, keep=False, threshold=None, dq_rate=0.04):
     worker = FakeWorker(7, dq_rate=dq_rate)
     abandoned_one = False
     iterations = 0
+    scenes_seen = set()
     while True:
         iterations += 1
         run = Run(run_dir)  # muat ulang dari disk setiap iterasi = uji resume
         summary = Engine(run).next()
+        a = summary.get("anim") or {}
+        assert "scene" in a and 0 <= a["percent"] <= 100, a
+        if a.get("show"):
+            assert a["frame"].strip(), "frame flipbook kosong"
+        scenes_seen.add(a["scene"])
+        assert os.path.exists(run.path("arena.html")), "arena.html tidak ditulis"
         if summary["action"] == "done":
             break
         assert summary["action"] == "execute_packets", summary
@@ -276,6 +283,9 @@ def run_case(mode, population, keep=False, threshold=None, dq_rate=0.04):
     with open(rpath, "w", encoding="utf-8") as fh:
         fh.write(original)
     assert integrity.verify(Run(run_dir))["ok"]
+    assert {"wizard", "battle", "rocket", "trophy"} <= scenes_seen, scenes_seen
+    html = open(run.path("arena.html"), encoding="utf-8").read()
+    assert "abr-data" in html and '"done":true' in html
     pop = run.load_population()
     counts = {}
     for p in pop.values():
@@ -292,6 +302,31 @@ def run_case(mode, population, keep=False, threshold=None, dq_rate=0.04):
     return info
 
 
+def check_animation():
+    """Semua adegan dapat dirender ke ANSI, teks mini, dan data web."""
+    from engine import anim
+
+    for scene in anim.SCENES:
+        for i, fr in enumerate(anim.frames(scene)):
+            grid = anim.rasterize(fr)
+            assert len(grid) == anim.CANVAS_H and all(len(r) == anim.CANVAS_W for r in grid)
+            assert any(ch != "." for row in grid for ch in row), (scene, i)
+            assert len(anim.ansi(grid, "truecolor")) == anim.CANVAS_H // 2
+            assert len(anim.ansi(grid, "256")) == anim.CANVAS_H // 2
+        info = {"scene": scene, "stage": "X", "stage_index": 0, "stage_count": 15, "percent": 50, "caption": "uji"}
+        assert anim.mini(info, 0) and anim.statusline(info)
+    data = anim.web_data()
+    for fr_list in data["scenes"].values():
+        for fr in fr_list:
+            for layer in fr["l"]:
+                assert layer[0] in data["sprites"]
+            for x, y, c in fr["p"]:
+                assert c in data["palette"]
+    for rows in data["sprites"].values():
+        assert len({len(r) for r in rows}) == 1, "sprite tidak persegi"
+        assert all(ch == "." or ch in data["palette"] for r in rows for ch in r)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--mode", choices=list(C.MODES))
@@ -304,6 +339,8 @@ def main():
         cases = [(args.mode, args.population or 1000, args.dq_rate)]
     else:
         cases = [("efficient", 1000, 0.04), ("balanced", 150, 0.04), ("full", 40, 0.04), ("balanced", 120, 0.25)]
+    check_animation()
+    print(json.dumps({"animation": "ok"}))
     for mode, pop, dq in cases:
         info = run_case(mode, pop, keep=args.keep, threshold=args.threshold, dq_rate=dq)
         print(json.dumps(info, ensure_ascii=False))

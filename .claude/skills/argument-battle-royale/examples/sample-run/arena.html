@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arena Battle Royale</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Silkscreen&display=swap">
+<style>
+/* Tata letak: satu kolom; "layar arena" gelap sebagai panggung, lalu jalur tahap,
+   angka, bracket 8 besar, dan kartu hasil. Warna diambil dari karakter Clawd. */
+:root {
+  --bg: #f3f5fa;
+  --surface: #ffffff;
+  --ink: #16203a;
+  --muted: #5b6583;
+  --line: #d9deea;
+  --accent: #d95a31;
+  --navy: #23478c;
+  --spark: #b7800f;
+  --ok: #23845a;
+  --bad: #b83a24;
+  --arena: #111830;
+  --arena-grid: rgba(255, 255, 255, 0.035);
+  --arena-ink: #e8ecf8;
+  --arena-dim: #8c96b8;
+  --arena-accent: #f4784a;
+  --f-pixel: "Silkscreen", "Courier New", monospace;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1122; --surface: #141b33; --ink: #e6eaf6; --muted: #9aa4c6; --line: #26304f;
+    --accent: #ff8a5c; --navy: #8fb0f0; --spark: #f2c14e; --ok: #4cc58d; --bad: #ff7a61;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1122; --surface: #141b33; --ink: #e6eaf6; --muted: #9aa4c6; --line: #26304f;
+  --accent: #ff8a5c; --navy: #8fb0f0; --spark: #f2c14e; --ok: #4cc58d; --bad: #ff7a61;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.55 var(--f-body);
+  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+}
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 16px; padding-block: 24px 40px; display: grid; gap: 20px; }
+.wrap > * { min-width: 0; }
+.eyebrow { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0; }
+h1 { font-size: clamp(22px, 3.6vw, 32px); line-height: 1.2; margin: 6px 0 0; text-wrap: balance; }
+.sub { color: var(--muted); margin: 6px 0 0; max-width: 70ch; }
+.stage {
+  background: var(--arena); color: var(--arena-ink); border-radius: 14px; overflow: hidden;
+  display: grid; gap: 0;
+}
+.screen {
+  display: grid; place-items: center; padding: 18px 12px 8px;
+  background-image:
+    linear-gradient(var(--arena-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--arena-grid) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+canvas { image-rendering: pixelated; image-rendering: crisp-edges; max-width: 100%; height: auto; display: block; }
+.caption { display: grid; gap: 10px; padding: 12px 18px 18px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.caption-row { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; justify-content: space-between; }
+.scene-name { font: 13px/1.3 var(--f-pixel); color: var(--arena-accent); letter-spacing: 0.06em; text-transform: uppercase; }
+.caption-text { font-size: 16px; font-weight: 500; min-width: 0; }
+.meter { height: 10px; background: rgba(255, 255, 255, 0.08); border-radius: 2px; overflow: hidden; }
+.meter span { display: block; height: 100%; background: var(--arena-accent); width: 0; transition: width 0.6s ease; }
+.pct { font: 600 13px/1 var(--f-data); color: var(--arena-dim); font-variant-numeric: tabular-nums; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chips-label { font: 11px/1 var(--f-pixel); color: var(--arena-dim); letter-spacing: 0.06em; text-transform: uppercase; margin-right: 4px; }
+.chip {
+  font: 12px/1 var(--f-pixel); letter-spacing: 0.04em; color: var(--arena-ink); background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 999px; padding: 7px 11px; cursor: pointer;
+}
+.chip[aria-pressed="true"] { background: var(--arena-accent); border-color: var(--arena-accent); color: #1b1208; }
+.chip:focus-visible, .stepper button:focus-visible { outline: 2px solid var(--arena-accent); outline-offset: 2px; }
+section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+.track { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.track li {
+  display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 6px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 13px;
+}
+.track li b { font: 600 11px/1 var(--f-data); font-variant-numeric: tabular-nums; }
+.track li.done { color: var(--ink); }
+.track li.done b { color: var(--ok); }
+.track li.now { border-color: var(--accent); color: var(--ink); box-shadow: inset 0 0 0 1px var(--accent); }
+.track li.now b { color: var(--accent); }
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; }
+@media (min-width: 760px) { .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.stat dt { font-size: 12px; color: var(--muted); }
+.stat dd { margin: 4px 0 0; font: 600 20px/1.2 var(--f-data); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.bracket { display: grid; grid-template-columns: repeat(4, minmax(180px, 1fr)); gap: 14px; overflow-x: auto; padding-bottom: 4px; }
+.col { display: grid; grid-template-rows: auto 1fr; gap: 10px; min-width: 0; }
+.col .matches { display: grid; gap: 10px; align-content: space-around; }
+.col h3 { font: 11px/1.2 var(--f-pixel); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.match { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.slot { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: baseline; padding: 7px 10px; font-size: 13px; }
+.slot + .slot { border-top: 1px solid var(--line); }
+.slot .id { font: 600 11px/1 var(--f-data); color: var(--muted); }
+.slot .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.slot .v { font: 600 11px/1 var(--f-data); color: var(--muted); font-variant-numeric: tabular-nums; }
+.slot.win { color: var(--ink); font-weight: 600; }
+.slot.win .id { color: var(--accent); }
+.slot.lose { color: var(--muted); }
+.slot.tbd { color: var(--muted); font-style: italic; }
+.champ { border-color: var(--accent); }
+.result { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 10px; }
+.result h3 { margin: 0; font-size: 19px; line-height: 1.3; text-wrap: balance; }
+.result p { margin: 0; max-width: 72ch; }
+.pill { justify-self: start; font: 600 12px/1 var(--f-data); padding: 6px 9px; border-radius: 999px; border: 1px solid currentColor; }
+.pill.ok { color: var(--ok); } .pill.warn { color: var(--spark); } .pill.bad { color: var(--bad); } .pill.run { color: var(--navy); }
+.formula { color: var(--muted); font-style: italic; border-left: 3px solid var(--accent); padding-left: 12px; }
+.foot { color: var(--muted); font-size: 12px; font-family: var(--f-data); }
+.stepper { display: flex; gap: 6px; }
+.stepper button { font: 12px/1 var(--f-pixel); color: var(--arena-ink); background: transparent; border: 1px solid rgba(255,255,255,.18); border-radius: 6px; padding: 6px 10px; cursor: pointer; }
+@media (max-width: 520px) { .caption-text { font-size: 15px; } .bracket { grid-template-columns: repeat(4, minmax(160px, 1fr)); } }
+@media (prefers-reduced-motion: reduce) { .meter span { transition: none; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <p class="eyebrow" id="eyebrow">Argument Battle Royale</p>
+    <h1 id="topic"></h1>
+    <p class="sub" id="restated"></p>
+  </header>
+
+  <section class="stage" aria-label="Arena animasi">
+    <div class="screen"><canvas id="cv" width="480" height="240" role="img" aria-label="Animasi Clawd"></canvas></div>
+    <div class="caption">
+      <div class="caption-row">
+        <span class="scene-name" id="sceneName"></span>
+        <span class="pct" id="pct"></span>
+      </div>
+      <div class="caption-text" id="caption"></div>
+      <div class="meter" aria-hidden="true"><span id="meter"></span></div>
+      <div class="caption-row">
+        <div class="chips" id="chips"><span class="chips-label">Pratinjau</span></div>
+        <div class="stepper" id="stepper" hidden><button type="button" id="play">Putar</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-track">
+    <h2 id="h-track">Jalur turnamen</h2>
+    <ol class="track" id="track"></ol>
+  </section>
+
+  <section aria-labelledby="h-stats">
+    <h2 id="h-stats">Populasi dan bracket</h2>
+    <dl class="stats" id="stats"></dl>
+  </section>
+
+  <section aria-labelledby="h-bracket">
+    <h2 id="h-bracket">Delapan besar sampai juara</h2>
+    <div class="bracket" id="bracket"></div>
+  </section>
+
+  <section class="result" id="result" aria-labelledby="h-result"></section>
+
+  <p class="foot" id="foot"></p>
+</main>
+
+<script id="abr-data" type="application/json">{"anim":{"w":60,"h":30,"fps":6,"palette":{"O":"#F4784A","D":"#C8552F","K":"#141414","N":"#23478C","n":"#15295A","C":"#F6DEB0","c":"#D9B98A","W":"#F4F4F2","G":"#B9BCC4","L":"#BFDAF4","Y":"#F9C23C","y":"#F28C28","R":"#E0412A","B":"#5A3325","A":"#2C2D33","P":"#B06AD8","E":"#3FBF7F","S":"#FFFFFF"},"sprites":{"bang":["RR","RR","RR","..","RR"],"box":["..RR..","AAAAAA","AAAAAA",".AAAA."],"box_on":["......","AARRAA","AAAAAA",".AAAA."],"clawd_angry_side":[".........................",".........................",".........................",".........................","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOKOOOOOOOKOOOOO...","...DDOOKKOOOOOOOKKOOOO...",".DDDDOOOOOOOOOOOOOOOOOOO.","DDOOOOOOOOOOOOOOOOOOOOOOO","DDOOOOOOOOOOOOOOOOOOOOOOD",".DDDDOOOOOOOOOOOOOOOOODD.","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO..."],"clawd_angry_wave":[".........................",".........................",".........................","DO.......................","DO.DDOOOOOOOOOOOOOOOOO...","DO.DDOOOOOOOOOOOOOOOOO...","DO.DDOOOOOOOOOOOOOOOOO...",".DODDOOOKOOOOOOOKOOOOO...",".DODDOOKKOOOOOOOKKOOOO...","...DDOOOOOOOOOOOOOOOOOOO.","...OOOOOOOOOOOOOOOOOOOOOO","...OOOOOOOOOOOOOOOOOOOOOD","...DDOOOOOOOOOOOOOOOOODD.","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO..."],"clawd_blink_side":[".........................",".........................",".........................",".........................","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOKKOOOOOOOKKOOOO...",".DDDDOOOOOOOOOOOOOOOOOOO.","DDOOOOOOOOOOOOOOOOOOOOOOO","DDOOOOOOOOOOOOOOOOOOOOOOD",".DDDDOOOOOOOOOOOOOOOOODD.","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO..."],"clawd_happy_wave":[".........................",".........................",".........................","DO.......................","DO.DDOOOOOOOOOOOOOOOOO...","DO.DDOOOOOOOOOOOOOOOOO...","DO.DDOOOOOOOOOOOOOOOOO...",".DODDOOOKOOOOOOOKOOOOO...",".DODDOOKOKOOOOOKOKOOOO...","...DDOOOOOOOOOOOOOOOOOOO.","...OOOOOOOOOOOOOOOOOOOOOO","...OOOOOOOOOOOOOOOOOOOOOD","...DDOOOOOOOOOOOOOOOOODD.","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO..."],"clawd_open_side":[".........................",".........................",".........................",".........................","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOKKOOOOOOOKKOOOO...","...DDOOKKOOOOOOOKKOOOO...",".DDDDOOOOOOOOOOOOOOOOOOO.","DDOOOOOOOOOOOOOOOOOOOOOOO","DDOOOOOOOOOOOOOOOOOOOOOOD",".DDDDOOOOOOOOOOOOOOOOODD.","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO..."],"clawd_wink_side":[".........................",".........................",".........................",".........................","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOKKOOOOOOOOOOOOO...","...DDOOKKOOOOOOOKKOOOO...",".DDDDOOOOOOOOOOOOOOOOOOO.","DDOOOOOOOOOOOOOOOOOOOOOOO","DDOOOOOOOOOOOOOOOOOOOOOOD",".DDDDOOOOOOOOOOOOOOOOODD.","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO..."],"flame0":[".....yYy.....","....yYYYy....",".....YYY.....","......Y......"],"flame1":["....yYYYy....","....yYYYy....",".....yYy.....","......y......"],"flame2":[".....yYy.....",".....YYY.....","......Y......","..Y.......Y.."],"hat":["......NNNNN............",".....NNNNNNN...........","....NNnnNNNNN..........","....nn.nnNNNNN.........",".......nnNNNNNN........",".......nNNNNNNN........","......nnnNNNNNNN.......","......nnNNNNNNNN.......",".....nnNNNNNNNNNN......",".....ncCCCCCCCCCC......",".....ccCCCCCCCCCCC.....","...nnnnNNNNNNNNNNNNN...",".nnnnNNNNNNNNNNNNNNNNN.","nnnnnnnnnnnnnnnnnnnnnnn"],"podium":["GGGGGGGGGGGGG","GWWWWWYWWWWWG","GWWWWYYWWWWWG","GWWWWWYWWWWWG","GGGGGGGGGGGGG"],"question":[".YYY.","Y...Y","...Y.","..Y..",".....","..Y.."],"rocket":["......N......",".....nNN.....","....nNNNN....","...nNNNNNN...","...GWWWWWW...","...GWWWWWW...","...GWnNNWW...","...GnLLLNW...","...GnLLLNW...","...GWnNNWW...","...GWWWWWW...",".N.GWWWWWW.N.","NN.GWWWWWW.NN","NNNGWWWWWWNNN","NN.GGGGGGG.NN","N...AKKKA...N"],"trophy":["YYYYYYYYY","Y.YYYYY.Y","Y.YYYYY.Y",".YYYYYYY.","..YYYYY..","....Y....","...YYY...","..BBBBB.."]},"scenes":{"wizard":[{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"S"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[40,11,"Y"],[44,11,"Y"],[42,9,"Y"],[42,13,"Y"],[40,6,"Y"],[46,8,"Y"],[45,14,"Y"],[37,9,"Y"]]},{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"Y"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[43,5,"Y"],[38,10,"Y"],[47,11,"Y"],[44,15,"Y"]]},{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"S"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[40,11,"Y"],[44,11,"Y"],[42,9,"Y"],[42,13,"Y"],[41,7,"Y"],[47,7,"Y"],[46,13,"Y"],[38,8,"Y"]]},{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"Y"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[44,4,"Y"],[39,7,"Y"],[48,10,"Y"],[43,14,"Y"]]},{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"S"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[40,11,"Y"],[44,11,"Y"],[42,9,"Y"],[42,13,"Y"],[40,6,"Y"],[46,8,"Y"],[45,14,"Y"],[37,9,"Y"]]},{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"Y"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[43,5,"Y"],[38,10,"Y"],[47,11,"Y"],[44,15,"Y"]]},{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"S"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[40,11,"Y"],[44,11,"Y"],[42,9,"Y"],[42,13,"Y"],[41,7,"Y"],[47,7,"Y"],[46,13,"Y"],[38,8,"Y"]]},{"l":[["clawd_blink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"Y"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[44,4,"Y"],[39,7,"Y"],[48,10,"Y"],[43,14,"Y"]]}],"battle":[{"l":[["clawd_angry_side",3,10,0],["clawd_angry_side",32,11,1]],"p":[[29,21,"S"],[28,21,"Y"],[30,21,"Y"],[29,20,"Y"],[29,22,"Y"],[27,21,"Y"],[31,21,"Y"],[29,19,"Y"],[29,23,"Y"],[6,29,"G"],[9,29,"G"]]},{"l":[["clawd_angry_side",3,11,0],["clawd_angry_side",32,10,1]],"p":[[28,20,"R"],[30,22,"R"],[30,20,"R"],[28,22,"R"],[29,21,"S"],[51,29,"G"],[54,29,"G"]]},{"l":[["clawd_angry_side",3,10,0],["clawd_angry_side",32,11,1]],"p":[[29,21,"Y"],[28,21,"Y"],[30,21,"Y"],[29,20,"Y"],[29,22,"Y"],[6,29,"G"],[9,29,"G"]]},{"l":[["clawd_angry_side",3,11,0],["clawd_angry_side",32,10,1]],"p":[[28,20,"R"],[30,22,"R"],[30,20,"R"],[28,22,"R"],[29,21,"S"],[51,29,"G"],[54,29,"G"]]}],"rocket":[{"l":[["clawd_angry_wave",3,11,0],["box",27,19,0],["rocket",40,10,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,10,0],["flame1",40,26,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,8,0],["flame2",40,24,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"],[51,28,"Y"],[55,29,"Y"],[40,27,"y"],[53,27,"Y"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,6,0],["flame0",40,22,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"],[38,28,"Y"],[43,29,"y"],[51,28,"y"],[55,29,"y"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,4,0],["flame1",40,20,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"],[43,29,"Y"],[51,28,"Y"],[55,29,"Y"],[40,27,"y"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,2,0],["flame2",40,18,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"],[51,28,"y"],[55,29,"y"],[40,27,"Y"],[53,27,"y"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,0,0],["flame0",40,16,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"],[38,28,"y"],[43,29,"Y"],[51,28,"Y"],[55,29,"Y"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,-2,0],["flame1",40,14,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"],[43,29,"y"],[51,28,"y"],[55,29,"y"],[40,27,"Y"]]}],"trophy":[{"l":[["clawd_happy_wave",9,11,0],["podium",38,25,0],["trophy",40,17,0]],"p":[[26,1,"Y"],[3,13,"R"],[48,7,"N"],[29,4,"P"],[38,9,"E"],[43,10,"O"],[48,8,"Y"],[41,10,"R"],[18,11,"N"],[55,6,"P"],[24,5,"E"],[9,5,"O"],[2,0,"Y"],[7,5,"R"],[12,11,"N"],[21,5,"P"],[6,6,"E"],[43,9,"O"]]},{"l":[["clawd_happy_wave",9,10,0],["podium",38,25,0],["trophy",40,17,0]],"p":[[9,0,"Y"],[50,3,"R"],[11,13,"N"],[16,1,"P"],[37,10,"E"],[6,3,"O"],[31,5,"Y"],[16,4,"R"],[21,3,"N"],[2,13,"P"],[7,0,"E"],[32,1,"O"],[57,7,"Y"],[50,12,"R"],[15,13,"N"],[48,10,"P"],[9,10,"E"],[2,13,"O"]]},{"l":[["clawd_happy_wave",9,11,0],["podium",38,25,0],["trophy",40,17,0]],"p":[[0,1,"Y"],[45,10,"R"],[34,4,"N"],[3,12,"P"],[36,11,"E"],[37,11,"O"],[6,0,"Y"],[51,11,"R"],[24,9,"N"],[9,5,"P"],[50,8,"E"],[55,11,"O"],[52,1,"Y"],[25,4,"R"],[10,13,"N"],[15,2,"P"],[4,12,"E"],[21,2,"O"]]},{"l":[["clawd_happy_wave",9,10,0],["podium",38,25,0],["trophy",40,17,0]],"p":[[43,13,"Y"],[32,1,"R"],[57,9,"N"],[50,8,"P"],[35,12,"E"],[0,4,"O"],[49,10,"Y"],[18,3,"R"],[27,1,"N"],[16,11,"P"],[33,3,"E"],[18,8,"O"],[47,9,"Y"],[8,12,"R"],[13,1,"N"],[34,5,"P"],[7,2,"E"],[48,7,"O"]]}],"idle":[{"l":[["clawd_open_side",17,11,0]],"p":[]},{"l":[["clawd_open_side",17,11,0]],"p":[]},{"l":[["clawd_open_side",17,11,0]],"p":[]},{"l":[["clawd_open_side",17,11,0]],"p":[]},{"l":[["clawd_open_side",17,11,0]],"p":[]},{"l":[["clawd_blink_side",17,11,0]],"p":[]}],"blocked":[{"l":[["clawd_open_side",17,11,0],["bang",28,8,0]],"p":[]},{"l":[["clawd_open_side",17,11,0]],"p":[]},{"l":[["clawd_open_side",17,11,0],["bang",28,8,0]],"p":[]},{"l":[["clawd_open_side",17,11,0]],"p":[]}],"nowinner":[{"l":[["clawd_open_side",17,11,0],["question",27,7,0]],"p":[]},{"l":[["clawd_open_side",17,11,0],["question",27,6,0]],"p":[]},{"l":[["clawd_open_side",17,11,0],["question",27,7,0]],"p":[]},{"l":[["clawd_open_side",17,11,0],["question",27,6,0]],"p":[]},{"l":[["clawd_open_side",17,11,0],["question",27,7,0]],"p":[]},{"l":[["clawd_blink_side",17,11,0],["question",27,6,0]],"p":[]}]},"labels":{"wizard":"Sihir","battle":"Duel","rocket":"Peluncuran","trophy":"Juara","idle":"Santai","blocked":"Terhenti","nowinner":"Tanpa pemenang"}},"run":{"demo":false,"topic":"Apakah AI bisa disebut memahami bahasa?","restated":"Apakah sistem kecerdasan buatan — khususnya model bahasa besar (LLM) yang ada saat ini, dan sistem AI secara prinsip — dapat secara tepat dikatakan memahami bahasa, dan jika ya, dalam arti 'memahami' yang mana?","info":{"done":true,"scene":"trophy","stage_index":14,"stage":"LAPORAN","stage_count":15,"percent":100,"caption":"Pemenang tahan-uji: Profil campuran pragmatik: penjelasan terbaik adalah pemahaman parsial","round":4,"key":"trophy|14|4|done"},"stages":["TOPIK","PEMETAAN","GENERASI","DEDUPLIKASI","VALIDASI","SEEDING","BRACKET","ELIMINASI","DEEP REVIEW","FINAL 4","SEMIFINAL","FINAL","PEMENANG","UJI FALSIFIKASI","LAPORAN"],"stats":[["Petarung dihasilkan","16"],["Masuk bracket","16"],["Babak","4 dari 4"],["Paket kerja selesai","37 / 37"]],"bracket":[[{"a":{"id":"F0005","title":"Profil campuran pragmatik: penjelasan terbaik adalah pemahaman parsial"},"b":{"id":"F0010","title":"Tanpa penutur, tanpa komitmen"},"winner":"F0005","votes":"3–0"},{"a":{"id":"F0014","title":"Konsep klaster yang terbelah: sengketa verbal"},"b":{"id":"F0008","title":"Dua sistem kembar: sejarah kausal menentukan isi"},"winner":"F0014","votes":"2–1"},{"a":{"id":"F0009","title":"Uji dunia kontrafaktual"},"b":{"id":"F0006","title":"Spektrum penutur: dari buku frasa ke penutur asli"},"winner":"F0009","votes":"2–1"},{"a":{"id":"F0001","title":"Paritas mekanistik: representasi dunia internal"},"b":{"id":"F0004","title":"Blindsight linguistik: kompetensi tanpa kesadaran"},"winner":"F0001","votes":"2–1"}],[{"a":{"id":"F0005","title":"Profil campuran pragmatik: penjelasan terbaik adalah pemahaman parsial"},"b":{"id":"F0014","title":"Konsep klaster yang terbelah: sengketa verbal"},"winner":"F0005","votes":"4–1"},{"a":{"id":"F0009","title":"Uji dunia kontrafaktual"},"b":{"id":"F0001","title":"Paritas mekanistik: representasi dunia internal"},"winner":"F0009","votes":"4–1"}],[{"a":{"id":"F0005","title":"Profil campuran pragmatik: penjelasan terbaik adalah pemahaman parsial"},"b":{"id":"F0009","title":"Uji dunia kontrafaktual"},"winner":"F0005","votes":"3–2"}]],"champion":{"id":"F0005","title":"Profil campuran pragmatik: penjelasan terbaik adalah pemahaman parsial"},"winner":{"id":"F0005","title":"Profil campuran pragmatik: penjelasan terbaik adalah pemahaman parsial","thesis":"Pola keberhasilan dan kegagalan LLM yang khas — kuat pada semantik literal dan banyak implikatur, rapuh pada komitmen jangka panjang, referensi dunia nyata, dan konsistensi — paling baik dijelaskan oleh hipotesis pemahaman parsial, bukan oleh pemahaman penuh maupun pencocokan pola belaka."},"winner_status":"SURVIVED_WITH_DAMAGE","done":true,"formula":"Pemenang adalah argumen yang paling tahan terhadap rubrik pengujian yang diterapkan dalam simulasi ini.","previews":{"wizard":"Persiapan: pemetaan, generasi, deduplikasi, validasi, dan seeding petarung","battle":"Bracket: eliminasi, deep review, Final 4, semifinal, dan final","rocket":"Uji falsifikasi: juara diluncurkan ke pengujian terberat","trophy":"Pemenang tahan-uji diumumkan","idle":"Menunggu langkah berikutnya","blocked":"Run terhenti dan menunggu tindakan","nowinner":"Semua kandidat gugur dalam uji falsifikasi"},"foot":"Mode balanced · populasi 16 · seed 3171064302 · diperbarui 2026-09-29T13:24:25+00:00 · sample-run"}}</script>
+<script>
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("abr-data").textContent);
+  var A = D.anim, R = D.run;
+  var $ = function (id) { return document.getElementById(id); };
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function text(el, s) { el.textContent = s == null ? "" : String(s); }
+  function el(tag, cls, s) { var e = document.createElement(tag); if (cls) e.className = cls; if (s != null) e.textContent = s; return e; }
+
+  // ---------- header ----------
+  text($("topic"), R.topic);
+  text($("restated"), R.restated || "");
+  if (R.demo) text($("eyebrow"), "Argument Battle Royale · pratinjau animasi");
+
+  // ---------- canvas ----------
+  var cv = $("cv"), ctx = cv.getContext("2d");
+  var scale = 8;
+  function fit() {
+    var box = cv.parentNode.clientWidth - 24;
+    scale = Math.max(3, Math.min(10, Math.floor(box / A.w)));
+    cv.width = A.w * scale; cv.height = A.h * scale;
+    cv.style.width = cv.width + "px";
+    draw();
+  }
+  var runScene = R.info.scene, scene = runScene, idx = 0, playing = !reduce, pinned = false;
+  function draw() {
+    var frames = A.scenes[scene], fr = frames[idx % frames.length];
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    var W = A.w, H = A.h;
+    fr.l.forEach(function (L) {
+      var rows = A.sprites[L[0]], x = L[1], y = L[2], m = L[3];
+      for (var dy = 0; dy < rows.length; dy++) {
+        var row = m ? rows[dy].split("").reverse().join("") : rows[dy];
+        for (var dx = 0; dx < row.length; dx++) {
+          var ch = row[dx], px = x + dx, py = y + dy;
+          if (ch === "." || px < 0 || py < 0 || px >= W || py >= H) continue;
+          ctx.fillStyle = A.palette[ch];
+          ctx.fillRect(px * scale, py * scale, scale, scale);
+        }
+      }
+    });
+    fr.p.forEach(function (P) {
+      if (P[0] < 0 || P[1] < 0 || P[0] >= W || P[1] >= H) return;
+      ctx.fillStyle = A.palette[P[2]];
+      ctx.fillRect(P[0] * scale, P[1] * scale, scale, scale);
+    });
+  }
+  var last = 0, demoTimer = 0;
+  var demoOrder = ["wizard", "battle", "rocket", "trophy"];
+  function tick(t) {
+    if (playing && !document.hidden && t - last >= 1000 / A.fps) {
+      last = t; idx++;
+      if (R.demo && !pinned && idx % (A.fps * 4) === 0) {
+        demoTimer = (demoTimer + 1) % demoOrder.length;
+        setScene(demoOrder[demoTimer], false);
+      }
+      draw();
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // ---------- caption ----------
+  function setCaption() {
+    var isRun = scene === runScene;
+    text($("sceneName"), (isRun ? "Tahap " + (R.info.stage_index + 1) + "/" + R.info.stage_count + " · " + R.info.stage : "Pratinjau · " + A.labels[scene]));
+    text($("caption"), isRun ? R.info.caption : R.previews[scene]);
+    var p = isRun ? R.info.percent : 100;
+    text($("pct"), isRun ? p + "%" : "");
+    $("meter").style.width = (isRun ? p : 0) + "%";
+  }
+  function setScene(s, byUser) {
+    scene = s; idx = 0; if (byUser) pinned = s !== runScene;
+    Array.prototype.forEach.call($("chips").querySelectorAll(".chip"), function (b) {
+      b.setAttribute("aria-pressed", b.dataset.scene === s ? "true" : "false");
+    });
+    setCaption(); draw();
+  }
+  var chipScenes = [["run", "Ikuti run"], ["wizard"], ["battle"], ["rocket"], ["trophy"], ["idle"]];
+  chipScenes.forEach(function (c) {
+    var s = c[0] === "run" ? runScene : c[0];
+    if (c[0] !== "run" && s === runScene) return;
+    var b = el("button", "chip", c[1] || A.labels[s]);
+    b.type = "button"; b.dataset.scene = s;
+    b.addEventListener("click", function () { setScene(s, true); });
+    $("chips").appendChild(b);
+  });
+  if (reduce) {
+    $("stepper").hidden = false;
+    $("play").addEventListener("click", function () { playing = !playing; text($("play"), playing ? "Jeda" : "Putar"); });
+  }
+
+  // ---------- track ----------
+  R.stages.forEach(function (name, i) {
+    var li = el("li"); var b = el("b", null, String(i + 1).padStart(2, "0"));
+    li.appendChild(b); li.appendChild(document.createTextNode(name));
+    if (i < R.info.stage_index || R.done) li.className = "done";
+    else if (i === R.info.stage_index) { li.className = "now"; li.setAttribute("aria-current", "step"); }
+    $("track").appendChild(li);
+  });
+
+  // ---------- stats ----------
+  R.stats.forEach(function (s) {
+    var d = el("div", "stat"); d.appendChild(el("dt", null, s[0])); d.appendChild(el("dd", null, s[1]));
+    $("stats").appendChild(d);
+  });
+
+  // ---------- bracket ----------
+  var cols = [["8 besar", 4], ["Semifinal", 2], ["Final", 1]];
+  cols.forEach(function (c, ci) {
+    var col = el("div", "col"); col.appendChild(el("h3", null, c[0]));
+    var list = el("div", "matches"); col.appendChild(list);
+    var rd = R.bracket[ci] || [];
+    for (var k = 0; k < c[1]; k++) {
+      var m = rd[k], box = el("div", "match");
+      [0, 1].forEach(function (side) {
+        var f = m ? (side ? m.b : m.a) : null;
+        var s = el("div", "slot");
+        if (!f) { s.className = "slot tbd"; s.appendChild(el("span", "id", "—")); s.appendChild(el("span", "t", "menunggu")); s.appendChild(el("span", "v", "")); }
+        else {
+          if (m.winner) s.className = "slot " + (m.winner === f.id ? "win" : "lose");
+          s.appendChild(el("span", "id", f.id)); var t = el("span", "t", f.title); t.title = f.title; s.appendChild(t);
+          s.appendChild(el("span", "v", m.winner === f.id && m.votes ? m.votes : ""));
+        }
+        box.appendChild(s);
+      });
+      list.appendChild(box);
+    }
+    $("bracket").appendChild(col);
+  });
+  var ccol = el("div", "col"); ccol.appendChild(el("h3", null, "Juara"));
+  var clist = el("div", "matches"); ccol.appendChild(clist);
+  var cbox = el("div", "match champ"), cs = el("div", "slot" + (R.champion ? " win" : " tbd"));
+  cs.appendChild(el("span", "id", R.champion ? R.champion.id : "—"));
+  var ct = el("span", "t", R.champion ? R.champion.title : "menunggu"); ct.title = ct.textContent; cs.appendChild(ct);
+  cs.appendChild(el("span", "v", ""));
+  cbox.appendChild(cs); clist.appendChild(cbox); $("bracket").appendChild(ccol);
+
+  // ---------- result ----------
+  var res = $("result");
+  var h = el("h3"); h.id = "h-result";
+  var pill;
+  if (R.winner) {
+    text(h, R.winner.title);
+    res.appendChild(el("p", "eyebrow", "Pemenang tahan-uji"));
+    res.appendChild(h);
+    res.appendChild(el("p", null, R.winner.thesis));
+    var st = R.winner_status || "";
+    pill = el("span", "pill " + (st === "SURVIVED" ? "ok" : "warn"), "Uji falsifikasi: " + st);
+  } else if (R.done) {
+    text(h, "Tidak ada pemenang tahan-uji");
+    res.appendChild(el("p", "eyebrow", "Hasil"));
+    res.appendChild(h);
+    res.appendChild(el("p", null, "Semua kandidat gugur dalam uji falsifikasi; sikap yang paling dapat dipertanggungjawabkan adalah menangguhkan penilaian."));
+    pill = el("span", "pill bad", "Tanpa pemenang");
+  } else {
+    text(h, "Turnamen masih berjalan");
+    res.appendChild(el("p", "eyebrow", "Hasil"));
+    res.appendChild(h);
+    res.appendChild(el("p", null, "Pemenang ditetapkan setelah final dan uji falsifikasi selesai."));
+    pill = el("span", "pill run", R.info.stage);
+  }
+  res.appendChild(pill);
+  res.appendChild(el("p", "formula", R.formula));
+
+  text($("foot"), R.foot);
+
+  setScene(scene, false);
+  window.addEventListener("resize", fit);
+  fit();
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

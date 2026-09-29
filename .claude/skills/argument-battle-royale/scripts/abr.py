@@ -13,6 +13,15 @@ Perintah:
   show      --run DIR --fighter ID  Tampilkan satu petarung.
   list-runs [--base DIR]         Daftar run yang ada.
 
+Animasi (Clawd):
+  watch     [--run DIR] [--demo] [--once] [--fps N] [--colors truecolor|256]
+                                 Animasi live di terminal Anda sendiri (Ctrl+C untuk keluar).
+  frame     [--run DIR] [--style mini|ansi] [--i N] [--scene S]
+                                 Cetak satu frame (flipbook chat atau ANSI).
+  arena     [--run DIR] [--out FILE] [--demo]
+                                 Tulis arena HTML beranimasi (juga diperbarui otomatis oleh next).
+  statusline                     Satu baris untuk status line Claude Code (baca JSON dari stdin).
+
 Parameter init (semua opsional kecuali topik):
   mode=full|balanced|efficient  population=1000  deep_round_threshold=N  max_parallel=N
   random_seed=N  evidence_mode=internal|web_if_available  language=id  output_dir=PATH
@@ -31,6 +40,7 @@ from engine.store import Run  # noqa: E402
 from engine.util import default_seed, sha256_text, slugify  # noqa: E402
 
 DEFAULT_BASE = "argument-battle-royale-runs"
+FLAGS = {"once", "demo"}
 INIT_KEYS = [
     "topic",
     "mode",
@@ -64,6 +74,8 @@ def parse_kv(argv):
             body = tok[2:].replace("-", "_")
             if "=" in body:
                 k, v = body.split("=", 1)
+            elif body in FLAGS:
+                k, v = body, "true"
             else:
                 k = body
                 if i + 1 >= len(argv):
@@ -324,6 +336,153 @@ def cmd_list_runs(argv):
     emit({"base": os.path.abspath(base), "runs": rows})
 
 
+def _latest_run(base=DEFAULT_BASE):
+    best = None
+    if os.path.isdir(base):
+        for name in os.listdir(base):
+            run = Run(os.path.join(base, name))
+            if run.exists():
+                key = run.state.get("updated_at", "")
+                if best is None or key > best[0]:
+                    best = (key, run)
+    return best[1] if best else None
+
+
+def _pick_run(opts, allow_none=False):
+    if "run" in opts:
+        return _run_from(opts)
+    run = _latest_run(opts.get("base", DEFAULT_BASE))
+    if run is None and not allow_none:
+        fail("Tidak ada run. Pakai --run DIR, atau --demo untuk pratinjau.")
+    return run
+
+
+def _color_mode(opts):
+    mode = opts.get("colors")
+    if mode in ("truecolor", "256"):
+        return mode
+    return "truecolor" if os.environ.get("COLORTERM", "").lower() in ("truecolor", "24bit") else "256"
+
+
+DEMO_INFO = {
+    "wizard": ("GENERASI", 2, 18, "Menyihir 1000 petarung"),
+    "battle": ("ELIMINASI", 7, 55, "Babak 256 besar (Eliminasi): duel berlangsung"),
+    "rocket": ("UJI FALSIFIKASI", 13, 90, "Uji falsifikasi: meluncurkan pengujian terhadap juara"),
+    "trophy": ("LAPORAN", 14, 100, "Pemenang tahan-uji diumumkan"),
+}
+
+
+def _demo_info(scene):
+    from engine import anim
+
+    stage, idx, pct, cap = DEMO_INFO.get(scene, ("TOPIK", 0, 0, "Menunggu"))
+    return {"scene": scene, "stage": stage, "stage_index": idx, "stage_count": len(anim.STAGES),
+            "percent": pct, "caption": cap, "round": 0, "key": scene, "done": False}
+
+
+def cmd_watch(argv):
+    import time
+    from engine import anim
+
+    opts, _ = parse_kv(argv)
+    demo = _bool(opts.get("demo", False))
+    once = _bool(opts.get("once", False))
+    mode = _color_mode(opts)
+    fps = max(1.0, min(20.0, float(opts.get("fps", anim.FPS))))
+    run_dir = None if demo else _pick_run(opts).dir
+    order = ["wizard", "battle", "rocket", "trophy"]
+    info, topic, polled, i, t0 = None, "", 0.0, 0, time.time()
+    if not once:
+        sys.stdout.write("\x1b[?25l\x1b[2J")
+    try:
+        while True:
+            now = time.time()
+            if demo:
+                scene = order[int((now - t0) // 4) % len(order)]
+                info, topic = _demo_info(scene), "Pratinjau animasi Clawd"
+            elif info is None or now - polled > 1.0:
+                run = Run(run_dir)
+                info, topic, polled = anim.status_info(run), run.state["config"]["topic"], now
+            frames = anim.frames(info["scene"])
+            art = anim.ansi(anim.rasterize(frames[i % len(frames)]), mode)
+            orange = anim._fg(anim.PALETTE["O"], mode)
+            text = [
+                "",
+                "  %sARGUMENT BATTLE ROYALE%s · %s" % (orange, anim.RESET, topic[:70]),
+                "  %s" % info["caption"][:90],
+                "  %s %3d%%  tahap %d/%d %s" % (anim.bar(info["percent"], 30), info["percent"], info["stage_index"] + 1, info["stage_count"], info["stage"]),
+                "  " + " ".join(("■" if (k < info["stage_index"] or info.get("done")) else "▣" if k == info["stage_index"] else "□") for k in range(info["stage_count"])),
+            ]
+            if once:
+                print("\n".join(art + text))
+                return
+            text.append("  Ctrl+C untuk keluar")
+            sys.stdout.write("\x1b[H" + "\n".join(line + "\x1b[K" for line in art + text) + "\x1b[J")
+            sys.stdout.flush()
+            i += 1
+            time.sleep(1.0 / fps)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        if not once:
+            sys.stdout.write(anim.RESET + "\x1b[?25h\n")
+
+
+def cmd_frame(argv):
+    from engine import anim
+
+    opts, _ = parse_kv(argv)
+    scene = opts.get("scene")
+    if scene and scene not in anim.SCENES:
+        fail("Adegan tidak dikenal: %s. Pilihan: %s" % (scene, ", ".join(anim.SCENES)))
+    run = None if scene else _pick_run(opts)
+    info = _demo_info(scene) if scene else anim.status_info(run)
+    i = _int("i", opts.get("i", 0), 0)
+    if opts.get("style", "mini") == "ansi":
+        frames = anim.frames(info["scene"])
+        print("\n".join(anim.ansi(anim.rasterize(frames[i % len(frames)]), _color_mode(opts))))
+    else:
+        print(anim.mini(info, i))
+
+
+def cmd_arena(argv):
+    from engine import arena
+
+    opts, _ = parse_kv(argv)
+    if _bool(opts.get("demo", False)):
+        path = arena.write_demo(os.path.abspath(opts.get("out", "arena-demo.html")))
+    else:
+        run = _pick_run(opts)
+        path = arena.write(run, os.path.abspath(opts["out"]) if "out" in opts else None)
+    emit({"arena": path})
+
+
+def cmd_statusline(argv):
+    import datetime as dt
+    from engine import anim
+
+    data = {}
+    if not sys.stdin.isatty():
+        try:
+            data = json.loads(sys.stdin.read() or "{}")
+        except ValueError:
+            data = {}
+    base = (data.get("workspace") or {}).get("current_dir") or data.get("cwd") or os.getcwd()
+    mode = "truecolor" if os.environ.get("COLORTERM", "").lower() in ("truecolor", "24bit") else "256"
+    run = _latest_run(os.path.join(base, DEFAULT_BASE))
+    if run is not None:
+        st = run.state
+        try:
+            age = (dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(st["updated_at"])).total_seconds()
+        except (KeyError, ValueError):
+            age = 0
+        if st["phase"] != "done" or age < 900:
+            print(anim.statusline(anim.status_info(run), mode))
+            return
+    model = (data.get("model") or {}).get("display_name", "")
+    print("%s▐▛███▜▌%s %s · %s" % (anim._fg(anim.PALETTE["O"], mode), anim.RESET, model or "Claude", os.path.basename(base.rstrip("/")) or base))
+
+
 COMMANDS = {
     "init": cmd_init,
     "next": cmd_next,
@@ -335,6 +494,10 @@ COMMANDS = {
     "report": cmd_report,
     "show": cmd_show,
     "list-runs": cmd_list_runs,
+    "watch": cmd_watch,
+    "frame": cmd_frame,
+    "arena": cmd_arena,
+    "statusline": cmd_statusline,
 }
 
 

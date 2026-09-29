@@ -16,16 +16,17 @@ TOPIK → PEMETAAN RUANG ARGUMEN → GENERASI 1000 PETARUNG → DEDUPLIKASI → 
 1. [Pemakaian cepat](#pemakaian-cepat)
 2. [Parameter](#parameter)
 3. [Cara kerja](#cara-kerja)
-4. [Paralelisasi dan fallback](#paralelisasi-dan-fallback)
-5. [Checkpoint dan resume](#checkpoint-dan-resume)
-6. [Integritas hasil](#integritas-hasil)
-7. [Keluaran](#keluaran)
-8. [Contoh](#contoh)
-9. [CLI engine](#cli-engine)
-10. [Pengujian](#pengujian)
-11. [Memasang di repository lain](#memasang-di-repository-lain)
-12. [Struktur berkas](#struktur-berkas)
-13. [Keterbatasan](#keterbatasan)
+4. [Animasi Clawd](#animasi-clawd)
+5. [Paralelisasi dan fallback](#paralelisasi-dan-fallback)
+6. [Checkpoint dan resume](#checkpoint-dan-resume)
+7. [Integritas hasil](#integritas-hasil)
+8. [Keluaran](#keluaran)
+9. [Contoh](#contoh)
+10. [CLI engine](#cli-engine)
+11. [Pengujian](#pengujian)
+12. [Memasang di repository lain](#memasang-di-repository-lain)
+13. [Struktur berkas](#struktur-berkas)
+14. [Keterbatasan](#keterbatasan)
 
 ## Pemakaian cepat
 
@@ -87,6 +88,51 @@ Tahap-tahap penting:
 
 Rincian lengkap: [`references/pipeline.md`](references/pipeline.md), rubrik: [`references/rubric.md`](references/rubric.md), struktur data: [`references/data-model.md`](references/data-model.md).
 
+## Animasi Clawd
+
+![Clawd sebagai penyihir, petarung, peluncur roket, dan juara](examples/clawd-preview.gif)
+
+Turnamen besar bisa berjalan lama, jadi progresnya ditemani Clawd. Adegan mengikuti tahap pipeline:
+
+| Tahap | Adegan |
+|---|---|
+| Pemetaan, generasi, deduplikasi, validasi, seeding | Penyihir: topi, tongkat, dan percikan sihir |
+| Eliminasi, deep review, Final 4, semifinal, final | Duel: dua Clawd berhadapan, percikan di tengah |
+| Uji falsifikasi | Peluncuran: Clawd menekan tombol, roket lepas landas |
+| Selesai | Juara: piala di podium dan konfeti (atau tanda tanya bila tidak ada pemenang tahan-uji) |
+
+Tampilannya menyesuaikan tempat skill dijalankan:
+
+| Tempat | Bentuk | Bergerak? |
+|---|---|---|
+| Chat (Claude Code maupun Claude.ai) | **Flipbook**: glyph Clawd dari Claude Code plus properti emoji, satu pose per tahap baru, beserta bar progres | Berganti per tahap (output tool Claude Code tidak live) |
+| Browser, panel pratinjau aplikasi Claude, artifact Claude.ai | **Arena HTML** (`RUN_DIR/arena.html`): pixel art penuh, jalur 15 tahap, statistik, bracket 8 besar, kartu pemenang; tombol untuk memutar setiap adegan | Ya, 6 fps; memuat ulang otomatis setiap 20 detik selama run berjalan |
+| Terminal Anda sendiri | **`watch`**: pixel art berwarna dengan karakter setengah-blok, bar progres, jalur tahap | Ya |
+| Status line Claude Code (opsional) | Satu baris: Clawd oranye, properti beranimasi, tahap, dan persen | Diperbarui setiap kali percakapan berubah |
+
+```bash
+ABR="python3 .claude/skills/argument-battle-royale/scripts/abr.py"
+$ABR watch --run DIR          # animasi live di terminal lain (Ctrl+C untuk keluar)
+$ABR watch --demo             # putar semua adegan tanpa run
+$ABR arena --demo --out arena-demo.html
+$ABR frame --scene battle     # cetak satu frame flipbook
+```
+
+`watch` memakai warna 24-bit bila `COLORTERM=truecolor`, selain itu 256 warna (paksa dengan `--colors 256`).
+
+Status line (opsional, di `.claude/settings.json` proyek atau `~/.claude/settings.json`):
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "python3 .claude/skills/argument-battle-royale/scripts/abr.py statusline"
+  }
+}
+```
+
+Status line menampilkan run terbaru di `argument-battle-royale-runs/` pada direktori kerja; tanpa run aktif ia hanya menampilkan Clawd, nama model, dan nama folder.
+
 ## Paralelisasi dan fallback
 
 - **Paralel**: bila tool Agent tersedia, orkestrator mengirim hingga `max_parallel` paket sekaligus ke subagent. Worker hanya menulis `output.json` miliknya; hanya orkestrator yang mengubah state (dengan kunci file), sehingga paralelisme aman.
@@ -106,6 +152,7 @@ Setiap langkah ditulis atomik ke disk (`state.json`, file ronde, output paket). 
 |---|---|
 | `report.md` | Laporan akhir: formula pemenang, ringkasan, parameter, peta ruang argumen, statistik populasi, seeding, perjalanan bracket, ketahanan posisi per babak, diagram bracket (Mermaid), Final 4, semifinal & final (suara panel, alasan mayoritas, dissent), argumen pemenang dalam bentuk baku, uji falsifikasi, peringkat akhir, dinamika turnamen, keterbatasan, integritas, reproduksi |
 | `report.json` | Ringkasan terstruktur untuk dipakai program lain |
+| `arena.html` | Halaman beranimasi (progres, bracket, hasil); diperbarui setiap `next` |
 | `integrity.json` | Hasil verifikasi dan digest run |
 | `fighters.jsonl`, `population.json`, `rounds/`, `dossiers.json`, `ledger.jsonl`, `packets/` | Data mentah yang dapat diaudit |
 
@@ -128,6 +175,10 @@ $ABR show    --run DIR --fighter F0001
 $ABR report  --run DIR                      # bangun ulang laporan
 $ABR verify  --run DIR                      # verifikasi integritas (exit 0 = lulus)
 $ABR list-runs
+$ABR watch   [--run DIR] [--demo] [--once] [--fps N] [--colors truecolor|256]
+$ABR frame   [--run DIR] [--scene S] [--style mini|ansi] [--i N]
+$ABR arena   [--run DIR] [--out FILE] [--demo]
+$ABR statusline                             # untuk status line Claude Code (JSON via stdin)
 ```
 
 ## Pengujian
@@ -157,13 +208,16 @@ Kebutuhan: Python 3.8+ (hanya pustaka standar). Direktori run default `argument-
 ├── README.md                dokumen ini
 ├── scripts/
 │   ├── abr.py               CLI engine
-│   ├── selftest.py          uji end-to-end sintetis
+│   ├── selftest.py          uji end-to-end sintetis (termasuk semua adegan animasi)
+│   ├── make_preview_gif.py  alat pengembang opsional (butuh Pillow) untuk GIF pratinjau
 │   └── engine/              config, util, store, validate, planner, dedup,
-│                            bracket, judging, packets, phases, integrity, report
+│                            bracket, judging, packets, phases, integrity, report,
+│                            anim (sprite & perender), arena (halaman HTML)
 ├── templates/               template paket kerja (map, generate, dedup_review, scout,
 │                            duel, judge, dossier, debate, falsification, rubrik, bukti)
+│                            dan arena.html
 ├── references/              pipeline.md, rubric.md, data-model.md, modes.md
-└── examples/                inputs.md, README.md, sample-run/
+└── examples/                inputs.md, README.md, clawd-preview.gif, sample-run/
 .claude/agents/battle-royale-worker.md
 ```
 
