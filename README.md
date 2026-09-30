@@ -205,7 +205,7 @@ Dokumentasi lengkap skill ada di [`.claude/skills/argument-battle-royale/README.
 ---
 
 <p align="center">
-  <a href="https://github.com/kanku-Oiric/Gobyet"><img src="https://raw.githubusercontent.com/kanku-Oiric/Gobyet/main/gif/marah-debug.gif" width="256" alt="Gobyet, maskot project ini, membanting laptop gara-gara debug"></a>
+  <a href="https://github.com/kanku-Oiric/Gobyet"><img src="https://raw.githubusercontent.com/kanku-Oiric/Gobyet/main/gif/filsuf-yunani.gif" width="256" alt="Gobyet, maskot project ini, berpakaian filsuf Yunani: mengelus janggut di samping pilar lalu mendapat ide"></a>
 </p>
 
 <p align="center">
