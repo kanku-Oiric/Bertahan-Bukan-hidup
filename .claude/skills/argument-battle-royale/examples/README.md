@@ -24,7 +24,7 @@ Skala 16 petarung dipilih agar setiap tahap pipeline terwakili dengan konten sun
 - Keempat finalis berasal dari empat posisi berbeda; posisi "tidak, secara prinsip" tersingkir seluruhnya di babak 16 besar.
 - Uji falsifikasi menggugurkan satu komitmen bantu pemenang (kegagalan berkelompok hanya menurut dimensi) dan menuntut kualifikasi, antara lain klausul mekanisme eksplisit dan pengakuan faktor jarak dari distribusi latih.
 
-Baca `sample-run/report.md` untuk laporan lengkap, dan `sample-run/packets/<id>/packet.md` untuk melihat persis apa yang diterima setiap worker.
+Baca `sample-run/report.md` untuk laporan lengkap, `sample-run/arena.html` untuk arena beranimasi (buka di browser), dan `sample-run/packets/<id>/packet.md` untuk melihat persis apa yang diterima setiap worker.
 
 ### Verifikasi ulang
 
@@ -36,4 +36,9 @@ python3 .claude/skills/argument-battle-royale/scripts/abr.py verify --run .claud
 
 - Semua konten (argumen, skor, putusan, debat, uji) ditulis oleh model bahasa yang bertindak sebagai worker; ini adalah demonstrasi mesin dan protokol, bukan hasil riset yang telah ditinjau.
 - Path absolut di `packets/*/packet.md` telah direlatifkan terhadap root repository agar contoh portabel. File itu tidak di-hash oleh ledger, sehingga verifikasi integritas tidak terpengaruh.
+- `arena.html`, `arena-data.json`, dan `arena-live.json` ditambahkan setelah run selesai lewat `abr.py arena` (fitur animasi dibuat belakangan); ketiganya tidak termasuk digest integritas. Buka `arena.html` untuk menonton tayangan ulang seluruh turnamen sebagai pertarungan.
 - Setelah run ini selesai, engine diperbaiki dalam dua hal kosmetik: riwayat serangan di paket dosir/falsifikasi kini mencantumkan label X/Y argumen yang bersangkutan, dan kutipan alasan juri di laporan mencantumkan pemetaan X/Y. Paket dosir di run ini dibuat sebelum perbaikan pertama; laporan dibangun ulang dengan `abr.py report` (tercatat di ledger sebagai `report_regenerated`).
+
+## `clawd-preview.gif`
+
+Pratinjau keempat adegan animasi (penyihir, duel, peluncuran, juara), dibuat dengan `scripts/make_preview_gif.py`.

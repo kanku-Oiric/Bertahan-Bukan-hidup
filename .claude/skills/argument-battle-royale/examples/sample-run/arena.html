@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arena Battle Royale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Silkscreen&display=swap">
+<style>
+/* Tata letak: satu kolom. Panggung gelap berisi kartu dua petarung, layar pixel,
+   komentar juri, dan kontrol tayangan; di bawahnya jalur tahap, angka, bracket,
+   dan kartu hasil. Warna diambil dari karakter Clawd. */
+:root {
+  --bg: #f3f5fa;
+  --surface: #ffffff;
+  --ink: #16203a;
+  --muted: #5b6583;
+  --line: #d9deea;
+  --accent: #d95a31;
+  --navy: #23478c;
+  --spark: #b7800f;
+  --ok: #23845a;
+  --bad: #b83a24;
+  --arena: #111830;
+  --arena-2: #182142;
+  --arena-grid: rgba(255, 255, 255, 0.035);
+  --arena-line: rgba(255, 255, 255, 0.12);
+  --arena-ink: #e8ecf8;
+  --arena-dim: #8c96b8;
+  --arena-accent: #f4784a;
+  --arena-gold: #f9c23c;
+  --arena-low: #e0412a;
+  --f-pixel: "Silkscreen", "Courier New", monospace;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1122; --surface: #141b33; --ink: #e6eaf6; --muted: #9aa4c6; --line: #26304f;
+    --accent: #ff8a5c; --navy: #8fb0f0; --spark: #f2c14e; --ok: #4cc58d; --bad: #ff7a61;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1122; --surface: #141b33; --ink: #e6eaf6; --muted: #9aa4c6; --line: #26304f;
+  --accent: #ff8a5c; --navy: #8fb0f0; --spark: #f2c14e; --ok: #4cc58d; --bad: #ff7a61;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.55 var(--f-body);
+  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+}
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 16px; padding-block: 24px 40px; display: grid; gap: 20px; }
+.wrap > * { min-width: 0; }
+.eyebrow { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0; }
+h1 { font-size: clamp(22px, 3.6vw, 32px); line-height: 1.2; margin: 6px 0 0; text-wrap: balance; }
+.sub { color: var(--muted); margin: 6px 0 0; max-width: 70ch; }
+
+/* ---------- panggung ---------- */
+.stage { background: var(--arena); color: var(--arena-ink); border-radius: 14px; overflow: hidden; display: grid; }
+.stage-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--arena-line); }
+.pill-live { font: 11px/1 var(--f-pixel); letter-spacing: 0.08em; padding: 6px 8px; border-radius: 4px; background: var(--arena-low); color: #fff; }
+.pill-live.replay { background: var(--arena-2); color: var(--arena-gold); box-shadow: inset 0 0 0 1px var(--arena-gold); }
+.pill-live.snap { background: var(--arena-2); color: var(--arena-ink); box-shadow: inset 0 0 0 1px var(--arena-line); }
+.pill-live.demo { background: var(--arena-2); color: var(--arena-dim); box-shadow: inset 0 0 0 1px var(--arena-dim); }
+.pill-live.on::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; background: #fff; border-radius: 1px; animation: blink 1s steps(2, start) infinite; }
+@keyframes blink { to { visibility: hidden; } }
+.stage-name { font: 12px/1.3 var(--f-pixel); color: var(--arena-accent); letter-spacing: 0.06em; text-transform: uppercase; flex: 1 1 auto; min-width: 0; }
+.pct { font: 600 13px/1 var(--f-data); color: var(--arena-dim); font-variant-numeric: tabular-nums; }
+.meter { height: 4px; background: rgba(255, 255, 255, 0.08); }
+.meter span { display: block; height: 100%; background: var(--arena-accent); width: 0; transition: width 0.6s ease; }
+
+.hud { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: stretch; padding: 12px 16px 0; }
+.fc { background: var(--arena-2); border: 1px solid var(--arena-line); border-radius: 8px; padding: 9px 11px; display: grid; gap: 6px; min-width: 0; transition: opacity 0.4s, border-color 0.4s; }
+.fc.win { border-color: var(--arena-gold); }
+.fc.ko { opacity: 0.45; }
+.fc-row { display: flex; gap: 8px; align-items: baseline; min-width: 0; }
+.fc-r .fc-row { flex-direction: row-reverse; }
+.fc-seed { font: 600 11px/1 var(--f-data); color: var(--arena-gold); }
+.fc-id { font: 600 12px/1 var(--f-data); color: var(--arena-accent); }
+.fc-stance { font-size: 11px; color: var(--arena-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.fc-title { font-size: 13px; line-height: 1.35; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.fc-r .fc-title { text-align: right; }
+.hp { height: 8px; background: rgba(255, 255, 255, 0.08); border-radius: 2px; overflow: hidden; }
+.hp span { display: block; height: 100%; width: 100%; background: var(--arena-accent); transition: width 0.45s ease, background 0.3s; }
+.hp.low span { background: var(--arena-low); }
+.fc-r .hp span { margin-left: auto; }
+.vs { display: grid; align-content: center; justify-items: center; gap: 4px; padding-inline: 4px; }
+.vs b { font: 16px/1 var(--f-pixel); color: var(--arena-gold); }
+.vs span { font: 11px/1.2 var(--f-data); color: var(--arena-dim); text-align: center; font-variant-numeric: tabular-nums; }
+.vs .votes { font: 600 15px/1 var(--f-data); color: var(--arena-ink); }
+
+.screen {
+  display: grid; place-items: center; padding: 12px;
+  background-image: linear-gradient(var(--arena-grid) 1px, transparent 1px), linear-gradient(90deg, var(--arena-grid) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+canvas { image-rendering: pixelated; image-rendering: crisp-edges; max-width: 100%; height: auto; display: block; }
+
+.ticker { padding: 12px 16px 14px; border-top: 1px solid var(--arena-line); display: grid; gap: 4px; min-height: 104px; align-content: start; }
+.tk-head { margin: 0; font: 12px/1.3 var(--f-pixel); letter-spacing: 0.05em; text-transform: uppercase; color: var(--arena-gold); }
+.tk-text { margin: 0; font-size: 15px; line-height: 1.5; max-width: 80ch; }
+.tk-meta { margin: 0; font: 12px/1.4 var(--f-data); color: var(--arena-dim); overflow-wrap: anywhere; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 16px 14px; border-top: 1px solid var(--arena-line); }
+.btn {
+  font: 12px/1 var(--f-pixel); letter-spacing: 0.04em; color: var(--arena-ink); background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 6px; padding: 8px 11px; cursor: pointer;
+}
+.btn:hover { border-color: var(--arena-accent); }
+.btn[aria-pressed="true"] { background: var(--arena-accent); border-color: var(--arena-accent); color: #1b1208; }
+.btn:focus-visible { outline: 2px solid var(--arena-accent); outline-offset: 2px; }
+.speed { display: inline-flex; gap: 4px; }
+.qinfo { font: 12px/1 var(--f-data); color: var(--arena-dim); margin-left: auto; }
+
+/* ---------- bagian bawah ---------- */
+section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+.track { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.track li { display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 13px; }
+.track li b { font: 600 11px/1 var(--f-data); font-variant-numeric: tabular-nums; }
+.track li.done { color: var(--ink); }
+.track li.done b { color: var(--ok); }
+.track li.now { border-color: var(--accent); color: var(--ink); box-shadow: inset 0 0 0 1px var(--accent); }
+.track li.now b { color: var(--accent); }
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; }
+@media (min-width: 760px) { .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.stat dt { font-size: 12px; color: var(--muted); }
+.stat dd { margin: 4px 0 0; font: 600 20px/1.2 var(--f-data); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.bracket { display: grid; grid-template-columns: repeat(4, minmax(170px, 1fr)); gap: 14px; overflow-x: auto; padding-bottom: 4px; }
+.col { display: grid; grid-template-rows: auto 1fr; gap: 10px; min-width: 0; }
+.col h3 { font: 11px/1.2 var(--f-pixel); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.col .matches { display: grid; gap: 10px; align-content: space-around; }
+.match { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; transition: box-shadow 0.3s, border-color 0.3s; }
+.match.live { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.slot { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: baseline; padding: 7px 10px; font-size: 13px; }
+.slot + .slot { border-top: 1px solid var(--line); }
+.slot .id { font: 600 11px/1 var(--f-data); color: var(--muted); }
+.slot .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.slot .v { font: 600 11px/1 var(--f-data); color: var(--muted); font-variant-numeric: tabular-nums; }
+.slot.win { color: var(--ink); font-weight: 600; }
+.slot.win .id { color: var(--accent); }
+.slot.lose { color: var(--muted); }
+.slot.tbd { color: var(--muted); font-style: italic; }
+.champ { border-color: var(--accent); }
+.result { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 10px; }
+.result h3 { margin: 0; font-size: 19px; line-height: 1.3; text-wrap: balance; }
+.result p { margin: 0; max-width: 72ch; }
+.pill { justify-self: start; font: 600 12px/1 var(--f-data); padding: 6px 9px; border-radius: 999px; border: 1px solid currentColor; }
+.pill.ok { color: var(--ok); } .pill.warn { color: var(--spark); } .pill.bad { color: var(--bad); } .pill.run { color: var(--navy); }
+.formula { color: var(--muted); font-style: italic; border-left: 3px solid var(--accent); padding-left: 12px; }
+.foot { color: var(--muted); font-size: 12px; font-family: var(--f-data); margin: 0; }
+@media (max-width: 560px) {
+  .hud { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .vs { grid-column: 1 / -1; grid-row: 1; grid-auto-flow: column; justify-content: center; }
+  .tk-text { font-size: 14px; }
+  .qinfo { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .meter span, .hp span, .fc, .match { transition: none; }
+  .pill-live.on::before { animation: none; }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <p class="eyebrow" id="eyebrow">Argument Battle Royale</p>
+    <h1 id="topic"></h1>
+    <p class="sub" id="restated"></p>
+  </header>
+
+  <section class="stage" aria-label="Arena pertarungan">
+    <div class="stage-top">
+      <span class="pill-live" id="livePill"></span>
+      <span class="stage-name" id="stageName"></span>
+      <span class="pct" id="pct"></span>
+    </div>
+    <div class="meter" aria-hidden="true"><span id="meter"></span></div>
+    <div class="hud" id="hud" hidden>
+      <div class="fc" id="fcA">
+        <div class="fc-row"><span class="fc-seed"></span><span class="fc-id"></span><span class="fc-stance"></span></div>
+        <div class="fc-title"></div>
+        <div class="hp" role="meter" aria-label="Ketahanan" aria-valuemin="0" aria-valuemax="100" title="Ketahanan berkurang setiap kali seorang juri memenangkan lawan"><span></span></div>
+      </div>
+      <div class="vs"><span id="vsRound"></span><b>VS</b><span class="votes" id="vsVotes"></span></div>
+      <div class="fc fc-r" id="fcB">
+        <div class="fc-row"><span class="fc-seed"></span><span class="fc-id"></span><span class="fc-stance"></span></div>
+        <div class="fc-title"></div>
+        <div class="hp" role="meter" aria-label="Ketahanan" aria-valuemin="0" aria-valuemax="100" title="Ketahanan berkurang setiap kali seorang juri memenangkan lawan"><span></span></div>
+      </div>
+    </div>
+    <div class="screen"><canvas id="cv" width="480" height="240" role="img" aria-label="Animasi pertarungan Clawd"></canvas></div>
+    <div class="ticker" aria-live="polite">
+      <p class="tk-head" id="tkHead"></p>
+      <p class="tk-text" id="tkText"></p>
+      <p class="tk-meta" id="tkMeta"></p>
+    </div>
+    <div class="controls">
+      <button type="button" class="btn" id="btnReplay">Putar dari awal</button>
+      <button type="button" class="btn" id="btnPause" aria-pressed="false">Jeda</button>
+      <button type="button" class="btn" id="btnSkip">Lewati</button>
+      <span class="speed" role="group" aria-label="Kecepatan">
+        <button type="button" class="btn" data-speed="1" aria-pressed="true">1×</button>
+        <button type="button" class="btn" data-speed="2" aria-pressed="false">2×</button>
+        <button type="button" class="btn" data-speed="4" aria-pressed="false">4×</button>
+      </span>
+      <span class="qinfo" id="qinfo"></span>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-track">
+    <h2 id="h-track">Jalur turnamen</h2>
+    <ol class="track" id="track"></ol>
+  </section>
+
+  <section aria-labelledby="h-stats">
+    <h2 id="h-stats">Populasi dan bracket</h2>
+    <dl class="stats" id="stats"></dl>
+  </section>
+
+  <section aria-labelledby="h-bracket">
+    <h2 id="h-bracket">Delapan besar sampai juara</h2>
+    <div class="bracket" id="bracket"></div>
+  </section>
+
+  <section class="result" id="result" aria-label="Hasil"></section>
+
+  <p class="foot" id="foot"></p>
+</main>
+
+<script id="abr-data" type="application/json">{"anim":{"w":60,"h":30,"fps":6,"fight":{"clawd_y":11,"body_top":15,"left_x":3,"right_x":32},"palette":{"O":"#F4784A","D":"#C8552F","K":"#141414","N":"#23478C","n":"#15295A","C":"#F6DEB0","c":"#D9B98A","W":"#F4F4F2","G":"#B9BCC4","L":"#BFDAF4","Y":"#F9C23C","y":"#F28C28","R":"#E0412A","B":"#5A3325","A":"#2C2D33","P":"#B06AD8","E":"#3FBF7F","S":"#FFFFFF"},"sprites":{"bang":["RR","RR","RR","..","RR"],"box":["..RR..","AAAAAA","AAAAAA",".AAAA."],"box_on":["......","AARRAA","AAAAAA",".AAAA."],"clawd_angry_side":[".........................",".........................",".........................",".........................","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOKOOOOOOOKOOOOO...","...DDOOKKOOOOOOOKKOOOO...",".DDDDOOOOOOOOOOOOOOOOOOO.","DDOOOOOOOOOOOOOOOOOOOOOOO","DDOOOOOOOOOOOOOOOOOOOOOOD",".DDDDOOOOOOOOOOOOOOOOODD.","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO..."],"clawd_angry_wave":[".........................",".........................",".........................","DO.......................","DO.DDOOOOOOOOOOOOOOOOO...","DO.DDOOOOOOOOOOOOOOOOO...","DO.DDOOOOOOOOOOOOOOOOO...",".DODDOOOKOOOOOOOKOOOOO...",".DODDOOKKOOOOOOOKKOOOO...","...DDOOOOOOOOOOOOOOOOOOO.","...OOOOOOOOOOOOOOOOOOOOOO","...OOOOOOOOOOOOOOOOOOOOOD","...DDOOOOOOOOOOOOOOOOODD.","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO..."],"clawd_blink_side":[".........................",".........................",".........................",".........................","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOKKOOOOOOOKKOOOO...",".DDDDOOOOOOOOOOOOOOOOOOO.","DDOOOOOOOOOOOOOOOOOOOOOOO","DDOOOOOOOOOOOOOOOOOOOOOOD",".DDDDOOOOOOOOOOOOOOOOODD.","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO..."],"clawd_happy_wave":[".........................",".........................",".........................","DO.......................","DO.DDOOOOOOOOOOOOOOOOO...","DO.DDOOOOOOOOOOOOOOOOO...","DO.DDOOOOOOOOOOOOOOOOO...",".DODDOOOKOOOOOOOKOOOOO...",".DODDOOKOKOOOOOKOKOOOO...","...DDOOOOOOOOOOOOOOOOOOO.","...OOOOOOOOOOOOOOOOOOOOOO","...OOOOOOOOOOOOOOOOOOOOOD","...DDOOOOOOOOOOOOOOOOODD.","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO..."],"clawd_open_side":[".........................",".........................",".........................",".........................","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOKKOOOOOOOKKOOOO...","...DDOOKKOOOOOOOKKOOOO...",".DDDDOOOOOOOOOOOOOOOOOOO.","DDOOOOOOOOOOOOOOOOOOOOOOO","DDOOOOOOOOOOOOOOOOOOOOOOD",".DDDDOOOOOOOOOOOOOOOOODD.","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO..."],"clawd_wink_side":[".........................",".........................",".........................",".........................","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOKKOOOOOOOOOOOOO...","...DDOOKKOOOOOOOKKOOOO...",".DDDDOOOOOOOOOOOOOOOOOOO.","DDOOOOOOOOOOOOOOOOOOOOOOO","DDOOOOOOOOOOOOOOOOOOOOOOD",".DDDDOOOOOOOOOOOOOOOOODD.","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...","...DDOOOOOOOOOOOOOOOOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO...",".....DO.DOO.....DO.DOO..."],"flame0":[".....yYy.....","....yYYYy....",".....YYY.....","......Y......"],"flame1":["....yYYYy....","....yYYYy....",".....yYy.....","......y......"],"flame2":[".....yYy.....",".....YYY.....","......Y......","..Y.......Y.."],"hat":["......NNNNN............",".....NNNNNNN...........","....NNnnNNNNN..........","....nn.nnNNNNN.........",".......nnNNNNNN........",".......nNNNNNNN........","......nnnNNNNNNN.......","......nnNNNNNNNN.......",".....nnNNNNNNNNNN......",".....ncCCCCCCCCCC......",".....ccCCCCCCCCCCC.....","...nnnnNNNNNNNNNNNNN...",".nnnnNNNNNNNNNNNNNNNNN.","nnnnnnnnnnnnnnnnnnnnnnn"],"podium":["GGGGGGGGGGGGG","GWWWWWYWWWWWG","GWWWWYYWWWWWG","GWWWWWYWWWWWG","GGGGGGGGGGGGG"],"question":[".YYY.","Y...Y","...Y.","..Y..",".....","..Y.."],"rocket":["......N......",".....nNN.....","....nNNNN....","...nNNNNNN...","...GWWWWWW...","...GWWWWWW...","...GWnNNWW...","...GnLLLNW...","...GnLLLNW...","...GWnNNWW...","...GWWWWWW...",".N.GWWWWWW.N.","NN.GWWWWWW.NN","NNNGWWWWWWNNN","NN.GGGGGGG.NN","N...AKKKA...N"],"trophy":["YYYYYYYYY","Y.YYYYY.Y","Y.YYYYY.Y",".YYYYYYY.","..YYYYY..","....Y....","...YYY...","..BBBBB.."]},"scenes":{"wizard":[{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"S"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[40,11,"Y"],[44,11,"Y"],[42,9,"Y"],[42,13,"Y"],[40,6,"Y"],[46,8,"Y"],[45,14,"Y"],[37,9,"Y"]]},{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"Y"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[43,5,"Y"],[38,10,"Y"],[47,11,"Y"],[44,15,"Y"]]},{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"S"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[40,11,"Y"],[44,11,"Y"],[42,9,"Y"],[42,13,"Y"],[41,7,"Y"],[47,7,"Y"],[46,13,"Y"],[38,8,"Y"]]},{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"Y"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[44,4,"Y"],[39,7,"Y"],[48,10,"Y"],[43,14,"Y"]]},{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"S"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[40,11,"Y"],[44,11,"Y"],[42,9,"Y"],[42,13,"Y"],[40,6,"Y"],[46,8,"Y"],[45,14,"Y"],[37,9,"Y"]]},{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"Y"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[43,5,"Y"],[38,10,"Y"],[47,11,"Y"],[44,15,"Y"]]},{"l":[["clawd_wink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"S"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[40,11,"Y"],[44,11,"Y"],[42,9,"Y"],[42,13,"Y"],[41,7,"Y"],[47,7,"Y"],[46,13,"Y"],[38,8,"Y"]]},{"l":[["clawd_blink_side",12,11,0],["hat",13,1,0]],"p":[[37,19,"O"],[37,20,"O"],[38,19,"B"],[38,18,"B"],[39,17,"B"],[39,16,"B"],[40,15,"B"],[40,14,"B"],[41,13,"B"],[42,11,"Y"],[41,11,"Y"],[43,11,"Y"],[42,10,"Y"],[42,12,"Y"],[44,4,"Y"],[39,7,"Y"],[48,10,"Y"],[43,14,"Y"]]}],"battle":[{"l":[["clawd_angry_side",3,10,0],["clawd_angry_side",32,11,1]],"p":[[29,21,"S"],[28,21,"Y"],[30,21,"Y"],[29,20,"Y"],[29,22,"Y"],[27,21,"Y"],[31,21,"Y"],[29,19,"Y"],[29,23,"Y"],[6,29,"G"],[9,29,"G"]]},{"l":[["clawd_angry_side",3,11,0],["clawd_angry_side",32,10,1]],"p":[[28,20,"R"],[30,22,"R"],[30,20,"R"],[28,22,"R"],[29,21,"S"],[51,29,"G"],[54,29,"G"]]},{"l":[["clawd_angry_side",3,10,0],["clawd_angry_side",32,11,1]],"p":[[29,21,"Y"],[28,21,"Y"],[30,21,"Y"],[29,20,"Y"],[29,22,"Y"],[6,29,"G"],[9,29,"G"]]},{"l":[["clawd_angry_side",3,11,0],["clawd_angry_side",32,10,1]],"p":[[28,20,"R"],[30,22,"R"],[30,20,"R"],[28,22,"R"],[29,21,"S"],[51,29,"G"],[54,29,"G"]]}],"rocket":[{"l":[["clawd_angry_wave",3,11,0],["box",27,19,0],["rocket",40,10,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,10,0],["flame1",40,26,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,8,0],["flame2",40,24,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"],[51,28,"Y"],[55,29,"Y"],[40,27,"y"],[53,27,"Y"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,6,0],["flame0",40,22,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"],[38,28,"Y"],[43,29,"y"],[51,28,"y"],[55,29,"y"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,4,0],["flame1",40,20,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"],[43,29,"Y"],[51,28,"Y"],[55,29,"Y"],[40,27,"y"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,2,0],["flame2",40,18,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"],[51,28,"y"],[55,29,"y"],[40,27,"Y"],[53,27,"y"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,0,0],["flame0",40,16,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"],[38,28,"y"],[43,29,"Y"],[51,28,"Y"],[55,29,"Y"]]},{"l":[["clawd_angry_wave",3,11,0],["box_on",27,19,0],["rocket",40,-2,0],["flame1",40,14,0]],"p":[[39,29,"G"],[40,29,"G"],[41,29,"G"],[42,29,"G"],[43,29,"G"],[44,29,"G"],[45,29,"G"],[46,29,"G"],[47,29,"G"],[48,29,"G"],[49,29,"G"],[50,29,"G"],[51,29,"G"],[52,29,"G"],[53,29,"G"],[43,29,"y"],[51,28,"y"],[55,29,"y"],[40,27,"Y"]]}],"trophy":[{"l":[["clawd_happy_wave",9,11,0],["podium",38,25,0],["trophy",40,17,0]],"p":[[26,1,"Y"],[3,13,"R"],[48,7,"N"],[29,4,"P"],[38,9,"E"],[43,10,"O"],[48,8,"Y"],[41,10,"R"],[18,11,"N"],[55,6,"P"],[24,5,"E"],[9,5,"O"],[2,0,"Y"],[7,5,"R"],[12,11,"N"],[21,5,"P"],[6,6,"E"],[43,9,"O"]]},{"l":[["clawd_happy_wave",9,10,0],["podium",38,25,0],["trophy",40,17,0]],"p":[[9,0,"Y"],[50,3,"R"],[11,13,"N"],[16,1,"P"],[37,10,"E"],[6,3,"O"],[31,5,"Y"],[16,4,"R"],[21,3,"N"],[2,13,"P"],[7,0,"E"],[32,1,"O"],[57,7,"Y"],[50,12,"R"],[15,13,"N"],[48,10,"P"],[9,10,"E"],[2,13,"O"]]},{"l":[["clawd_happy_wave",9,11,0],["podium",38,25,0],["trophy",40,17,0]],"p":[[0,1,"Y"],[45,10,"R"],[34,4,"N"],[3,12,"P"],[36,11,"E"],[37,11,"O"],[6,0,"Y"],[51,11,"R"],[24,9,"N"],[9,5,"P"],[50,8,"E"],[55,11,"O"],[52,1,"Y"],[25,4,"R"],[10,13,"N"],[15,2,"P"],[4,12,"E"],[21,2,"O"]]},{"l":[["clawd_happy_wave",9,10,0],["podium",38,25,0],["trophy",40,17,0]],"p":[[43,13,"Y"],[32,1,"R"],[57,9,"N"],[50,8,"P"],[35,12,"E"],[0,4,"O"],[49,10,"Y"],[18,3,"R"],[27,1,"N"],[16,11,"P"],[33,3,"E"],[18,8,"O"],[47,9,"Y"],[8,12,"R"],[13,1,"N"],[34,5,"P"],[7,2,"E"],[48,7,"O"]]}],"idle":[{"l":[["clawd_open_side",17,11,0]],"p":[]},{"l":[["clawd_open_side",17,11,0]],"p":[]},{"l":[["clawd_open_side",17,11,0]],"p":[]},{"l":[["clawd_open_side",17,11,0]],"p":[]},{"l":[["clawd_open_side",17,11,0]],"p":[]},{"l":[["clawd_blink_side",17,11,0]],"p":[]}],"blocked":[{"l":[["clawd_open_side",17,11,0],["bang",28,8,0]],"p":[]},{"l":[["clawd_open_side",17,11,0]],"p":[]},{"l":[["clawd_open_side",17,11,0],["bang",28,8,0]],"p":[]},{"l":[["clawd_open_side",17,11,0]],"p":[]}],"nowinner":[{"l":[["clawd_open_side",17,11,0],["question",27,7,0]],"p":[]},{"l":[["clawd_open_side",17,11,0],["question",27,6,0]],"p":[]},{"l":[["clawd_open_side",17,11,0],["question",27,7,0]],"p":[]},{"l":[["clawd_open_side",17,11,0],["question",27,6,0]],"p":[]},{"l":[["clawd_open_side",17,11,0],["question",27,7,0]],"p":[]},{"l":[["clawd_blink_side",17,11,0],["question",27,6,0]],"p":[]}]},"labels":{"wizard":"Sihir","battle":"Duel","rocket":"Peluncuran","trophy":"Juara","idle":"Santai","blocked":"Terhenti","nowinner":"Tanpa pemenang"}},"run":{"demo":false,"run_id":"sample-run@2026-09-29T13:02:24+00:00","topic":"Apakah AI bisa disebut memahami bahasa?","restated":"Apakah sistem kecerdasan buatan — khususnya model bahasa besar (LLM) yang ada saat ini, dan sistem AI secara prinsip — dapat secara tepat dikatakan memahami bahasa, dan jika ya, dalam arti 'memahami' yang mana?","info":{"done":true,"scene":"trophy","stage_index":14,"stage":"LAPORAN","stage_count":15,"percent":100,"caption":"Pemenang tahan-uji: Profil campuran pragmatik: penjelasan terbaik adalah pemahaman parsial","round":4,"key":"trophy|14|4|done"},"stages":["TOPIK","PEMETAAN","GENERASI","DEDUPLIKASI","VALIDASI","SEEDING","BRACKET","ELIMINASI","DEEP REVIEW","FINAL 4","SEMIFINAL","FINAL","PEMENANG","UJI FALSIFIKASI","LAPORAN"],"stats":[["Petarung dihasilkan","16"],["Masuk bracket","16"],["Babak","4 dari 4"],["Paket kerja selesai","37 / 37"]],"events":[{"id":"s:map","t":"stage","scene":"wizard","title":"Ruang argumen dipetakan","text":"5 posisi, 6 kerangka, 5 strategi argumentasi"},{"id":"s:gen0","t":"stage","scene":"wizard","title":"16 petarung dipanggil","text":"Setiap posisi mendapat kuota yang sama; turnamen yang menentukan siapa bertahan"},{"id":"s:val0","t":"stage","scene":"wizard","title":"Validasi dan scouting selesai","text":"16 valid, 0 duplikat dihapus, 0 didiskualifikasi"},{"id":"s:seed","t":"stage","scene":"wizard","title":"Bracket 16 slot siap","text":"Unggulan 1: F0005 — Profil campuran pragmatik: penjelasan terbaik adalah pemahaman parsial"},{"id":"r:1","t":"round","label":"Babak 16 besar (Eliminasi)","stage":"elimination","n":8,"byes":0,"upsets":0,"full":true,"shown":8,"method":"llm_single","panel":1},{"id":"m:R01-M0001","t":"match","mid":"R01-M0001","r":1,"label":"Babak 16 besar (Eliminasi)","stage":"elimination","a":"F0005","b":"F0012","w":"F0005","votes":"1–0","basis":"majority","upset":false,"hits":[{"j":"L7","lens":"Generalis mata-segar","by":"a","ta":76.0,"tb":46.0,"obj":"Dari 'teori T menyiratkan AI tidak sadar' tidak mengikuti 'AI tidak memahami' kecuali T benar, dan X sendiri mengakui status T diperdebatkan.","fx":"plausibilitas premis dan kekuatan inferensi","xy":"X = F0012, Y = F0005"}]},{"id":"m:R01-M0002","t":"match","mid":"R01-M0002","r":1,"label":"Babak 16 besar (Eliminasi)","stage":"elimination","a":"F0010","b":"F0002","w":"F0010","votes":"1–0","basis":"majority","upset":false,"hits":[{"j":"L7","lens":"Generalis mata-segar","by":"a","ta":65.0,"tb":60.0,"obj":"Merevisi klaim karena pengguna tidak setuju, bukan karena alasan baru, adalah kebalikan dari praktik memberi dan meminta alasan yang menjadi kriteria Y sendiri.","fx":"bukti X merobohkan premis kunci Y","xy":"X = F0010, Y = F0002"}]},{"id":"m:R01-M0003","t":"match","mid":"R01-M0003","r":1,"label":"Babak 16 besar (Eliminasi)","stage":"elimination","a":"F0014","b":"F0016","w":"F0014","votes":"1–0","basis":"majority","upset":false,"hits":[{"j":"L7","lens":"Generalis mata-segar","by":"a","ta":70.0,"tb":61.0,"obj":"Ketidaksepakatan dan kepekaan framing tidak menunjukkan tidak ada fakta; X tidak menunjukkan bahwa pihak yang berselisih sepakat tentang semua fakta kapasitas.","fx":"daya eksplanatoris dan kekuatan inferensi","xy":"X = F0016, Y = F0014"}]},{"id":"m:R01-M0004","t":"match","mid":"R01-M0004","r":1,"label":"Babak 16 besar (Eliminasi)","stage":"elimination","a":"F0008","b":"F0007","w":"F0008","votes":"1–0","basis":"majority","upset":false,"hits":[{"j":"L7","lens":"Generalis mata-segar","by":"a","ta":68.5,"tb":59.0,"obj":"Klaim bahwa relasi bentuk-dunia tidak dapat dipelajari dari bentuk dibantah oleh representasi keadaan dunia yang dipulihkan dari teks; balasan 'grounding pinjaman' membuat tesis kebal uji.","fx":"ketahanan terhadap bukti representasi dunia","xy":"X = F0007, Y = F0008"}]},{"id":"m:R01-M0005","t":"match","mid":"R01-M0005","r":1,"label":"Babak 16 besar (Eliminasi)","stage":"elimination","a":"F0009","b":"F0013","w":"F0009","votes":"1–0","basis":"majority","upset":false,"hits":[{"j":"L7","lens":"Generalis mata-segar","by":"a","ta":73.0,"tb":50.0,"obj":"Rekaman tidak dapat menanggapi situasi baru secara tepat; analogi beo gagal justru pada ciri yang membuat pertanyaan ini sulit.","fx":"keterujian dan plausibilitas premis","xy":"X = F0009, Y = F0013"}]},{"id":"m:R01-M0006","t":"match","mid":"R01-M0006","r":1,"label":"Babak 16 besar (Eliminasi)","stage":"elimination","a":"F0006","b":"F0015","w":"F0006","votes":"1–0","basis":"majority","upset":false,"hits":[{"j":"L7","lens":"Generalis mata-segar","by":"a","ta":65.5,"tb":61.0,"obj":"Praktik bahasa sudah memutuskan kasus disosiasi terdahulu (penutur tunanetra, pembelajar dari teks) dengan atribusi bergradasi, jadi konsep tidak sepenuhnya terbuka.","fx":"ketahanan terhadap kontra-contoh","xy":"X = F0006, Y = F0015"}]},{"id":"m:R01-M0007","t":"match","mid":"R01-M0007","r":1,"label":"Babak 16 besar (Eliminasi)","stage":"elimination","a":"F0001","b":"F0011","w":"F0001","votes":"1–0","basis":"majority","upset":false,"hits":[{"j":"L7","lens":"Generalis mata-segar","by":"a","ta":72.25,"tb":50.5,"obj":"Jika deskripsi formal membuat makna bergantung pada penafsir, otak pun demikian; Y memerlukan perbedaan relevan yang tidak pernah ia sebutkan.","fx":"Y membuktikan terlalu banyak","xy":"X = F0001, Y = F0011"}]},{"id":"m:R01-M0008","t":"match","mid":"R01-M0008","r":1,"label":"Babak 16 besar (Eliminasi)","stage":"elimination","a":"F0004","b":"F0003","w":"F0004","votes":"1–0","basis":"majority","upset":false,"hits":[{"j":"L7","lens":"Generalis mata-segar","by":"a","ta":66.5,"tb":60.0,"obj":"Tabel-pencarian raksasa dengan perilaku identik akan dinyatakan memahami oleh Y, padahal jelas tidak memahami apa pun.","fx":"ketahanan terhadap kontra-contoh","xy":"X = F0004, Y = F0003"}]},{"id":"r:2","t":"round","label":"Babak 8 besar (Deep review)","stage":"deep_review","n":4,"byes":0,"upsets":0,"full":true,"shown":4,"method":"panel","panel":3},{"id":"m:R02-M0001","t":"match","mid":"R02-M0001","r":2,"label":"Babak 8 besar (Deep review)","stage":"deep_review","a":"F0005","b":"F0010","w":"F0005","votes":"3–0","basis":"majority","upset":false,"hits":[{"j":"L1","lens":"Logikawan formal","by":"a","ta":76.0,"tb":63.75,"obj":"Y melompat dari 'komitmen dijaga buruk' ke 'tidak ada pengemban komitmen' tanpa menyingkirkan hipotesis bahwa kapasitas itu ada tetapi ditekan oleh optimisasi preferensi.","fx":"kelengkapan inferensi abduktif","xy":"X = F0005, Y = F0010"},{"j":"L2","lens":"Filsuf sains","by":"a","ta":76.5,"tb":65.0,"obj":"Perilaku menjilat berkurang atau bertambah tergantung cara penyetelan; itu tanda artefak pelatihan, bukan tanda ketiadaan pengemban komitmen.","fx":"daya eksplanatoris dan cakupan data","xy":"X = F0010, Y = F0005"},{"j":"L3","lens":"Analis konseptual","by":"a","ta":76.0,"tb":63.25,"obj":"Seorang pembaca yang memahami novel tidak memikul komitmen diskursif apa pun atas isinya; pemahaman tidak mensyaratkan menjadi pengemban komitmen.","fx":"kontra-contoh terhadap syarat perlu Y","xy":"X = F0005, Y = F0010"}]},{"id":"m:R02-M0002","t":"match","mid":"R02-M0002","r":2,"label":"Babak 8 besar (Deep review)","stage":"deep_review","a":"F0014","b":"F0008","w":"F0014","votes":"2–1","basis":"majority","upset":false,"hits":[{"j":"L1","lens":"Logikawan formal","by":"b","ta":64.75,"tb":69.25,"obj":"Premis bahwa tidak ada fakta non-linguistik yang menentukan kriteria esensial dinyatakan tanpa argumen dan dibantah oleh teori isi naturalistik mana pun yang benar.","fx":"P4 X mengandaikan apa yang dipersoalkan Y","xy":"X = F0014, Y = F0008"},{"j":"L2","lens":"Filsuf sains","by":"a","ta":71.5,"tb":66.5,"obj":"Tidak ada observasi tentang LLM yang dapat membedakan isi-tentang-teks dari isi-tentang-dunia menurut kriteria X; perbedaannya murni dari teori yang diasumsikan.","fx":"keterujian","xy":"X = F0008, Y = F0014"},{"j":"L3","lens":"Analis konseptual","by":"a","ta":72.25,"tb":66.25,"obj":"Bahwa sejarah menentukan isi adalah satu kriteria dalam klaster; menjadikannya esensial adalah pilihan yang tidak dipaksakan oleh konsep 'memahami'.","fx":"ketahanan terhadap kontra-contoh","xy":"X = F0014, Y = F0008"}]},{"id":"m:R02-M0003","t":"match","mid":"R02-M0003","r":2,"label":"Babak 8 besar (Deep review)","stage":"deep_review","a":"F0009","b":"F0006","w":"F0009","votes":"2–1","basis":"majority","upset":false,"hits":[{"j":"L1","lens":"Logikawan formal","by":"a","ta":73.75,"tb":63.75,"obj":"Analogi penutur-dari-teks gagal karena penutur itu tergrounding untuk hampir semua kata lain; X tidak menawarkan uji yang dapat membedakan posisinya dari posisi Y.","fx":"kekuatan inferensial","xy":"X = F0006, Y = F0009"},{"j":"L2","lens":"Filsuf sains","by":"a","ta":73.5,"tb":64.0,"obj":"Tanpa uji pembeda, 'pemahaman bergradasi' Y cocok dengan hampir semua data yang mungkin.","fx":"falsifiabilitas dan kecukupan empiris","xy":"X = F0009, Y = F0006"},{"j":"L3","lens":"Analis konseptual","by":"b","ta":68.5,"tb":69.25,"obj":"Siswa yang memahami sebagian gagal pada varian kontrafaktual tanpa kita simpulkan ia tidak memahami; data Y mendukung gradasi, bukan ketiadaan.","fx":"syarat perlu Y terlalu kuat","xy":"X = F0006, Y = F0009"}]},{"id":"m:R02-M0004","t":"match","mid":"R02-M0004","r":2,"label":"Babak 8 besar (Deep review)","stage":"deep_review","a":"F0001","b":"F0004","w":"F0001","votes":"2–1","basis":"majority","upset":false,"hits":[{"j":"L1","lens":"Logikawan formal","by":"a","ta":73.5,"tb":65.5,"obj":"Bila Y mengakui pemahaman fungsional, menahan atribusi penuh karena kesadaran yang tidak dapat diverifikasi adalah standar ganda yang tidak kita terapkan pada manusia lain.","fx":"validitas bentuk argumen paritas","xy":"X = F0001, Y = F0004"},{"j":"L2","lens":"Filsuf sains","by":"a","ta":71.5,"tb":66.0,"obj":"Komponen sadar yang menjadi dasar klaim 'parsial' tidak memiliki uji; secara empiris klaim Y tidak dapat dibedakan dari klaim X.","fx":"komitmen empiris yang berisiko","xy":"X = F0001, Y = F0004"},{"j":"L3","lens":"Analis konseptual","by":"b","ta":67.0,"tb":68.25,"obj":"Y membuktikan pemahaman fungsional lalu menyimpulkan pemahaman 'sejenis dengan manusia'; kedua ungkapan itu tidak ekuivalen kecuali kesadaran tidak termasuk pemahaman manusia.","fx":"kejelasan konseptual kesimpulan","xy":"X = F0004, Y = F0001"}]},{"id":"s:final4","t":"stage","scene":"battle","title":"Final 4","text":"Dosir disusun untuk F0005, F0014, F0009, F0001; semifinal dimulai dengan debat"},{"id":"r:3","t":"round","label":"Semifinal","stage":"semifinal","n":2,"byes":0,"upsets":0,"full":true,"shown":2,"method":"panel_debate","panel":5},{"id":"m:R03-M0001","t":"match","mid":"R03-M0001","r":3,"label":"Semifinal","stage":"semifinal","a":"F0005","b":"F0014","w":"F0005","votes":"4–1","basis":"majority","upset":false,"hits":[{"j":"L1","lens":"Logikawan formal","by":"a","ta":77.25,"tb":67.75,"obj":"Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen.","fx":"premis lawan yang tak tertopang (P3, P4)","xy":"X = F0005, Y = F0014"},{"j":"L2","lens":"Filsuf sains","by":"a","ta":78.25,"tb":68.25,"obj":"Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen.","fx":"kecukupan empiris dan prediksi berisiko","xy":"X = F0005, Y = F0014"},{"j":"L3","lens":"Analis konseptual","by":"b","ta":72.0,"tb":73.0,"obj":"Menerapkan 'memahami' secara bergradasi pada profil yang terdisosiasi adalah keputusan konseptual yang diakui lawan sendiri, sehingga jawaban 'sebagian' bukan temuan faktual.","fx":"kejelasan konseptual tentang status vonis 'parsial'","xy":"X = F0014, Y = F0005"},{"j":"L4","lens":"Skeptis / advokat setan","by":"a","ta":74.75,"tb":64.75,"obj":"Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen.","fx":"beban pembuktian atas klaim universal negatif","xy":"X = F0014, Y = F0005"},{"j":"L5","lens":"Metodolog bukti","by":"a","ta":77.75,"tb":66.0,"obj":"Argumen lawan tidak dapat sekaligus memberi jawaban faktual per dimensi dan menyangkal bahwa ada jawaban faktual; P3-nya belum diuji dan P4-nya universal negatif tanpa argumen.","fx":"kualitas bukti","xy":"X = F0005, Y = F0014"}]},{"id":"m:R03-M0002","t":"match","mid":"R03-M0002","r":3,"label":"Semifinal","stage":"semifinal","a":"F0009","b":"F0001","w":"F0009","votes":"4–1","basis":"majority","upset":false,"hits":[{"j":"L1","lens":"Logikawan formal","by":"a","ta":77.25,"tb":70.75,"obj":"Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan.","fx":"premis tersirat F0001 (tidak ada perbedaan relevan lain) tidak terbela","xy":"X = F0001, Y = F0009"},{"j":"L2","lens":"Filsuf sains","by":"a","ta":77.0,"tb":70.5,"obj":"Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan.","fx":"falsifier F0001 sendiri terpicu","xy":"X = F0009, Y = F0001"},{"j":"L3","lens":"Analis konseptual","by":"b","ta":73.0,"tb":74.25,"obj":"Kriteria kontrafaktual lawan mengukur eksekusi prosedur, dan memperluas 'memahami kata' hingga mencakup operasi di latar yang diubah adalah definisi yang menguntungkan posisinya sendiri.","fx":"pembedaan ketiadaan kapasitas vs profil implementasi","xy":"X = F0001, Y = F0009"},{"j":"L4","lens":"Skeptis / advokat setan","by":"a","ta":76.5,"tb":67.0,"obj":"Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan.","fx":"beban pembuktian atas klaim kesetaraan jenis","xy":"X = F0009, Y = F0001"},{"j":"L5","lens":"Metodolog bukti","by":"a","ta":77.0,"tb":70.75,"obj":"Kegagalan setelah aturan baru dinyatakan secara eksplisit memenuhi falsifier lawan sendiri ('kinerja runtuh pada distribusi baru dengan cara yang tidak terjadi pada manusia'); membacanya sebagai 'derajat lebih rendah' adalah penyelamatan.","fx":"desain bukti yang terkontrol","xy":"X = F0001, Y = F0009"}]},{"id":"r:4","t":"round","label":"Final","stage":"final","n":1,"byes":0,"upsets":0,"full":true,"shown":1,"method":"panel_debate","panel":5},{"id":"m:R04-M0001","t":"match","mid":"R04-M0001","r":4,"label":"Final","stage":"final","a":"F0005","b":"F0009","w":"F0005","votes":"3–2","basis":"majority","upset":false,"hits":[{"j":"L1","lens":"Logikawan formal","by":"b","ta":75.25,"tb":76.25,"obj":"Hipotesis jarak-distribusi melemahkan komitmen empiris lawan bahwa kegagalan berkelompok menurut dimensi, dan vonis lawan bergantung pada pembobotan yang tidak ditetapkan.","fx":"struktur deduktif dengan ambang yang eksplisit","xy":"X = F0005, Y = F0009"},{"j":"L2","lens":"Filsuf sains","by":"a","ta":78.25,"tb":75.0,"obj":"Kesimpulan argumen lawan bergeser antara semifinal dan final, dan penetapan transfer kontrafaktual sebagai inti konsep adalah pilihan definisional yang tidak dibela.","fx":"daya eksplanatoris dan konsiliensi","xy":"X = F0005, Y = F0009"},{"j":"L3","lens":"Analis konseptual","by":"a","ta":76.75,"tb":72.0,"obj":"Kesimpulan argumen lawan bergeser antara semifinal dan final, dan penetapan transfer kontrafaktual sebagai inti konsep adalah pilihan definisional yang tidak dibela.","fx":"kejelasan dan stabilitas kesimpulan","xy":"X = F0005, Y = F0009"},{"j":"L4","lens":"Skeptis / advokat setan","by":"b","ta":73.0,"tb":76.0,"obj":"Hipotesis jarak-distribusi melemahkan komitmen empiris lawan bahwa kegagalan berkelompok menurut dimensi, dan vonis lawan bergantung pada pembobotan yang tidak ditetapkan.","fx":"beban pembuktian atas klaim positif","xy":"X = F0009, Y = F0005"},{"j":"L5","lens":"Metodolog bukti","by":"a","ta":78.75,"tb":75.5,"obj":"Kesimpulan argumen lawan bergeser antara semifinal dan final, dan penetapan transfer kontrafaktual sebagai inti konsep adalah pilihan definisional yang tidak dibela.","fx":"integrasi bukti dari berbagai sumber","xy":"X = F0009, Y = F0005"}]},{"id":"f:0","t":"fals","fighter":"F0005","agg":"SURVIVED_WITH_DAMAGE","testers":[{"t":"T1","v":"SURVIVED_WITH_DAMAGE","s":"Inti argumen — pemahaman multidimensional dan bergradasi, dengan kompetensi nyata LLM di sebagian dimensi — bertahan dari kontra-contoh, reductio, perbandingan rival, dan kasus batas. Satu komitmen bantu (kegagalan berk…"},{"t":"T2","v":"SURVIVED_WITH_DAMAGE","s":"Argumen bertahan terhadap reductio dan tekanan konseptual terhadap gagasan gradasi, dan prediksinya tentang model multimodal sesuai. Kerusakan terletak pada dimensi pelacakan komitmen (yang tampaknya milik agensi rasion…"}]},{"id":"w","t":"winner","fighter":"F0005","status":"SURVIVED_WITH_DAMAGE"}],"fighters":{"F0005":{"title":"Profil campuran pragmatik: penjelasan terbaik adalah pemahaman parsial","stance":"Ya secara parsial dan bergradasi","seed":1,"thesis":"Pola keberhasilan dan kegagalan LLM yang khas — kuat pada semantik literal dan banyak implikatur, rapuh pada komitmen jangka panjang, referensi dunia nyata, dan konsistensi — paling baik dijelaskan oleh hipotesis pemahaman parsial, bukan oleh pemahaman penuh…"},"F0007":{"title":"Gurita di dasar laut: bentuk tanpa dunia","stance":"Tidak untuk AI saat ini, mungkin secara prinsip","seed":12,"thesis":"Sistem yang hanya dilatih pada bentuk linguistik tidak dapat mempelajari makna, karena makna adalah relasi antara bentuk dan sesuatu di luar bentuk; LLM saat ini tidak memahami bahasa, tetapi AI yang tergrounding melalui persepsi dan tindakan dapat memahaminy…"},"F0014":{"title":"Konsep klaster yang terbelah: sengketa verbal","stance":"Deflasioner: pertanyaan tidak memiliki jawaban faktual tunggal","seed":4,"thesis":"Perselisihan tentang apakah AI memahami bahasa paling baik dijelaskan sebagai sengketa verbal: 'memahami' adalah konsep klaster yang kriterianya selalu muncul bersama pada manusia tetapi terbelah pada AI, dan tidak ada fakta lebih lanjut yang menentukan krite…"},"F0015":{"title":"Tekstur terbuka: kasus baru, keputusan baru","stance":"Deflasioner: pertanyaan tidak memiliki jawaban faktual tunggal","seed":10,"thesis":"Konsep empiris bertekstur terbuka: aturan penerapannya dibentuk untuk kasus normal dan tidak menentukan penerapan pada kasus yang tak terduga; AI adalah kasus tak terduga di mana grounding dan kompetensi terlepas, sehingga penerapan 'memahami' padanya menuntu…"},"F0010":{"title":"Tanpa penutur, tanpa komitmen","stance":"Tidak untuk AI saat ini, mungkin secara prinsip","seed":8,"thesis":"Memahami bahasa sebagai praktik komunikatif mensyaratkan kemampuan mengenali niat komunikatif dan memikul komitmen atas klaim; perilaku LLM (menjilat pendapat pengguna, komitmen yang berubah-ubah antar-giliran) paling baik dijelaskan tanpa agen komunikatif ya…"},"F0001":{"title":"Paritas mekanistik: representasi dunia internal","stance":"Ya, secara substantif","seed":3,"thesis":"LLM mutakhir memahami bahasa dalam arti yang sejenis dengan manusia, karena jenis bukti yang kita terima untuk atribusi pemahaman pada manusia — penggunaan inferensial yang sistematis ditambah representasi internal terstruktur yang secara kausal mengendalikan…"},"F0011":{"title":"Transduser tidak menyelesaikan masalah grounding","stance":"Tidak, secara prinsip","seed":14,"thesis":"Komputasi mendefinisikan keadaan hanya melalui peran formalnya, sehingga setiap pemetaan keadaan komputasional ke dunia adalah tafsiran pengamat; menambahkan sensor hanya menambah simbol formal, sehingga tidak ada AI — sebagai sistem komputasional — yang mema…"},"F0004":{"title":"Blindsight linguistik: kompetensi tanpa kesadaran","stance":"Ya secara parsial dan bergradasi","seed":6,"thesis":"AI kontemporer memahami bahasa dalam dimensi fungsional-inferensial tetapi tidak terbukti memahaminya dalam dimensi sadar; seperti kasus blindsight menunjukkan bahwa 'melihat' terbelah, 'memahami' pun terbelah, sehingga jawaban yang tepat adalah 'ya, sebagian…"},"F0003":{"title":"Sikap intensional dan pola nyata","stance":"Ya, secara substantif","seed":11,"thesis":"Memahami bahasa berarti memiliki pola perilaku nyata yang paling baik diprediksi dari sikap intensional; perilaku linguistik LLM paling baik diprediksi dengan mengatribusikan pemahaman isi, sehingga LLM memahami bahasa."},"F0012":{"title":"Argumen dari teori kesadaran berbasis struktur kausal","stance":"Tidak, secara prinsip","seed":16,"thesis":"Pemahaman penuh mensyaratkan penangkapan makna secara sadar; menurut teori kesadaran yang mengaitkan kesadaran dengan struktur kausal intrinsik perangkat keras, komputer digital konvensional tidak sadar apa pun programnya; maka AI yang berjalan pada perangkat…"},"F0013":{"title":"Burung beo, rekaman, dan makna-penutur","stance":"Tidak, secara prinsip","seed":15,"thesis":"Seperti burung beo yang meneriakkan 'Awas!' atau rekaman pengumuman, sistem AI menghasilkan tuturan tanpa penutur yang bermaksud; karena tujuan setiap artefak selalu turunan dari tujuan perancangnya, tidak ada AI yang pernah memiliki makna-penutur, sehingga t…"},"F0008":{"title":"Dua sistem kembar: sejarah kausal menentukan isi","stance":"Tidak untuk AI saat ini, mungkin secara prinsip","seed":5,"thesis":"Isi representasi ditentukan oleh sejarah kausal-teleologis sistem; representasi LLM memperoleh fungsinya dari pelatihan memprediksi teks sehingga isinya tentang teks, bukan tentang dunia; karena itu LLM saat ini belum memahami bahasa, walau AI dengan sejarah…"},"F0009":{"title":"Uji dunia kontrafaktual","stance":"Tidak untuk AI saat ini, mungkin secara prinsip","seed":2,"thesis":"Memahami sebuah konsep mencakup kemampuan menerapkannya kembali ketika konvensi atau dunia diubah secara eksplisit; LLM saat ini merosot tajam pada varian kontrafaktual tugas yang mereka kuasai, menandakan ketergantungan pada pola hafalan, sehingga belum mema…"},"F0002":{"title":"Makna sebagai penggunaan: bukti partisipasi komunikatif","stance":"Ya, secara substantif","seed":9,"thesis":"Jika memahami bahasa berarti menguasai penggunaannya dalam praktik komunikatif, maka LLM memahami bahasa, karena mereka terbukti berpartisipasi secara berhasil dalam praktik itu termasuk pada lapisan pragmatiknya."},"F0006":{"title":"Spektrum penutur: dari buku frasa ke penutur asli","stance":"Ya secara parsial dan bergradasi","seed":7,"thesis":"Eksperimen pikiran tentang spektrum penutur menunjukkan bahwa 'memahami bahasa' diterapkan secara bergradasi; LLM menempati posisi seperti penutur fasih yang belajar hanya dari teks, yang kita katakan memahami sebagian besar bahasa tetapi tidak seluruh dimens…"},"F0016":{"title":"Bukti pemakaian yang terbelah: memahami sebagai konsep yang sedang dinegosiasikan","stance":"Deflasioner: pertanyaan tidak memiliki jawaban faktual tunggal","seed":13,"thesis":"Bukti tentang cara pakar dan penutur awam memakai 'memahami' untuk AI menunjukkan penerapan yang terbelah, peka terhadap framing, dan berubah menurut tujuan; pertanyaan ini lebih tepat dipahami sebagai negosiasi konseptual yang sedang berlangsung daripada per…"}},"bracket":[[{"mid":"R02-M0001","a":"F0005","b":"F0010","winner":"F0005","votes":"3–0"},{"mid":"R02-M0002","a":"F0014","b":"F0008","winner":"F0014","votes":"2–1"},{"mid":"R02-M0003","a":"F0009","b":"F0006","winner":"F0009","votes":"2–1"},{"mid":"R02-M0004","a":"F0001","b":"F0004","winner":"F0001","votes":"2–1"}],[{"mid":"R03-M0001","a":"F0005","b":"F0014","winner":"F0005","votes":"4–1"},{"mid":"R03-M0002","a":"F0009","b":"F0001","winner":"F0009","votes":"4–1"}],[{"mid":"R04-M0001","a":"F0005","b":"F0009","winner":"F0005","votes":"3–2"}]],"champion":"F0005","winner":"F0005","winner_status":"SURVIVED_WITH_DAMAGE","done":true,"formula":"Pemenang adalah argumen yang paling tahan terhadap rubrik pengujian yang diterapkan dalam simulasi ini.","foot":"Mode balanced · populasi 16 · seed 3171064302 · diperbarui 2026-09-29T13:24:25+00:00 · sample-run","updated_at":"2026-09-29T13:24:25+00:00","rev":"439bb371134709ba"}}</script>
+<script>
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("abr-data").textContent);
+  var A = D.anim, R = D.run, FT = A.fight;
+  var $ = function (id) { return document.getElementById(id); };
+  var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  function el(tag, cls, s) { var e = document.createElement(tag); if (cls) e.className = cls; if (s != null) e.textContent = String(s); return e; }
+  function text(e, s) { e.textContent = s == null ? "" : String(s); }
+  function fighter(id) { return R.fighters[id] || { title: id || "", stance: "", seed: null, thesis: "" }; }
+
+  // ---------- ingatan penonton (acara yang sudah ditonton) ----------
+  var liveSrc = location.protocol === "file:" ? "file" : null;
+  var KEY = "abr-seen:" + R.run_id;
+  function loadSeen() { try { return new Set(JSON.parse(localStorage.getItem(KEY) || "[]")); } catch (e) { return new Set(); } }
+  function saveSeen() { try { localStorage.setItem(KEY, JSON.stringify(Array.from(seen))); } catch (e) { /* penyimpanan tidak tersedia */ } }
+  var seen = loadSeen();
+  function hasEvent(id) { return R.events.some(function (e) { return e.id === id; }); }
+  function revealed(id) { return seen.has(id) || !hasEvent(id); }
+
+  // ---------- bagian statis ----------
+  function renderStatic() {
+    text($("eyebrow"), R.demo ? "Argument Battle Royale · pratinjau dengan data contoh" : "Argument Battle Royale");
+    text($("topic"), R.topic);
+    text($("restated"), R.restated || "");
+    var pill = $("livePill");
+    pill.className = "pill-live" + (R.demo ? " demo" : R.done ? " replay" : liveSrc ? " on" : " snap");
+    text(pill, R.demo ? "Contoh" : R.done ? "Tayangan ulang" : liveSrc ? "Live" : "Cuplikan");
+    pill.title = R.demo || R.done ? "" : liveSrc ? "Terhubung: acara baru diputar otomatis" : "Belum terhubung ke run yang berjalan; ini keadaan saat halaman dibuat";
+    text($("stageName"), "Tahap " + (R.info.stage_index + 1) + "/" + R.info.stage_count + " · " + R.info.stage);
+    text($("pct"), R.info.percent + "%");
+    $("meter").style.width = R.info.percent + "%";
+
+    var tr = $("track"); tr.textContent = "";
+    R.stages.forEach(function (name, i) {
+      var li = el("li"); li.appendChild(el("b", null, String(i + 1).padStart(2, "0"))); li.appendChild(document.createTextNode(name));
+      if (i < R.info.stage_index || R.done) li.className = "done";
+      else if (i === R.info.stage_index) { li.className = "now"; li.setAttribute("aria-current", "step"); }
+      tr.appendChild(li);
+    });
+
+    var st = $("stats"); st.textContent = "";
+    R.stats.forEach(function (s) { var d = el("div", "stat"); d.appendChild(el("dt", null, s[0])); d.appendChild(el("dd", null, s[1])); st.appendChild(d); });
+
+    renderBracket();
+    renderResult();
+    text($("foot"), R.foot);
+  }
+
+  function slot(id, m, showResult) {
+    var s = el("div", "slot");
+    if (!id) { s.className = "slot tbd"; s.appendChild(el("span", "id", "—")); s.appendChild(el("span", "t", m ? "bye" : "menunggu")); s.appendChild(el("span", "v", "")); return s; }
+    if (showResult && m && m.winner) s.className = "slot " + (m.winner === id ? "win" : "lose");
+    s.appendChild(el("span", "id", id));
+    var t = el("span", "t", fighter(id).title); t.title = fighter(id).title; s.appendChild(t);
+    s.appendChild(el("span", "v", showResult && m && m.winner === id ? m.votes : ""));
+    return s;
+  }
+  function renderBracket() {
+    var br = $("bracket"); br.textContent = "";
+    [["8 besar", 4], ["Semifinal", 2], ["Final", 1]].forEach(function (c, ci) {
+      var col = el("div", "col"); col.appendChild(el("h3", null, c[0]));
+      var list = el("div", "matches"); col.appendChild(list);
+      var rd = R.bracket[ci] || [];
+      for (var k = 0; k < c[1]; k++) {
+        var m = rd[k], box = el("div", "match");
+        var show = m ? revealed("m:" + m.mid) : false;
+        if (m) box.dataset.mid = m.mid;
+        if (current && m && current.mid === m.mid) box.className = "match live";
+        box.appendChild(slot(m ? m.a : null, m, show));
+        box.appendChild(slot(m ? m.b : null, m, show));
+        list.appendChild(box);
+      }
+      br.appendChild(col);
+    });
+    var cc = el("div", "col"); cc.appendChild(el("h3", null, "Juara"));
+    var cl = el("div", "matches"); cc.appendChild(cl);
+    var box = el("div", "match champ");
+    var champShown = R.champion && revealed("w") && revealed("m:" + ((R.bracket[2] || [])[0] || {}).mid);
+    box.appendChild(champShown ? slot(R.champion, { winner: R.champion, votes: "" }, true) : slot(null, null, false));
+    cl.appendChild(box); br.appendChild(cc);
+  }
+  function renderResult() {
+    var res = $("result"); res.textContent = "";
+    var h = el("h3"), pill;
+    if (R.winner && revealed("w")) {
+      var f = fighter(R.winner);
+      res.appendChild(el("p", "eyebrow", "Pemenang tahan-uji"));
+      text(h, f.title); res.appendChild(h);
+      res.appendChild(el("p", null, f.thesis));
+      pill = el("span", "pill " + (R.winner_status === "SURVIVED" ? "ok" : "warn"), "Uji falsifikasi: " + R.winner_status);
+    } else if (R.done && revealed("w")) {
+      res.appendChild(el("p", "eyebrow", "Hasil"));
+      text(h, "Tidak ada pemenang tahan-uji"); res.appendChild(h);
+      res.appendChild(el("p", null, "Semua kandidat gugur dalam uji falsifikasi; sikap yang paling dapat dipertanggungjawabkan adalah menangguhkan penilaian."));
+      pill = el("span", "pill bad", "Tanpa pemenang");
+    } else {
+      res.appendChild(el("p", "eyebrow", "Hasil"));
+      text(h, R.done ? "Pemenang diumumkan di akhir tayangan" : "Turnamen masih berjalan"); res.appendChild(h);
+      res.appendChild(el("p", null, R.done ? "Tonton pertarungannya sampai final, atau tekan Lewati beberapa kali." : "Pemenang ditetapkan setelah final dan uji falsifikasi selesai."));
+      pill = el("span", "pill run", R.info.stage);
+    }
+    res.appendChild(pill);
+    res.appendChild(el("p", "formula", R.formula));
+  }
+
+  // ---------- kanvas ----------
+  var cv = $("cv"), ctx = cv.getContext("2d"), scale = 8;
+  var mode = { kind: "scene", name: R.info.scene, i: 0 }, actors = [], fx = [];
+  function fit() {
+    var box = cv.parentNode.clientWidth - 24;
+    scale = Math.max(3, Math.min(10, Math.floor(box / A.w)));
+    cv.width = A.w * scale; cv.height = A.h * scale; cv.style.width = cv.width + "px";
+    render();
+  }
+  function px(x, y, c) {
+    if (x < 0 || y < 0 || x >= A.w || y >= A.h) return;
+    ctx.fillStyle = A.palette[c]; ctx.fillRect(x * scale, y * scale, scale, scale);
+  }
+  function sprite(name, x, y, m) {
+    var rows = A.sprites[name]; if (!rows) return;
+    for (var dy = 0; dy < rows.length; dy++) {
+      var row = m ? rows[dy].split("").reverse().join("") : rows[dy];
+      for (var dx = 0; dx < row.length; dx++) if (row[dx] !== ".") px(x + dx, y + dy, row[dx]);
+    }
+  }
+  function render() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    if (mode.kind === "scene") {
+      var fr = A.scenes[mode.name] || A.scenes.idle, f = fr[mode.i % fr.length];
+      f.l.forEach(function (L) { sprite(L[0], L[1], L[2], L[3]); });
+      f.p.forEach(function (P) { px(P[0], P[1], P[2]); });
+    } else {
+      for (var x = 0; x < A.w; x++) px(x, A.h - 1, "G");
+      actors.forEach(function (a) { if (a.visible) sprite(a.s, Math.round(a.x + (a.shake || 0)), Math.round(a.y), a.m); });
+      fx.forEach(function (p) { px(p[0], p[1], p[2]); });
+    }
+  }
+  var tick = 0;
+  setInterval(function () {
+    if (document.hidden) return;
+    tick++;
+    if (mode.kind === "scene" && tick % 2 === 0 && !paused) mode.i++;
+    fx = fx.filter(function (p) { return --p[3] > 0; });
+    render();
+  }, 1000 / 12);
+
+  // ---------- waktu: kecepatan, jeda, lewati ----------
+  var speed = 1, paused = reduce, skip = false;
+  function sleep(ms) {
+    return new Promise(function (res) {
+      var left = ms;
+      (function step() { if (skip) return res(); if (!paused) left -= 40 * speed; if (left <= 0) return res(); setTimeout(step, 40); })();
+    });
+  }
+  function tween(o, k, to, ms) {
+    return new Promise(function (res) {
+      var from = o[k], t = 0;
+      (function step() {
+        if (skip) { o[k] = to; return res(); }
+        if (!paused) t += 40 * speed;
+        var q = Math.min(1, t / ms); o[k] = from + (to - from) * q;
+        if (q >= 1) return res(); setTimeout(step, 40);
+      })();
+    });
+  }
+
+  // ---------- panggung ----------
+  function ticker(head, body, meta) { text($("tkHead"), head); text($("tkText"), body || ""); text($("tkMeta"), meta || ""); }
+  function setScene(name) { mode = { kind: "scene", name: name, i: 0 }; actors = []; fx = []; $("hud").hidden = true; }
+  function spark(x, y) {
+    [[0, 0, "S"], [1, 0, "Y"], [-1, 0, "Y"], [0, 1, "Y"], [0, -1, "Y"], [2, 0, "y"], [-2, 0, "y"], [0, 2, "y"], [0, -2, "y"],
+     [2, 2, "Y"], [-2, -2, "Y"], [2, -2, "R"], [-2, 2, "R"]].forEach(function (p) { fx.push([x + p[0], y + p[1], p[2], 5]); });
+  }
+  function card(side, id) {
+    var f = fighter(id), c = $(side === "a" ? "fcA" : "fcB");
+    text(c.querySelector(".fc-seed"), f.seed ? "#" + f.seed : "");
+    text(c.querySelector(".fc-id"), id);
+    text(c.querySelector(".fc-stance"), f.stance || "");
+    text(c.querySelector(".fc-title"), f.title); c.querySelector(".fc-title").title = f.title;
+    c.classList.remove("ko", "win"); setHP(side, 100);
+  }
+  function setHP(side, v) {
+    var hp = $(side === "a" ? "fcA" : "fcB").querySelector(".hp");
+    hp.firstElementChild.style.width = Math.max(0, v) + "%";
+    hp.classList.toggle("low", v <= 40); hp.setAttribute("aria-valuenow", String(Math.round(v)));
+  }
+  function highlight(mid, on) {
+    var b = document.querySelector('.match[data-mid="' + mid + '"]');
+    if (b) b.classList.toggle("live", on);
+  }
+
+  // ---------- adegan per jenis acara ----------
+  async function playStage(e) { setScene(e.scene); ticker(e.title, e.text, ""); await sleep(2600); }
+
+  async function playRound(e) {
+    setScene("battle");
+    var desc = e.n + " duel" + (e.byes ? ", " + e.byes + " bye" : "") + (e.method === "score" ? ", diputus dengan skor scouting" : e.panel > 1 ? ", panel " + e.panel + " juri" : ", juri tunggal");
+    ticker(e.label + " dimulai", desc, "");
+    if (!e.full) {
+      var steps = Math.min(e.n, 30);
+      for (var k = 1; k <= steps; k++) {
+        text($("tkMeta"), "Duel " + Math.round(k * e.n / steps) + "/" + e.n + (e.upsets ? " · " + e.upsets + " upset" : "") + " · menampilkan " + e.shown + " duel pilihan");
+        await sleep(70);
+      }
+    }
+    await sleep(1600);
+  }
+
+  async function playMatch(e) {
+    var y0 = FT.clawd_y;
+    $("hud").hidden = false; card("a", e.a); card("b", e.b);
+    text($("vsRound"), e.label); text($("vsVotes"), "0–0");
+    var a = { s: "clawd_angry_side", x: -26, y: y0, m: 0, visible: true, shake: 0 };
+    var b = { s: "clawd_angry_side", x: A.w + 1, y: y0, m: 1, visible: true, shake: 0 };
+    mode = { kind: "fight" }; actors = [a, b]; fx = [];
+    highlight(e.mid, true);
+    ticker(e.label, e.a + " melawan " + e.b, e.upset ? "Unggulan lebih rendah menantang unggulan lebih tinggi" : "");
+    await Promise.all([tween(a, "x", FT.left_x, 900), tween(b, "x", FT.right_x, 900)]);
+    var hp = { a: 100, b: 100 }, n = e.hits.length || 1, votes = { a: 0, b: 0 };
+    for (var i = 0; i < e.hits.length; i++) {
+      var h = e.hits[i], att = h.by, def = att === "a" ? "b" : "a";
+      var P = att === "a" ? a : b, Q = att === "a" ? b : a, dir = att === "a" ? 1 : -1, home = P.x;
+      var attId = att === "a" ? e.a : e.b, defId = att === "a" ? e.b : e.a;
+      ticker(h.j + " · " + h.lens, attId + " menyerang " + defId + ": " + (h.obj || "juri memenangkan argumen ini."),
+        (h.fx ? "Faktor penentu: " + h.fx + " · " : "") + "Skor " + e.a + " " + h.ta.toFixed(1) + " – " + e.b + " " + h.tb.toFixed(1) + (h.xy ? " · " + h.xy : ""));
+      await sleep(600);
+      await tween(P, "x", home + 4 * dir, 200);
+      spark(29, FT.body_top + 6);
+      Q.s = "clawd_blink_side"; Q.shake = dir;
+      votes[att]++; hp[def] -= 100 / n; setHP(def, hp[def]);
+      text($("vsVotes"), votes.a + "–" + votes.b);
+      await tween(P, "x", home, 200);
+      await sleep(260); Q.s = "clawd_angry_side"; Q.shake = 0;
+      await sleep(2200);
+    }
+    var ws = e.w === e.a ? "a" : "b", W = ws === "a" ? a : b, L = ws === "a" ? b : a;
+    ticker("Putusan: " + e.w + " menang " + e.votes, fighter(e.w).title, e.upset ? "Upset: unggulan lebih rendah maju ke babak berikutnya." : "");
+    $(ws === "a" ? "fcA" : "fcB").classList.add("win"); $(ws === "a" ? "fcB" : "fcA").classList.add("ko");
+    L.s = "clawd_blink_side"; await tween(L, "y", A.h + 2, 700); L.visible = false;
+    W.s = "clawd_happy_wave";
+    seen.add(e.id); renderBracket(); highlight(e.mid, true);
+    for (var k = 0; k < 2; k++) { await tween(W, "y", y0 - 2, 170); await tween(W, "y", y0, 170); }
+    await sleep(1500);
+  }
+
+  async function playFals(e) {
+    setScene("rocket");
+    ticker("Uji falsifikasi: " + e.fighter, fighter(e.fighter).title, "Juara diluncurkan ke pengujian terberat");
+    await sleep(2000);
+    for (var i = 0; i < e.testers.length; i++) {
+      var t = e.testers[i]; ticker("Penguji " + t.t + ": " + t.v, t.s, ""); await sleep(3200);
+    }
+    ticker("Hasil uji: " + e.agg, e.agg === "FALSIFIED" ? "Kandidat gugur; kandidat berikutnya diuji." : "Kandidat bertahan dan menjadi pemenang tahan-uji.", "");
+    await sleep(2200);
+  }
+
+  async function playWinner(e) {
+    var f = fighter(e.fighter);
+    seen.add(e.id); renderBracket(); renderResult();
+    setScene(e.fighter ? "trophy" : "nowinner");
+    ticker(e.fighter ? "Pemenang tahan-uji: " + e.fighter : "Tidak ada pemenang tahan-uji", e.fighter ? f.title : "Semua kandidat gugur dalam uji falsifikasi.", R.formula);
+    await sleep(4200);
+  }
+
+  var PLAY = { stage: playStage, round: playRound, match: playMatch, fals: playFals, winner: playWinner };
+
+  // ---------- antrean tayangan ----------
+  var queue = [], running = false, current = null;
+  function qinfo() { text($("qinfo"), queue.length ? queue.length + " acara berikutnya" : ""); }
+  async function runQueue() {
+    if (running) return;
+    running = true;
+    while (queue.length) {
+      var e = queue.shift(); current = e; skip = false; qinfo();
+      try { await PLAY[e.t](e); } catch (err) { if (window.console) console.error(err); }
+      if (e.mid) highlight(e.mid, false);
+      seen.add(e.id); saveSeen(); current = null;
+      if (e.t === "match" || e.t === "winner") { renderBracket(); renderResult(); }
+    }
+    running = false; skip = false; qinfo(); idle();
+  }
+  function idle() {
+    setScene(R.info.scene);
+    if (R.demo) ticker("Contoh selesai", "Tekan Putar dari awal untuk menonton lagi.", R.formula);
+    else if (R.done) ticker("Turnamen selesai", R.info.caption, R.formula);
+    else if (liveSrc) ticker("Menunggu hasil berikutnya", R.info.caption, "Arena memutar babak berikutnya begitu selesai.");
+    else ticker("Cuplikan run yang sedang berjalan", R.info.caption, "Halaman ini belum terhubung ke run. Buka versi live dari Claude untuk menonton babak berikutnya.");
+    schedule();
+  }
+
+  // ---------- pembaruan live ----------
+  // Tiga sumber: database artifact (orkestrator menulis dokumen arena/live),
+  // server lokal (abr.py serve, arena-data.json), atau file yang dibuka dari disk.
+  var pollTimer = null, fails = 0, everOk = false, reloadTimer = null, dbLive = false;
+  function schedule() {
+    if (R.done || R.demo || dbLive) return;
+    if (location.protocol === "file:") {
+      if (!reloadTimer) reloadTimer = setTimeout(function () { reloadTimer = null; if (!running) location.reload(); else schedule(); }, 8000);
+    } else if (!pollTimer) {
+      pollTimer = setInterval(poll, 3000);
+    }
+  }
+  function stopPolling() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
+  function initialQueue() {
+    if (seen.size) return R.events.filter(function (e) { return !seen.has(e.id); });
+    if (R.done || R.demo) return R.events.slice();
+    // Penonton baru di tengah run: mulai dari duel terakhir, bukan dari awal.
+    var last = -1;
+    R.events.forEach(function (e, i) { if (e.t === "match") last = i; });
+    var start = last >= 0 ? last : Math.max(0, R.events.length - 1);
+    R.events.slice(0, start).forEach(function (e) { seen.add(e.id); });
+    saveSeen();
+    return R.events.slice(start);
+  }
+  function applyRun(run, src) {
+    if (!run || !run.events) return;
+    if (src && liveSrc !== src) { liveSrc = src; renderStatic(); }
+    if (run.run_id === R.run_id) {
+      if (run.rev === R.rev) return;
+      if ((run.updated_at || "") < (R.updated_at || "")) return;  // data lebih lama dari yang sudah tampil
+      R = run; renderStatic();
+      var queued = new Set(queue.map(function (e) { return e.id; }));
+      R.events.forEach(function (e) { if (!seen.has(e.id) && !queued.has(e.id) && !(current && current.id === e.id)) queue.push(e); });
+    } else {
+      // Artifact dipakai untuk run lain: mulai sebagai penonton run itu.
+      R = run; KEY = "abr-seen:" + R.run_id; seen = loadSeen();
+      queue = initialQueue(); if (running) skip = true;
+      renderStatic(); renderBracket(); renderResult();
+    }
+    qinfo();
+    if (!running) { if (queue.length) runQueue(); else idle(); }
+    if (R.done) stopPolling();
+  }
+  function poll() {
+    fetch("arena-data.json?t=" + Date.now(), { cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then(function (j) { fails = 0; everOk = true; applyRun(j.run, "http"); })
+      .catch(function () {
+        // Tanpa server (mis. artifact tanpa database) berhenti mencoba; dengan server, coba terus.
+        if (!everOk && ++fails >= 3) stopPolling();
+      });
+  }
+  function watchArtifactDb() {
+    var c = window.claude;
+    if (R.demo || !c || typeof c.use !== "function") return;
+    Promise.resolve(c.use("db")).then(function (db) {
+      if (!db) return;
+      db.doc("arena/live").onSnapshot(function (snap) {
+        if (!snap || !snap.exists) return;
+        var d = snap.data(), run;
+        if (!d || typeof d.summary !== "string") return;
+        try { run = JSON.parse(d.summary); } catch (e) { return; }
+        if (!dbLive) { dbLive = true; stopPolling(); }
+        applyRun(run, "db");
+      }, function () {
+        dbLive = false;
+        if (liveSrc === "db") { liveSrc = null; renderStatic(); }
+      });
+      // Terhubung ke database artifact: penonton akan menerima acara baru.
+      if (!R.done && !liveSrc) { liveSrc = "db"; renderStatic(); }
+      dbLive = true; stopPolling();
+    }, function () { /* tanpa database: tetap tampilkan data yang tertanam */ });
+  }
+
+  // ---------- kontrol ----------
+  $("btnReplay").addEventListener("click", function () {
+    seen = new Set(); saveSeen(); queue = R.events.slice(); renderBracket(); renderResult();
+    if (paused) { paused = false; $("btnPause").setAttribute("aria-pressed", "false"); text($("btnPause"), "Jeda"); }
+    if (running) skip = true; else runQueue();
+    qinfo();
+  });
+  $("btnPause").addEventListener("click", function () {
+    paused = !paused;
+    this.setAttribute("aria-pressed", paused ? "true" : "false");
+    text(this, paused ? "Lanjut" : "Jeda");
+    if (!paused && !running && queue.length) runQueue();
+  });
+  $("btnSkip").addEventListener("click", function () { if (running) skip = true; });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-speed]"), function (b) {
+    b.addEventListener("click", function () {
+      speed = Number(b.dataset.speed);
+      Array.prototype.forEach.call(document.querySelectorAll("[data-speed]"), function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+    });
+  });
+
+  // ---------- mulai ----------
+  queue = initialQueue();
+  if (reduce) { $("btnPause").setAttribute("aria-pressed", "true"); text($("btnPause"), "Lanjut"); }
+  renderStatic();
+  window.addEventListener("resize", fit);
+  fit();
+  qinfo();
+  if (queue.length) runQueue(); else idle();
+  if (!R.done && !R.demo) schedule();
+  watchArtifactDb();
+})();
+</script>
+</body>
+</html>

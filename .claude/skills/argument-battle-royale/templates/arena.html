@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arena Battle Royale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Silkscreen&display=swap">
+<style>
+/* Tata letak: satu kolom. Panggung gelap berisi kartu dua petarung, layar pixel,
+   komentar juri, dan kontrol tayangan; di bawahnya jalur tahap, angka, bracket,
+   dan kartu hasil. Warna diambil dari karakter Clawd. */
+:root {
+  --bg: #f3f5fa;
+  --surface: #ffffff;
+  --ink: #16203a;
+  --muted: #5b6583;
+  --line: #d9deea;
+  --accent: #d95a31;
+  --navy: #23478c;
+  --spark: #b7800f;
+  --ok: #23845a;
+  --bad: #b83a24;
+  --arena: #111830;
+  --arena-2: #182142;
+  --arena-grid: rgba(255, 255, 255, 0.035);
+  --arena-line: rgba(255, 255, 255, 0.12);
+  --arena-ink: #e8ecf8;
+  --arena-dim: #8c96b8;
+  --arena-accent: #f4784a;
+  --arena-gold: #f9c23c;
+  --arena-low: #e0412a;
+  --f-pixel: "Silkscreen", "Courier New", monospace;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1122; --surface: #141b33; --ink: #e6eaf6; --muted: #9aa4c6; --line: #26304f;
+    --accent: #ff8a5c; --navy: #8fb0f0; --spark: #f2c14e; --ok: #4cc58d; --bad: #ff7a61;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1122; --surface: #141b33; --ink: #e6eaf6; --muted: #9aa4c6; --line: #26304f;
+  --accent: #ff8a5c; --navy: #8fb0f0; --spark: #f2c14e; --ok: #4cc58d; --bad: #ff7a61;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.55 var(--f-body);
+  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+}
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 16px; padding-block: 24px 40px; display: grid; gap: 20px; }
+.wrap > * { min-width: 0; }
+.eyebrow { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0; }
+h1 { font-size: clamp(22px, 3.6vw, 32px); line-height: 1.2; margin: 6px 0 0; text-wrap: balance; }
+.sub { color: var(--muted); margin: 6px 0 0; max-width: 70ch; }
+
+/* ---------- panggung ---------- */
+.stage { background: var(--arena); color: var(--arena-ink); border-radius: 14px; overflow: hidden; display: grid; }
+.stage-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--arena-line); }
+.pill-live { font: 11px/1 var(--f-pixel); letter-spacing: 0.08em; padding: 6px 8px; border-radius: 4px; background: var(--arena-low); color: #fff; }
+.pill-live.replay { background: var(--arena-2); color: var(--arena-gold); box-shadow: inset 0 0 0 1px var(--arena-gold); }
+.pill-live.snap { background: var(--arena-2); color: var(--arena-ink); box-shadow: inset 0 0 0 1px var(--arena-line); }
+.pill-live.demo { background: var(--arena-2); color: var(--arena-dim); box-shadow: inset 0 0 0 1px var(--arena-dim); }
+.pill-live.on::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; background: #fff; border-radius: 1px; animation: blink 1s steps(2, start) infinite; }
+@keyframes blink { to { visibility: hidden; } }
+.stage-name { font: 12px/1.3 var(--f-pixel); color: var(--arena-accent); letter-spacing: 0.06em; text-transform: uppercase; flex: 1 1 auto; min-width: 0; }
+.pct { font: 600 13px/1 var(--f-data); color: var(--arena-dim); font-variant-numeric: tabular-nums; }
+.meter { height: 4px; background: rgba(255, 255, 255, 0.08); }
+.meter span { display: block; height: 100%; background: var(--arena-accent); width: 0; transition: width 0.6s ease; }
+
+.hud { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: stretch; padding: 12px 16px 0; }
+.fc { background: var(--arena-2); border: 1px solid var(--arena-line); border-radius: 8px; padding: 9px 11px; display: grid; gap: 6px; min-width: 0; transition: opacity 0.4s, border-color 0.4s; }
+.fc.win { border-color: var(--arena-gold); }
+.fc.ko { opacity: 0.45; }
+.fc-row { display: flex; gap: 8px; align-items: baseline; min-width: 0; }
+.fc-r .fc-row { flex-direction: row-reverse; }
+.fc-seed { font: 600 11px/1 var(--f-data); color: var(--arena-gold); }
+.fc-id { font: 600 12px/1 var(--f-data); color: var(--arena-accent); }
+.fc-stance { font-size: 11px; color: var(--arena-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.fc-title { font-size: 13px; line-height: 1.35; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.fc-r .fc-title { text-align: right; }
+.hp { height: 8px; background: rgba(255, 255, 255, 0.08); border-radius: 2px; overflow: hidden; }
+.hp span { display: block; height: 100%; width: 100%; background: var(--arena-accent); transition: width 0.45s ease, background 0.3s; }
+.hp.low span { background: var(--arena-low); }
+.fc-r .hp span { margin-left: auto; }
+.vs { display: grid; align-content: center; justify-items: center; gap: 4px; padding-inline: 4px; }
+.vs b { font: 16px/1 var(--f-pixel); color: var(--arena-gold); }
+.vs span { font: 11px/1.2 var(--f-data); color: var(--arena-dim); text-align: center; font-variant-numeric: tabular-nums; }
+.vs .votes { font: 600 15px/1 var(--f-data); color: var(--arena-ink); }
+
+.screen {
+  display: grid; place-items: center; padding: 12px;
+  background-image: linear-gradient(var(--arena-grid) 1px, transparent 1px), linear-gradient(90deg, var(--arena-grid) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+canvas { image-rendering: pixelated; image-rendering: crisp-edges; max-width: 100%; height: auto; display: block; }
+
+.ticker { padding: 12px 16px 14px; border-top: 1px solid var(--arena-line); display: grid; gap: 4px; min-height: 104px; align-content: start; }
+.tk-head { margin: 0; font: 12px/1.3 var(--f-pixel); letter-spacing: 0.05em; text-transform: uppercase; color: var(--arena-gold); }
+.tk-text { margin: 0; font-size: 15px; line-height: 1.5; max-width: 80ch; }
+.tk-meta { margin: 0; font: 12px/1.4 var(--f-data); color: var(--arena-dim); overflow-wrap: anywhere; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 16px 14px; border-top: 1px solid var(--arena-line); }
+.btn {
+  font: 12px/1 var(--f-pixel); letter-spacing: 0.04em; color: var(--arena-ink); background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 6px; padding: 8px 11px; cursor: pointer;
+}
+.btn:hover { border-color: var(--arena-accent); }
+.btn[aria-pressed="true"] { background: var(--arena-accent); border-color: var(--arena-accent); color: #1b1208; }
+.btn:focus-visible { outline: 2px solid var(--arena-accent); outline-offset: 2px; }
+.speed { display: inline-flex; gap: 4px; }
+.qinfo { font: 12px/1 var(--f-data); color: var(--arena-dim); margin-left: auto; }
+
+/* ---------- bagian bawah ---------- */
+section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+.track { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.track li { display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 13px; }
+.track li b { font: 600 11px/1 var(--f-data); font-variant-numeric: tabular-nums; }
+.track li.done { color: var(--ink); }
+.track li.done b { color: var(--ok); }
+.track li.now { border-color: var(--accent); color: var(--ink); box-shadow: inset 0 0 0 1px var(--accent); }
+.track li.now b { color: var(--accent); }
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; }
+@media (min-width: 760px) { .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.stat dt { font-size: 12px; color: var(--muted); }
+.stat dd { margin: 4px 0 0; font: 600 20px/1.2 var(--f-data); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.bracket { display: grid; grid-template-columns: repeat(4, minmax(170px, 1fr)); gap: 14px; overflow-x: auto; padding-bottom: 4px; }
+.col { display: grid; grid-template-rows: auto 1fr; gap: 10px; min-width: 0; }
+.col h3 { font: 11px/1.2 var(--f-pixel); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.col .matches { display: grid; gap: 10px; align-content: space-around; }
+.match { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; transition: box-shadow 0.3s, border-color 0.3s; }
+.match.live { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.slot { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: baseline; padding: 7px 10px; font-size: 13px; }
+.slot + .slot { border-top: 1px solid var(--line); }
+.slot .id { font: 600 11px/1 var(--f-data); color: var(--muted); }
+.slot .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.slot .v { font: 600 11px/1 var(--f-data); color: var(--muted); font-variant-numeric: tabular-nums; }
+.slot.win { color: var(--ink); font-weight: 600; }
+.slot.win .id { color: var(--accent); }
+.slot.lose { color: var(--muted); }
+.slot.tbd { color: var(--muted); font-style: italic; }
+.champ { border-color: var(--accent); }
+.result { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 10px; }
+.result h3 { margin: 0; font-size: 19px; line-height: 1.3; text-wrap: balance; }
+.result p { margin: 0; max-width: 72ch; }
+.pill { justify-self: start; font: 600 12px/1 var(--f-data); padding: 6px 9px; border-radius: 999px; border: 1px solid currentColor; }
+.pill.ok { color: var(--ok); } .pill.warn { color: var(--spark); } .pill.bad { color: var(--bad); } .pill.run { color: var(--navy); }
+.formula { color: var(--muted); font-style: italic; border-left: 3px solid var(--accent); padding-left: 12px; }
+.foot { color: var(--muted); font-size: 12px; font-family: var(--f-data); margin: 0; }
+@media (max-width: 560px) {
+  .hud { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .vs { grid-column: 1 / -1; grid-row: 1; grid-auto-flow: column; justify-content: center; }
+  .tk-text { font-size: 14px; }
+  .qinfo { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .meter span, .hp span, .fc, .match { transition: none; }
+  .pill-live.on::before { animation: none; }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <p class="eyebrow" id="eyebrow">Argument Battle Royale</p>
+    <h1 id="topic"></h1>
+    <p class="sub" id="restated"></p>
+  </header>
+
+  <section class="stage" aria-label="Arena pertarungan">
+    <div class="stage-top">
+      <span class="pill-live" id="livePill"></span>
+      <span class="stage-name" id="stageName"></span>
+      <span class="pct" id="pct"></span>
+    </div>
+    <div class="meter" aria-hidden="true"><span id="meter"></span></div>
+    <div class="hud" id="hud" hidden>
+      <div class="fc" id="fcA">
+        <div class="fc-row"><span class="fc-seed"></span><span class="fc-id"></span><span class="fc-stance"></span></div>
+        <div class="fc-title"></div>
+        <div class="hp" role="meter" aria-label="Ketahanan" aria-valuemin="0" aria-valuemax="100" title="Ketahanan berkurang setiap kali seorang juri memenangkan lawan"><span></span></div>
+      </div>
+      <div class="vs"><span id="vsRound"></span><b>VS</b><span class="votes" id="vsVotes"></span></div>
+      <div class="fc fc-r" id="fcB">
+        <div class="fc-row"><span class="fc-seed"></span><span class="fc-id"></span><span class="fc-stance"></span></div>
+        <div class="fc-title"></div>
+        <div class="hp" role="meter" aria-label="Ketahanan" aria-valuemin="0" aria-valuemax="100" title="Ketahanan berkurang setiap kali seorang juri memenangkan lawan"><span></span></div>
+      </div>
+    </div>
+    <div class="screen"><canvas id="cv" width="480" height="240" role="img" aria-label="Animasi pertarungan Clawd"></canvas></div>
+    <div class="ticker" aria-live="polite">
+      <p class="tk-head" id="tkHead"></p>
+      <p class="tk-text" id="tkText"></p>
+      <p class="tk-meta" id="tkMeta"></p>
+    </div>
+    <div class="controls">
+      <button type="button" class="btn" id="btnReplay">Putar dari awal</button>
+      <button type="button" class="btn" id="btnPause" aria-pressed="false">Jeda</button>
+      <button type="button" class="btn" id="btnSkip">Lewati</button>
+      <span class="speed" role="group" aria-label="Kecepatan">
+        <button type="button" class="btn" data-speed="1" aria-pressed="true">1×</button>
+        <button type="button" class="btn" data-speed="2" aria-pressed="false">2×</button>
+        <button type="button" class="btn" data-speed="4" aria-pressed="false">4×</button>
+      </span>
+      <span class="qinfo" id="qinfo"></span>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-track">
+    <h2 id="h-track">Jalur turnamen</h2>
+    <ol class="track" id="track"></ol>
+  </section>
+
+  <section aria-labelledby="h-stats">
+    <h2 id="h-stats">Populasi dan bracket</h2>
+    <dl class="stats" id="stats"></dl>
+  </section>
+
+  <section aria-labelledby="h-bracket">
+    <h2 id="h-bracket">Delapan besar sampai juara</h2>
+    <div class="bracket" id="bracket"></div>
+  </section>
+
+  <section class="result" id="result" aria-label="Hasil"></section>
+
+  <p class="foot" id="foot"></p>
+</main>
+
+<script id="abr-data" type="application/json">__ABR_DATA__</script>
+<script>
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("abr-data").textContent);
+  var A = D.anim, R = D.run, FT = A.fight;
+  var $ = function (id) { return document.getElementById(id); };
+  var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  function el(tag, cls, s) { var e = document.createElement(tag); if (cls) e.className = cls; if (s != null) e.textContent = String(s); return e; }
+  function text(e, s) { e.textContent = s == null ? "" : String(s); }
+  function fighter(id) { return R.fighters[id] || { title: id || "", stance: "", seed: null, thesis: "" }; }
+
+  // ---------- ingatan penonton (acara yang sudah ditonton) ----------
+  var liveSrc = location.protocol === "file:" ? "file" : null;
+  var KEY = "abr-seen:" + R.run_id;
+  function loadSeen() { try { return new Set(JSON.parse(localStorage.getItem(KEY) || "[]")); } catch (e) { return new Set(); } }
+  function saveSeen() { try { localStorage.setItem(KEY, JSON.stringify(Array.from(seen))); } catch (e) { /* penyimpanan tidak tersedia */ } }
+  var seen = loadSeen();
+  function hasEvent(id) { return R.events.some(function (e) { return e.id === id; }); }
+  function revealed(id) { return seen.has(id) || !hasEvent(id); }
+
+  // ---------- bagian statis ----------
+  function renderStatic() {
+    text($("eyebrow"), R.demo ? "Argument Battle Royale · pratinjau dengan data contoh" : "Argument Battle Royale");
+    text($("topic"), R.topic);
+    text($("restated"), R.restated || "");
+    var pill = $("livePill");
+    pill.className = "pill-live" + (R.demo ? " demo" : R.done ? " replay" : liveSrc ? " on" : " snap");
+    text(pill, R.demo ? "Contoh" : R.done ? "Tayangan ulang" : liveSrc ? "Live" : "Cuplikan");
+    pill.title = R.demo || R.done ? "" : liveSrc ? "Terhubung: acara baru diputar otomatis" : "Belum terhubung ke run yang berjalan; ini keadaan saat halaman dibuat";
+    text($("stageName"), "Tahap " + (R.info.stage_index + 1) + "/" + R.info.stage_count + " · " + R.info.stage);
+    text($("pct"), R.info.percent + "%");
+    $("meter").style.width = R.info.percent + "%";
+
+    var tr = $("track"); tr.textContent = "";
+    R.stages.forEach(function (name, i) {
+      var li = el("li"); li.appendChild(el("b", null, String(i + 1).padStart(2, "0"))); li.appendChild(document.createTextNode(name));
+      if (i < R.info.stage_index || R.done) li.className = "done";
+      else if (i === R.info.stage_index) { li.className = "now"; li.setAttribute("aria-current", "step"); }
+      tr.appendChild(li);
+    });
+
+    var st = $("stats"); st.textContent = "";
+    R.stats.forEach(function (s) { var d = el("div", "stat"); d.appendChild(el("dt", null, s[0])); d.appendChild(el("dd", null, s[1])); st.appendChild(d); });
+
+    renderBracket();
+    renderResult();
+    text($("foot"), R.foot);
+  }
+
+  function slot(id, m, showResult) {
+    var s = el("div", "slot");
+    if (!id) { s.className = "slot tbd"; s.appendChild(el("span", "id", "—")); s.appendChild(el("span", "t", m ? "bye" : "menunggu")); s.appendChild(el("span", "v", "")); return s; }
+    if (showResult && m && m.winner) s.className = "slot " + (m.winner === id ? "win" : "lose");
+    s.appendChild(el("span", "id", id));
+    var t = el("span", "t", fighter(id).title); t.title = fighter(id).title; s.appendChild(t);
+    s.appendChild(el("span", "v", showResult && m && m.winner === id ? m.votes : ""));
+    return s;
+  }
+  function renderBracket() {
+    var br = $("bracket"); br.textContent = "";
+    [["8 besar", 4], ["Semifinal", 2], ["Final", 1]].forEach(function (c, ci) {
+      var col = el("div", "col"); col.appendChild(el("h3", null, c[0]));
+      var list = el("div", "matches"); col.appendChild(list);
+      var rd = R.bracket[ci] || [];
+      for (var k = 0; k < c[1]; k++) {
+        var m = rd[k], box = el("div", "match");
+        var show = m ? revealed("m:" + m.mid) : false;
+        if (m) box.dataset.mid = m.mid;
+        if (current && m && current.mid === m.mid) box.className = "match live";
+        box.appendChild(slot(m ? m.a : null, m, show));
+        box.appendChild(slot(m ? m.b : null, m, show));
+        list.appendChild(box);
+      }
+      br.appendChild(col);
+    });
+    var cc = el("div", "col"); cc.appendChild(el("h3", null, "Juara"));
+    var cl = el("div", "matches"); cc.appendChild(cl);
+    var box = el("div", "match champ");
+    var champShown = R.champion && revealed("w") && revealed("m:" + ((R.bracket[2] || [])[0] || {}).mid);
+    box.appendChild(champShown ? slot(R.champion, { winner: R.champion, votes: "" }, true) : slot(null, null, false));
+    cl.appendChild(box); br.appendChild(cc);
+  }
+  function renderResult() {
+    var res = $("result"); res.textContent = "";
+    var h = el("h3"), pill;
+    if (R.winner && revealed("w")) {
+      var f = fighter(R.winner);
+      res.appendChild(el("p", "eyebrow", "Pemenang tahan-uji"));
+      text(h, f.title); res.appendChild(h);
+      res.appendChild(el("p", null, f.thesis));
+      pill = el("span", "pill " + (R.winner_status === "SURVIVED" ? "ok" : "warn"), "Uji falsifikasi: " + R.winner_status);
+    } else if (R.done && revealed("w")) {
+      res.appendChild(el("p", "eyebrow", "Hasil"));
+      text(h, "Tidak ada pemenang tahan-uji"); res.appendChild(h);
+      res.appendChild(el("p", null, "Semua kandidat gugur dalam uji falsifikasi; sikap yang paling dapat dipertanggungjawabkan adalah menangguhkan penilaian."));
+      pill = el("span", "pill bad", "Tanpa pemenang");
+    } else {
+      res.appendChild(el("p", "eyebrow", "Hasil"));
+      text(h, R.done ? "Pemenang diumumkan di akhir tayangan" : "Turnamen masih berjalan"); res.appendChild(h);
+      res.appendChild(el("p", null, R.done ? "Tonton pertarungannya sampai final, atau tekan Lewati beberapa kali." : "Pemenang ditetapkan setelah final dan uji falsifikasi selesai."));
+      pill = el("span", "pill run", R.info.stage);
+    }
+    res.appendChild(pill);
+    res.appendChild(el("p", "formula", R.formula));
+  }
+
+  // ---------- kanvas ----------
+  var cv = $("cv"), ctx = cv.getContext("2d"), scale = 8;
+  var mode = { kind: "scene", name: R.info.scene, i: 0 }, actors = [], fx = [];
+  function fit() {
+    var box = cv.parentNode.clientWidth - 24;
+    scale = Math.max(3, Math.min(10, Math.floor(box / A.w)));
+    cv.width = A.w * scale; cv.height = A.h * scale; cv.style.width = cv.width + "px";
+    render();
+  }
+  function px(x, y, c) {
+    if (x < 0 || y < 0 || x >= A.w || y >= A.h) return;
+    ctx.fillStyle = A.palette[c]; ctx.fillRect(x * scale, y * scale, scale, scale);
+  }
+  function sprite(name, x, y, m) {
+    var rows = A.sprites[name]; if (!rows) return;
+    for (var dy = 0; dy < rows.length; dy++) {
+      var row = m ? rows[dy].split("").reverse().join("") : rows[dy];
+      for (var dx = 0; dx < row.length; dx++) if (row[dx] !== ".") px(x + dx, y + dy, row[dx]);
+    }
+  }
+  function render() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    if (mode.kind === "scene") {
+      var fr = A.scenes[mode.name] || A.scenes.idle, f = fr[mode.i % fr.length];
+      f.l.forEach(function (L) { sprite(L[0], L[1], L[2], L[3]); });
+      f.p.forEach(function (P) { px(P[0], P[1], P[2]); });
+    } else {
+      for (var x = 0; x < A.w; x++) px(x, A.h - 1, "G");
+      actors.forEach(function (a) { if (a.visible) sprite(a.s, Math.round(a.x + (a.shake || 0)), Math.round(a.y), a.m); });
+      fx.forEach(function (p) { px(p[0], p[1], p[2]); });
+    }
+  }
+  var tick = 0;
+  setInterval(function () {
+    if (document.hidden) return;
+    tick++;
+    if (mode.kind === "scene" && tick % 2 === 0 && !paused) mode.i++;
+    fx = fx.filter(function (p) { return --p[3] > 0; });
+    render();
+  }, 1000 / 12);
+
+  // ---------- waktu: kecepatan, jeda, lewati ----------
+  var speed = 1, paused = reduce, skip = false;
+  function sleep(ms) {
+    return new Promise(function (res) {
+      var left = ms;
+      (function step() { if (skip) return res(); if (!paused) left -= 40 * speed; if (left <= 0) return res(); setTimeout(step, 40); })();
+    });
+  }
+  function tween(o, k, to, ms) {
+    return new Promise(function (res) {
+      var from = o[k], t = 0;
+      (function step() {
+        if (skip) { o[k] = to; return res(); }
+        if (!paused) t += 40 * speed;
+        var q = Math.min(1, t / ms); o[k] = from + (to - from) * q;
+        if (q >= 1) return res(); setTimeout(step, 40);
+      })();
+    });
+  }
+
+  // ---------- panggung ----------
+  function ticker(head, body, meta) { text($("tkHead"), head); text($("tkText"), body || ""); text($("tkMeta"), meta || ""); }
+  function setScene(name) { mode = { kind: "scene", name: name, i: 0 }; actors = []; fx = []; $("hud").hidden = true; }
+  function spark(x, y) {
+    [[0, 0, "S"], [1, 0, "Y"], [-1, 0, "Y"], [0, 1, "Y"], [0, -1, "Y"], [2, 0, "y"], [-2, 0, "y"], [0, 2, "y"], [0, -2, "y"],
+     [2, 2, "Y"], [-2, -2, "Y"], [2, -2, "R"], [-2, 2, "R"]].forEach(function (p) { fx.push([x + p[0], y + p[1], p[2], 5]); });
+  }
+  function card(side, id) {
+    var f = fighter(id), c = $(side === "a" ? "fcA" : "fcB");
+    text(c.querySelector(".fc-seed"), f.seed ? "#" + f.seed : "");
+    text(c.querySelector(".fc-id"), id);
+    text(c.querySelector(".fc-stance"), f.stance || "");
+    text(c.querySelector(".fc-title"), f.title); c.querySelector(".fc-title").title = f.title;
+    c.classList.remove("ko", "win"); setHP(side, 100);
+  }
+  function setHP(side, v) {
+    var hp = $(side === "a" ? "fcA" : "fcB").querySelector(".hp");
+    hp.firstElementChild.style.width = Math.max(0, v) + "%";
+    hp.classList.toggle("low", v <= 40); hp.setAttribute("aria-valuenow", String(Math.round(v)));
+  }
+  function highlight(mid, on) {
+    var b = document.querySelector('.match[data-mid="' + mid + '"]');
+    if (b) b.classList.toggle("live", on);
+  }
+
+  // ---------- adegan per jenis acara ----------
+  async function playStage(e) { setScene(e.scene); ticker(e.title, e.text, ""); await sleep(2600); }
+
+  async function playRound(e) {
+    setScene("battle");
+    var desc = e.n + " duel" + (e.byes ? ", " + e.byes + " bye" : "") + (e.method === "score" ? ", diputus dengan skor scouting" : e.panel > 1 ? ", panel " + e.panel + " juri" : ", juri tunggal");
+    ticker(e.label + " dimulai", desc, "");
+    if (!e.full) {
+      var steps = Math.min(e.n, 30);
+      for (var k = 1; k <= steps; k++) {
+        text($("tkMeta"), "Duel " + Math.round(k * e.n / steps) + "/" + e.n + (e.upsets ? " · " + e.upsets + " upset" : "") + " · menampilkan " + e.shown + " duel pilihan");
+        await sleep(70);
+      }
+    }
+    await sleep(1600);
+  }
+
+  async function playMatch(e) {
+    var y0 = FT.clawd_y;
+    $("hud").hidden = false; card("a", e.a); card("b", e.b);
+    text($("vsRound"), e.label); text($("vsVotes"), "0–0");
+    var a = { s: "clawd_angry_side", x: -26, y: y0, m: 0, visible: true, shake: 0 };
+    var b = { s: "clawd_angry_side", x: A.w + 1, y: y0, m: 1, visible: true, shake: 0 };
+    mode = { kind: "fight" }; actors = [a, b]; fx = [];
+    highlight(e.mid, true);
+    ticker(e.label, e.a + " melawan " + e.b, e.upset ? "Unggulan lebih rendah menantang unggulan lebih tinggi" : "");
+    await Promise.all([tween(a, "x", FT.left_x, 900), tween(b, "x", FT.right_x, 900)]);
+    var hp = { a: 100, b: 100 }, n = e.hits.length || 1, votes = { a: 0, b: 0 };
+    for (var i = 0; i < e.hits.length; i++) {
+      var h = e.hits[i], att = h.by, def = att === "a" ? "b" : "a";
+      var P = att === "a" ? a : b, Q = att === "a" ? b : a, dir = att === "a" ? 1 : -1, home = P.x;
+      var attId = att === "a" ? e.a : e.b, defId = att === "a" ? e.b : e.a;
+      ticker(h.j + " · " + h.lens, attId + " menyerang " + defId + ": " + (h.obj || "juri memenangkan argumen ini."),
+        (h.fx ? "Faktor penentu: " + h.fx + " · " : "") + "Skor " + e.a + " " + h.ta.toFixed(1) + " – " + e.b + " " + h.tb.toFixed(1) + (h.xy ? " · " + h.xy : ""));
+      await sleep(600);
+      await tween(P, "x", home + 4 * dir, 200);
+      spark(29, FT.body_top + 6);
+      Q.s = "clawd_blink_side"; Q.shake = dir;
+      votes[att]++; hp[def] -= 100 / n; setHP(def, hp[def]);
+      text($("vsVotes"), votes.a + "–" + votes.b);
+      await tween(P, "x", home, 200);
+      await sleep(260); Q.s = "clawd_angry_side"; Q.shake = 0;
+      await sleep(2200);
+    }
+    var ws = e.w === e.a ? "a" : "b", W = ws === "a" ? a : b, L = ws === "a" ? b : a;
+    ticker("Putusan: " + e.w + " menang " + e.votes, fighter(e.w).title, e.upset ? "Upset: unggulan lebih rendah maju ke babak berikutnya." : "");
+    $(ws === "a" ? "fcA" : "fcB").classList.add("win"); $(ws === "a" ? "fcB" : "fcA").classList.add("ko");
+    L.s = "clawd_blink_side"; await tween(L, "y", A.h + 2, 700); L.visible = false;
+    W.s = "clawd_happy_wave";
+    seen.add(e.id); renderBracket(); highlight(e.mid, true);
+    for (var k = 0; k < 2; k++) { await tween(W, "y", y0 - 2, 170); await tween(W, "y", y0, 170); }
+    await sleep(1500);
+  }
+
+  async function playFals(e) {
+    setScene("rocket");
+    ticker("Uji falsifikasi: " + e.fighter, fighter(e.fighter).title, "Juara diluncurkan ke pengujian terberat");
+    await sleep(2000);
+    for (var i = 0; i < e.testers.length; i++) {
+      var t = e.testers[i]; ticker("Penguji " + t.t + ": " + t.v, t.s, ""); await sleep(3200);
+    }
+    ticker("Hasil uji: " + e.agg, e.agg === "FALSIFIED" ? "Kandidat gugur; kandidat berikutnya diuji." : "Kandidat bertahan dan menjadi pemenang tahan-uji.", "");
+    await sleep(2200);
+  }
+
+  async function playWinner(e) {
+    var f = fighter(e.fighter);
+    seen.add(e.id); renderBracket(); renderResult();
+    setScene(e.fighter ? "trophy" : "nowinner");
+    ticker(e.fighter ? "Pemenang tahan-uji: " + e.fighter : "Tidak ada pemenang tahan-uji", e.fighter ? f.title : "Semua kandidat gugur dalam uji falsifikasi.", R.formula);
+    await sleep(4200);
+  }
+
+  var PLAY = { stage: playStage, round: playRound, match: playMatch, fals: playFals, winner: playWinner };
+
+  // ---------- antrean tayangan ----------
+  var queue = [], running = false, current = null;
+  function qinfo() { text($("qinfo"), queue.length ? queue.length + " acara berikutnya" : ""); }
+  async function runQueue() {
+    if (running) return;
+    running = true;
+    while (queue.length) {
+      var e = queue.shift(); current = e; skip = false; qinfo();
+      try { await PLAY[e.t](e); } catch (err) { if (window.console) console.error(err); }
+      if (e.mid) highlight(e.mid, false);
+      seen.add(e.id); saveSeen(); current = null;
+      if (e.t === "match" || e.t === "winner") { renderBracket(); renderResult(); }
+    }
+    running = false; skip = false; qinfo(); idle();
+  }
+  function idle() {
+    setScene(R.info.scene);
+    if (R.demo) ticker("Contoh selesai", "Tekan Putar dari awal untuk menonton lagi.", R.formula);
+    else if (R.done) ticker("Turnamen selesai", R.info.caption, R.formula);
+    else if (liveSrc) ticker("Menunggu hasil berikutnya", R.info.caption, "Arena memutar babak berikutnya begitu selesai.");
+    else ticker("Cuplikan run yang sedang berjalan", R.info.caption, "Halaman ini belum terhubung ke run. Buka versi live dari Claude untuk menonton babak berikutnya.");
+    schedule();
+  }
+
+  // ---------- pembaruan live ----------
+  // Tiga sumber: database artifact (orkestrator menulis dokumen arena/live),
+  // server lokal (abr.py serve, arena-data.json), atau file yang dibuka dari disk.
+  var pollTimer = null, fails = 0, everOk = false, reloadTimer = null, dbLive = false;
+  function schedule() {
+    if (R.done || R.demo || dbLive) return;
+    if (location.protocol === "file:") {
+      if (!reloadTimer) reloadTimer = setTimeout(function () { reloadTimer = null; if (!running) location.reload(); else schedule(); }, 8000);
+    } else if (!pollTimer) {
+      pollTimer = setInterval(poll, 3000);
+    }
+  }
+  function stopPolling() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
+  function initialQueue() {
+    if (seen.size) return R.events.filter(function (e) { return !seen.has(e.id); });
+    if (R.done || R.demo) return R.events.slice();
+    // Penonton baru di tengah run: mulai dari duel terakhir, bukan dari awal.
+    var last = -1;
+    R.events.forEach(function (e, i) { if (e.t === "match") last = i; });
+    var start = last >= 0 ? last : Math.max(0, R.events.length - 1);
+    R.events.slice(0, start).forEach(function (e) { seen.add(e.id); });
+    saveSeen();
+    return R.events.slice(start);
+  }
+  function applyRun(run, src) {
+    if (!run || !run.events) return;
+    if (src && liveSrc !== src) { liveSrc = src; renderStatic(); }
+    if (run.run_id === R.run_id) {
+      if (run.rev === R.rev) return;
+      if ((run.updated_at || "") < (R.updated_at || "")) return;  // data lebih lama dari yang sudah tampil
+      R = run; renderStatic();
+      var queued = new Set(queue.map(function (e) { return e.id; }));
+      R.events.forEach(function (e) { if (!seen.has(e.id) && !queued.has(e.id) && !(current && current.id === e.id)) queue.push(e); });
+    } else {
+      // Artifact dipakai untuk run lain: mulai sebagai penonton run itu.
+      R = run; KEY = "abr-seen:" + R.run_id; seen = loadSeen();
+      queue = initialQueue(); if (running) skip = true;
+      renderStatic(); renderBracket(); renderResult();
+    }
+    qinfo();
+    if (!running) { if (queue.length) runQueue(); else idle(); }
+    if (R.done) stopPolling();
+  }
+  function poll() {
+    fetch("arena-data.json?t=" + Date.now(), { cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then(function (j) { fails = 0; everOk = true; applyRun(j.run, "http"); })
+      .catch(function () {
+        // Tanpa server (mis. artifact tanpa database) berhenti mencoba; dengan server, coba terus.
+        if (!everOk && ++fails >= 3) stopPolling();
+      });
+  }
+  function watchArtifactDb() {
+    var c = window.claude;
+    if (R.demo || !c || typeof c.use !== "function") return;
+    Promise.resolve(c.use("db")).then(function (db) {
+      if (!db) return;
+      db.doc("arena/live").onSnapshot(function (snap) {
+        if (!snap || !snap.exists) return;
+        var d = snap.data(), run;
+        if (!d || typeof d.summary !== "string") return;
+        try { run = JSON.parse(d.summary); } catch (e) { return; }
+        if (!dbLive) { dbLive = true; stopPolling(); }
+        applyRun(run, "db");
+      }, function () {
+        dbLive = false;
+        if (liveSrc === "db") { liveSrc = null; renderStatic(); }
+      });
+      // Terhubung ke database artifact: penonton akan menerima acara baru.
+      if (!R.done && !liveSrc) { liveSrc = "db"; renderStatic(); }
+      dbLive = true; stopPolling();
+    }, function () { /* tanpa database: tetap tampilkan data yang tertanam */ });
+  }
+
+  // ---------- kontrol ----------
+  $("btnReplay").addEventListener("click", function () {
+    seen = new Set(); saveSeen(); queue = R.events.slice(); renderBracket(); renderResult();
+    if (paused) { paused = false; $("btnPause").setAttribute("aria-pressed", "false"); text($("btnPause"), "Jeda"); }
+    if (running) skip = true; else runQueue();
+    qinfo();
+  });
+  $("btnPause").addEventListener("click", function () {
+    paused = !paused;
+    this.setAttribute("aria-pressed", paused ? "true" : "false");
+    text(this, paused ? "Lanjut" : "Jeda");
+    if (!paused && !running && queue.length) runQueue();
+  });
+  $("btnSkip").addEventListener("click", function () { if (running) skip = true; });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-speed]"), function (b) {
+    b.addEventListener("click", function () {
+      speed = Number(b.dataset.speed);
+      Array.prototype.forEach.call(document.querySelectorAll("[data-speed]"), function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+    });
+  });
+
+  // ---------- mulai ----------
+  queue = initialQueue();
+  if (reduce) { $("btnPause").setAttribute("aria-pressed", "true"); text($("btnPause"), "Lanjut"); }
+  renderStatic();
+  window.addEventListener("resize", fit);
+  fit();
+  qinfo();
+  if (queue.length) runQueue(); else idle();
+  if (!R.done && !R.demo) schedule();
+  watchArtifactDb();
+})();
+</script>
+</body>
+</html>

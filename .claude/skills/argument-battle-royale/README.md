@@ -16,16 +16,17 @@ TOPIK → PEMETAAN RUANG ARGUMEN → GENERASI 1000 PETARUNG → DEDUPLIKASI → 
 1. [Pemakaian cepat](#pemakaian-cepat)
 2. [Parameter](#parameter)
 3. [Cara kerja](#cara-kerja)
-4. [Paralelisasi dan fallback](#paralelisasi-dan-fallback)
-5. [Checkpoint dan resume](#checkpoint-dan-resume)
-6. [Integritas hasil](#integritas-hasil)
-7. [Keluaran](#keluaran)
-8. [Contoh](#contoh)
-9. [CLI engine](#cli-engine)
-10. [Pengujian](#pengujian)
-11. [Memasang di repository lain](#memasang-di-repository-lain)
-12. [Struktur berkas](#struktur-berkas)
-13. [Keterbatasan](#keterbatasan)
+4. [Animasi Clawd](#animasi-clawd)
+5. [Paralelisasi dan fallback](#paralelisasi-dan-fallback)
+6. [Checkpoint dan resume](#checkpoint-dan-resume)
+7. [Integritas hasil](#integritas-hasil)
+8. [Keluaran](#keluaran)
+9. [Contoh](#contoh)
+10. [CLI engine](#cli-engine)
+11. [Pengujian](#pengujian)
+12. [Memasang di repository lain](#memasang-di-repository-lain)
+13. [Struktur berkas](#struktur-berkas)
+14. [Keterbatasan](#keterbatasan)
 
 ## Pemakaian cepat
 
@@ -87,6 +88,74 @@ Tahap-tahap penting:
 
 Rincian lengkap: [`references/pipeline.md`](references/pipeline.md), rubrik: [`references/rubric.md`](references/rubric.md), struktur data: [`references/data-model.md`](references/data-model.md).
 
+## Animasi Clawd
+
+![Clawd sebagai penyihir, petarung, peluncur roket, dan juara](examples/clawd-preview.gif)
+
+Turnamen besar bisa berjalan lama, jadi progresnya ditemani Clawd. Adegan mengikuti tahap pipeline:
+
+| Tahap | Adegan |
+|---|---|
+| Pemetaan, generasi, deduplikasi, validasi, seeding | Penyihir: topi, tongkat, dan percikan sihir |
+| Eliminasi, deep review, Final 4, semifinal, final | Duel: dua Clawd berhadapan, percikan di tengah |
+| Uji falsifikasi | Peluncuran: Clawd menekan tombol, roket lepas landas |
+| Selesai | Juara: piala di podium dan konfeti (atau tanda tanya bila tidak ada pemenang tahan-uji) |
+
+Tampilannya menyesuaikan tempat skill dijalankan:
+
+| Tempat | Bentuk | Bergerak? |
+|---|---|---|
+| Chat (Claude Code maupun Claude.ai) | **Flipbook**: glyph Clawd dari Claude Code plus properti emoji, satu pose per tahap baru, beserta bar progres | Berganti per tahap (output tool Claude Code tidak live) |
+| Panel samping aplikasi Claude (artifact), browser, artifact Claude.ai | **Arena pertarungan** (`RUN_DIR/arena.html`): setiap duel diputar sebagai pertarungan pixel art — dua Clawd masuk, setiap juri "memukul" dengan keberatan argumen yang sebenarnya, bar ketahanan turun sesuai suara juri, yang kalah KO, pemenang maju di bracket; plus jalur 15 tahap, statistik, dan kartu pemenang | Ya: live selama run berjalan, lalu menjadi tayangan ulang |
+| Terminal Anda sendiri | **`watch`**: pixel art berwarna dengan karakter setengah-blok, bar progres, jalur tahap | Ya |
+| Status line Claude Code (opsional) | Satu baris: Clawd oranye, properti beranimasi, tahap, dan persen | Diperbarui setiap kali percakapan berubah |
+
+### Arena pertarungan live
+
+Arena memutar acara turnamen yang belum Anda tonton: tahap persiapan (penyihir), awal setiap babak, setiap duel (babak besar: tiga duel pilihan — upset terbesar dan duel terketat — plus hitungan cepat sisanya), uji falsifikasi (roket), dan pemenang (piala). Kontrolnya: putar dari awal, jeda, lewati, kecepatan 1×/2×/4×. Hasil bracket dan pemenang baru ditampilkan setelah duelnya ditonton, jadi tayangan ulang tidak spoiler.
+
+"Ketahanan" pada kartu petarung berkurang setiap kali seorang juri memenangkan lawan (porsi suara panel); ini visualisasi suara juri, bukan skor tambahan.
+
+Cara menonton selama run berjalan (Claude memilih sendiri sesuai lingkungannya):
+
+| Lingkungan | Cara | Pembaruan |
+|---|---|---|
+| Claude Code di aplikasi desktop, web, atau sesi cloud (ada tool `Artifact`) | Claude menerbitkan `arena-artifact.html` sebagai artifact dengan database (`abr.py live`), lalu menulis `arena-live.json` ke database itu setiap ada acara baru | Live di panel samping atau tautan artifact, tanpa memuat ulang |
+| Claude Code CLI di komputer Anda sendiri | Claude menjalankan `$ABR serve --run DIR` di latar belakang; buka `http://localhost:8765` di browser Anda | Menarik `arena-data.json` setiap 3 detik tanpa memuat ulang |
+| Anda membuka file langsung | buka `DIR/arena.html` di browser | Memuat ulang sendiri saat senggang, melanjutkan dari acara terakhir yang ditonton |
+| Chat Claude.ai | Claude menyerahkan arena di akhir run | Tayangan ulang penuh |
+
+`localhost` hanya bekerja bila `serve` berjalan di komputer yang sama dengan browser Anda. Panel browser bawaan aplikasi desktop Claude tidak dapat membuka server yang dijalankan Claude, dan localhost sesi cloud tidak dapat dijangkau dari luar; karena itu di aplikasi Claude arena selalu tampil sebagai artifact.
+
+Pil di pojok arena menunjukkan sumbernya: **Live** (terhubung ke run), **Cuplikan** (keadaan saat halaman dibuat, belum terhubung), **Tayangan ulang** (run selesai), **Contoh** (data fiktif).
+
+Riwayat tontonan disimpan di `localStorage` browser per run; tanpa penyimpanan, halaman tetap berjalan tetapi memutar dari awal saat dibuka ulang.
+
+```bash
+ABR="python3 .claude/skills/argument-battle-royale/scripts/abr.py"
+$ABR live --run DIR           # siapkan arena untuk Artifact live (arena-artifact.html + arena-live.json)
+$ABR serve --run DIR          # tonton arena live di http://localhost:8765 (komputer yang sama)
+$ABR arena --demo --out arena-demo.html   # turnamen contoh 4 argumen fiktif
+$ABR watch --run DIR          # animasi live di terminal lain (Ctrl+C untuk keluar)
+$ABR watch --demo             # putar semua adegan tanpa run
+$ABR frame --scene battle     # cetak satu frame flipbook
+```
+
+`watch` memakai warna 24-bit bila `COLORTERM=truecolor`, selain itu 256 warna (paksa dengan `--colors 256`).
+
+Status line (opsional, di `.claude/settings.json` proyek atau `~/.claude/settings.json`):
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "python3 .claude/skills/argument-battle-royale/scripts/abr.py statusline"
+  }
+}
+```
+
+Status line menampilkan run terbaru di `argument-battle-royale-runs/` pada direktori kerja; tanpa run aktif ia hanya menampilkan Clawd, nama model, dan nama folder.
+
 ## Paralelisasi dan fallback
 
 - **Paralel**: bila tool Agent tersedia, orkestrator mengirim hingga `max_parallel` paket sekaligus ke subagent. Worker hanya menulis `output.json` miliknya; hanya orkestrator yang mengubah state (dengan kunci file), sehingga paralelisme aman.
@@ -106,6 +175,8 @@ Setiap langkah ditulis atomik ke disk (`state.json`, file ronde, output paket). 
 |---|---|
 | `report.md` | Laporan akhir: formula pemenang, ringkasan, parameter, peta ruang argumen, statistik populasi, seeding, perjalanan bracket, ketahanan posisi per babak, diagram bracket (Mermaid), Final 4, semifinal & final (suara panel, alasan mayoritas, dissent), argumen pemenang dalam bentuk baku, uji falsifikasi, peringkat akhir, dinamika turnamen, keterbatasan, integritas, reproduksi |
 | `report.json` | Ringkasan terstruktur untuk dipakai program lain |
+| `arena.html`, `arena-data.json`, `arena-live.json` | Arena pertarungan beranimasi dan datanya untuk penonton live (server lokal atau database artifact); diperbarui setiap `next` |
+| `arena-artifact.html` | Halaman arena tanpa kerangka dokumen untuk diterbitkan sebagai Artifact (`abr.py live`) |
 | `integrity.json` | Hasil verifikasi dan digest run |
 | `fighters.jsonl`, `population.json`, `rounds/`, `dossiers.json`, `ledger.jsonl`, `packets/` | Data mentah yang dapat diaudit |
 
@@ -128,6 +199,12 @@ $ABR show    --run DIR --fighter F0001
 $ABR report  --run DIR                      # bangun ulang laporan
 $ABR verify  --run DIR                      # verifikasi integritas (exit 0 = lulus)
 $ABR list-runs
+$ABR watch   [--run DIR] [--demo] [--once] [--fps N] [--colors truecolor|256]
+$ABR frame   [--run DIR] [--scene S] [--style mini|ansi] [--i N]
+$ABR arena   [--run DIR] [--out FILE] [--demo]
+$ABR live    --run DIR [--url URL]         # arena untuk Artifact live; --url mencatat alamatnya
+$ABR serve   [--run DIR] [--port 8765] [--host 127.0.0.1]
+$ABR statusline                             # untuk status line Claude Code (JSON via stdin)
 ```
 
 ## Pengujian
@@ -157,13 +234,16 @@ Kebutuhan: Python 3.8+ (hanya pustaka standar). Direktori run default `argument-
 ├── README.md                dokumen ini
 ├── scripts/
 │   ├── abr.py               CLI engine
-│   ├── selftest.py          uji end-to-end sintetis
+│   ├── selftest.py          uji end-to-end sintetis (termasuk semua adegan animasi)
+│   ├── make_preview_gif.py  alat pengembang opsional (butuh Pillow) untuk GIF pratinjau
 │   └── engine/              config, util, store, validate, planner, dedup,
-│                            bracket, judging, packets, phases, integrity, report
+│                            bracket, judging, packets, phases, integrity, report,
+│                            anim (sprite & perender), arena (halaman HTML)
 ├── templates/               template paket kerja (map, generate, dedup_review, scout,
 │                            duel, judge, dossier, debate, falsification, rubrik, bukti)
+│                            dan arena.html
 ├── references/              pipeline.md, rubric.md, data-model.md, modes.md
-└── examples/                inputs.md, README.md, sample-run/
+└── examples/                inputs.md, README.md, clawd-preview.gif, sample-run/
 .claude/agents/battle-royale-worker.md
 ```
 

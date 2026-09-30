@@ -18,6 +18,7 @@ import argparse
 import json
 import os
 import random
+import re
 import shutil
 import sys
 import tempfile
@@ -25,6 +26,7 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from engine import arena  # noqa: E402
 from engine import config as C  # noqa: E402
 from engine import integrity  # noqa: E402
 from engine.phases import Engine, check_packet  # noqa: E402
@@ -231,10 +233,25 @@ def run_case(mode, population, keep=False, threshold=None, dq_rate=0.04):
     worker = FakeWorker(7, dq_rate=dq_rate)
     abandoned_one = False
     iterations = 0
+    scenes_seen = set()
+    pushes, live_keys = 0, set()
     while True:
         iterations += 1
         run = Run(run_dir)  # muat ulang dari disk setiap iterasi = uji resume
         summary = Engine(run).next()
+        a = summary.get("anim") or {}
+        assert "scene" in a and 0 <= a["percent"] <= 100, a
+        if a.get("show"):
+            assert a["frame"].strip(), "frame flipbook kosong"
+        scenes_seen.add(a["scene"])
+        assert os.path.exists(run.path("arena.html")), "arena.html tidak ditulis"
+        lv = a.get("live") or {}
+        assert lv.get("file") and os.path.exists(lv["file"]), "arena-live.json tidak ditulis"
+        if lv["push"]:
+            pushes += 1
+            key = run.state["live_key"]
+            assert key not in live_keys, "push dilaporkan dua kali untuk acara yang sama"
+            live_keys.add(key)
         if summary["action"] == "done":
             break
         assert summary["action"] == "execute_packets", summary
@@ -254,7 +271,14 @@ def run_case(mode, population, keep=False, threshold=None, dq_rate=0.04):
             if "broken" not in out:
                 assert not errs, (rec["id"], errs[:5])
         assert iterations < 500, "loop tidak konvergen"
+    again = Engine(Run(run_dir)).next()
+    assert not again["anim"]["live"]["push"], "push dilaporkan padahal tidak ada acara baru"
     run = Run(run_dir)
+    live_raw = open(run.path("arena-live.json"), encoding="utf-8").read()
+    assert len(live_raw.encode("utf-8")) <= 256 * 1024, "dokumen live melebihi 256 KiB"
+    live = json.loads(live_raw)
+    live_run = json.loads(live["summary"])
+    assert live["done"] and live_run["done"] and any(e["t"] == "winner" for e in live_run["events"])
     res = integrity.verify(run)
     assert res["ok"], json.dumps([c for c in res["checks"] if not c["ok"]], indent=2)
     st = run.state
@@ -276,6 +300,20 @@ def run_case(mode, population, keep=False, threshold=None, dq_rate=0.04):
     with open(rpath, "w", encoding="utf-8") as fh:
         fh.write(original)
     assert integrity.verify(Run(run_dir))["ok"]
+    assert {"wizard", "battle", "rocket", "trophy"} <= scenes_seen, scenes_seen
+    html = open(run.path("arena.html"), encoding="utf-8").read()
+    assert "abr-data" in html and '"done":true' in html
+    arena_run = json.load(open(run.path("arena-data.json"), encoding="utf-8"))["run"]
+    kinds = [e["t"] for e in arena_run["events"]]
+    assert kinds.count("winner") == 1 and "fals" in kinds and kinds.count("round") == st["current_round"], kinds
+    for e in arena_run["events"]:
+        if e["t"] == "match":
+            assert e["w"] in (e["a"], e["b"]) and e["hits"], e["id"]
+            assert all(h["by"] in ("a", "b") for h in e["hits"])
+            for fid in (e["a"], e["b"]):
+                assert fid in arena_run["fighters"], fid
+    assert pushes >= 3, "terlalu sedikit push live: %d" % pushes
+    assert arena.live_key(arena_run) in live_keys, "keadaan akhir tidak pernah dilaporkan untuk push"
     pop = run.load_population()
     counts = {}
     for p in pop.values():
@@ -292,6 +330,89 @@ def run_case(mode, population, keep=False, threshold=None, dq_rate=0.04):
     return info
 
 
+def check_animation():
+    """Semua adegan dapat dirender ke ANSI, teks mini, dan data web."""
+    from engine import anim
+
+    for scene in anim.SCENES:
+        for i, fr in enumerate(anim.frames(scene)):
+            grid = anim.rasterize(fr)
+            assert len(grid) == anim.CANVAS_H and all(len(r) == anim.CANVAS_W for r in grid)
+            assert any(ch != "." for row in grid for ch in row), (scene, i)
+            assert len(anim.ansi(grid, "truecolor")) == anim.CANVAS_H // 2
+            assert len(anim.ansi(grid, "256")) == anim.CANVAS_H // 2
+        info = {"scene": scene, "stage": "X", "stage_index": 0, "stage_count": 15, "percent": 50, "caption": "uji"}
+        assert anim.mini(info, 0) and anim.statusline(info)
+    data = anim.web_data()
+    for fr_list in data["scenes"].values():
+        for fr in fr_list:
+            for layer in fr["l"]:
+                assert layer[0] in data["sprites"]
+            for x, y, c in fr["p"]:
+                assert c in data["palette"]
+    for rows in data["sprites"].values():
+        assert len({len(r) for r in rows}) == 1, "sprite tidak persegi"
+        assert all(ch == "." or ch in data["palette"] for r in rows for ch in r)
+
+
+def check_live():
+    """`abr.py live` menyiapkan halaman Artifact dan mencatat url; dokumen live dipangkas di bawah batas."""
+    import subprocess
+
+    tmp = tempfile.mkdtemp(prefix="abr-live-")
+    try:
+        run_dir = os.path.join(tmp, "run")
+        abr = os.path.join(os.path.dirname(os.path.abspath(__file__)), "abr.py")
+        subprocess.run([sys.executable, abr, "init", "Topik uji arena live", "population=8", "output_dir=" + run_dir], check=True, capture_output=True)
+        first = json.loads(subprocess.run([sys.executable, abr, "next", "--run", run_dir], check=True, capture_output=True).stdout)
+        assert first["anim"]["live"]["push"] and first["anim"]["live"]["url"] is None
+        url = "https://claude.ai/code/artifact/00000000-0000-0000-0000-000000000000"
+        out = json.loads(subprocess.run([sys.executable, abr, "live", "--run", run_dir, "--url", url], check=True, capture_output=True).stdout)
+        assert out["url"] == url and out["capabilities"] == {"db": {}} and out["doc_id"] == "live"
+        page = open(out["artifact_page"], encoding="utf-8").read()
+        assert not re.search(r"(?i)<!doctype|<html[\s>]|<head[\s>]|<body[\s>]", page), "kerangka dokumen tidak dibuang"
+        assert "<title>" in page[:8192] and "abr-data" in page
+        second = json.loads(subprocess.run([sys.executable, abr, "next", "--run", run_dir], check=True, capture_output=True).stdout)
+        assert second["anim"]["live"]["url"] == url and not second["anim"]["live"]["push"]
+        assert subprocess.run([sys.executable, abr, "verify", "--run", run_dir], capture_output=True).returncode == 0
+        # Pemangkasan: ringkasan yang terlalu besar tetap muat dalam satu dokumen.
+        summary = arena.demo_summary()
+        big = json.loads(json.dumps(summary))
+        for e in big["events"]:
+            for h in e.get("hits", []):
+                h["obj"] = "x" * 20000
+        doc = arena.live_doc(big, limit=60000)
+        assert len(json.dumps(doc, ensure_ascii=False).encode("utf-8")) < 62000
+        assert json.loads(doc["summary"])["events"], "semua acara terbuang"
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def check_serve():
+    """`abr.py serve` melayani halaman arena dan datanya."""
+    import subprocess
+    import urllib.request
+
+    tmp = tempfile.mkdtemp(prefix="abr-serve-")
+    try:
+        run_dir = os.path.join(tmp, "run")
+        abr = os.path.join(os.path.dirname(os.path.abspath(__file__)), "abr.py")
+        subprocess.run([sys.executable, abr, "init", "Topik uji server arena", "population=8", "output_dir=" + run_dir], check=True, capture_output=True)
+        subprocess.run([sys.executable, abr, "next", "--run", run_dir], check=True, capture_output=True)
+        proc = subprocess.Popen([sys.executable, abr, "serve", "--run", run_dir, "--port", "0"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        try:
+            url = json.loads(proc.stdout.readline().decode())["serve"]
+            opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+            page = opener.open(url, timeout=10).read().decode()
+            data = json.loads(opener.open(url + "arena-data.json", timeout=10).read().decode())
+            assert "abr-data" in page and data["run"]["info"]["scene"] == "wizard", data["run"]["info"]
+        finally:
+            proc.terminate()
+            proc.wait(timeout=10)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--mode", choices=list(C.MODES))
@@ -304,6 +425,10 @@ def main():
         cases = [(args.mode, args.population or 1000, args.dq_rate)]
     else:
         cases = [("efficient", 1000, 0.04), ("balanced", 150, 0.04), ("full", 40, 0.04), ("balanced", 120, 0.25)]
+    check_animation()
+    check_serve()
+    check_live()
+    print(json.dumps({"animation": "ok", "serve": "ok", "live": "ok"}))
     for mode, pop, dq in cases:
         info = run_case(mode, pop, keep=args.keep, threshold=args.threshold, dq_rate=dq)
         print(json.dumps(info, ensure_ascii=False))

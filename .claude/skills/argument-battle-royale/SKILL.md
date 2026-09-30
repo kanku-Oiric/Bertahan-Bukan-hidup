@@ -81,6 +81,35 @@ $ABR next --run RUN_DIR
 
 Setelah setiap gelombang, beri pengguna satu baris progres dari field `progress` (mis. "Babak 256 besar (Eliminasi): 3/11 paket juri selesai").
 
+### Animasi progres (Clawd)
+
+`next` juga mengembalikan objek `anim` agar progres tidak membosankan:
+
+- **Flipbook di chat.** Bila `anim.show` bernilai `true` (tahap atau babak baru dimulai), tampilkan `anim.frame` apa adanya di dalam blok kode `text`: Clawd berganti pose per tahap (penyihir saat persiapan, duel saat bracket, roket saat uji falsifikasi, piala saat selesai). Bila `show` bernilai `false`, cukup satu baris progres dari `anim.caption` dan `anim.percent`.
+- **Arena pertarungan (HTML).** `anim.arena` menunjuk `arena.html` di direktori run, diperbarui setiap `next`. Halaman ini memutar turnamen sebagai pertarungan: dua Clawd masuk arena, setiap juri memukul dengan keberatannya yang sebenarnya, bar ketahanan turun sesuai suara juri, yang kalah KO, pemenang maju di bracket. Penonton hanya memutar acara yang belum ditontonnya; setelah run selesai halaman yang sama menjadi tayangan ulang. Lihat "Arena live" di bawah untuk cara menampilkannya.
+- **Terminal live.** Output tool tidak ditampilkan secara live, jadi jangan menjalankan `watch` sendiri. Bila pengguna memakai Claude Code di mesin lokal, sebutkan sekali bahwa mereka dapat membuka terminal lain dan menjalankan `python3 SKILL_DIR/scripts/abr.py watch --run RUN_DIR`.
+- Bila pengguna meminta tanpa animasi, lewati flipbook dan arena, lalu tampilkan baris progres saja.
+
+### Arena live
+
+Siapkan arena tepat setelah `next` pertama sebuah run (juga saat melanjutkan run yang belum punya arena), tanpa menunggu diminta. Pilih **satu** jalur berdasarkan tool yang Anda miliki:
+
+**A. Tool `Artifact` tersedia** (Claude Code di aplikasi desktop, web, atau sesi cloud). Ini jalur utama; arena tampil di panel samping aplikasi dan memutar setiap babak baru sendiri.
+
+1. Jalankan `$ABR live --run RUN_DIR`. Outputnya memuat `artifact_page`, `capabilities`, `icon`, dan `description`.
+2. Terbitkan `artifact_page` dengan tool `Artifact` memakai `capabilities`, `icon`, dan `description` dari output itu. Terbitkan `arena-artifact.html` ini, bukan `arena.html` (yang memuat kerangka dokumen sendiri).
+3. Catat alamatnya: `$ABR live --run RUN_DIR --url URL_ARTIFACT`. Mulai saat ini `anim.live.url` terisi di setiap `next`, juga setelah konteks dipadatkan.
+4. Beri tahu pengguna dalam satu kalimat bahwa arena terbuka di panel samping (atau lewat tautannya) dan akan memutar setiap babak begitu selesai.
+5. Setiap kali `next` mengembalikan `anim.live.push: true` dan `anim.live.url` terisi, tulis dokumen live ke database artifact dengan tool `ArtifactData` (muat lewat ToolSearch `select:ArtifactData` bila masih tertunda): `action: "set"`, `url` = `anim.live.url`, `collection` = `anim.live.collection`, `doc_id` = `anim.live.doc_id`, `file_path` = `anim.live.file`. Tulisan pertama tanpa `if_version`; berikutnya pakai `if_version` = `version` dari hasil tulisan sebelumnya. Bila ditolak karena versinya berbeda, ulangi sekali dengan versi yang disebut penolakan itu. Jangan membaca isi file itu ke konteks dan jangan menerbitkan ulang halaman setiap babak.
+6. Bila `ArtifactData` tidak tersedia, terbitkan ulang artifact yang sama (`Artifact` dengan `url`, dari `artifact_page` hasil `$ABR live` terbaru) paling banyak sekali per tahap atau babak; penonton yang membuka halaman menerima versi baru secara otomatis.
+7. Kegagalan menerbitkan atau menulis tidak boleh menghentikan turnamen. Sebutkan sekali kepada pengguna, lalu lanjutkan.
+
+**B. Tanpa tool `Artifact`, dan Claude Code berjalan langsung di komputer pengguna** (CLI di terminal atau IDE mereka; `$ABR live` melaporkan `cloud_session: false`). Jalankan `$ABR serve --run RUN_DIR` sebagai proses latar belakang (Bash dengan `run_in_background: true`; jangan di latar depan karena perintah ini tidak pernah selesai), lalu beri alamat `http://localhost:8765` untuk dibuka di browser pengguna. Halaman menarik data baru setiap 3 detik tanpa memuat ulang.
+
+**C. Selain itu** (mis. chat Claude.ai, atau sandbox yang tidak dapat dijangkau browser pengguna). Katakan sekali di awal bahwa arena akan tampil di akhir sebagai tayangan ulang penuh, lalu serahkan `arena.html` saat run selesai (di chat Claude.ai sebagai artifact HTML agar animasinya berjalan).
+
+Jangan pernah memberi alamat `localhost` kecuali proses `serve` benar-benar berjalan di komputer yang sama dengan browser pengguna. Panel browser bawaan aplikasi desktop Claude tidak dapat membuka server yang Anda jalankan, dan pengguna tidak dapat membuka localhost sesi cloud.
+
 ## 4. Mengerjakan paket
 
 ### Jalur paralel (bila tool Agent/subagent tersedia)
@@ -101,7 +130,7 @@ Jangan membaca isi `packet.md` sendiri saat mendelegasikan — cukup teruskan pa
 
 Bila tidak ada kemampuan subagent: untuk setiap paket, baca `packet_path`, kerjakan tugasnya sendiri dengan standar yang sama, tulis `output_path`, jalankan perintah `check` di paket sampai `OK`, lalu lanjut ke paket berikutnya. Jalankan `next` setelah setiap beberapa paket. Karena semua state ada di disk, pekerjaan tetap aman bila konteks dipadatkan atau sesi terputus — cukup jalankan `init ... resume=true` atau `next` lagi.
 
-**Lingkungan chat tanpa subagent (mis. Claude.ai).** Semua paket dikerjakan dalam satu percakapan, sehingga panjang konteks menjadi batas nyata. Bila pengguna tidak menyebut `population`, sebelum `init` sampaikan dalam satu atau dua kalimat bahwa default 1000 petarung (~80–290 paket) terlalu besar untuk satu percakapan, lalu tawarkan skala yang layak — `population=16`–`32` untuk run lengkap dengan semua tahap, atau hingga `64` dengan `mode=efficient` — dan ikuti pilihan pengguna. File sandbox belum tentu bertahan antar-percakapan: bila lingkungan menyediakan cara memberikan file kepada pengguna, serahkan `report.md` saat selesai, dan tawarkan arsip direktori run bila pengguna ingin melanjutkan atau mengaudit di tempat lain.
+**Lingkungan chat tanpa subagent (mis. Claude.ai).** Semua paket dikerjakan dalam satu percakapan, sehingga panjang konteks menjadi batas nyata. Bila pengguna tidak menyebut `population`, sebelum `init` sampaikan dalam satu atau dua kalimat bahwa default 1000 petarung (~80–290 paket) terlalu besar untuk satu percakapan, lalu tawarkan skala yang layak — `population=16`–`32` untuk run lengkap dengan semua tahap, atau hingga `64` dengan `mode=efficient` — dan ikuti pilihan pengguna. File sandbox belum tentu bertahan antar-percakapan: bila lingkungan menyediakan cara memberikan file kepada pengguna, serahkan `report.md` dan `arena.html` saat selesai (di Claude.ai, arena dapat ditampilkan sebagai artifact HTML agar animasinya berjalan), dan tawarkan arsip direktori run bila pengguna ingin melanjutkan atau mengaudit di tempat lain.
 
 ### Standar kerja (berlaku untuk worker mana pun)
 
@@ -143,7 +172,7 @@ Untuk uji cepat gunakan `population=32 mode=efficient`. Rincian profil mode ada 
 - `references/data-model.md` — struktur data petarung, duel, ronde, state, ledger, dan format output setiap paket.
 - `references/modes.md` — profil mode dan parameter.
 - `README.md` — dokumentasi penggunaan untuk manusia, contoh input/output.
-- `examples/` — contoh input dan contoh run lengkap.
+- `examples/` — contoh input, dan di repository sumber juga contoh run lengkap.
 
 ## Perintah engine lainnya
 
@@ -155,4 +184,9 @@ Untuk uji cepat gunakan `population=32 mode=efficient`. Rincian profil mode ada 
 | `$ABR retry --run DIR --packet ID` | Ulangi paket saat run `blocked` |
 | `$ABR report --run DIR` | Bangun ulang laporan run yang selesai |
 | `$ABR verify --run DIR` | Verifikasi integritas penuh (exit 0 = lulus) |
+| `$ABR arena --run DIR` | Tulis ulang `arena.html` (atau `--demo` untuk turnamen contoh tanpa run) |
+| `$ABR live --run DIR [--url URL]` | Siapkan `arena-artifact.html` + `arena-live.json` untuk Artifact live; `--url` mencatat alamat artifact |
+| `$ABR serve --run DIR` | Server lokal untuk menonton arena di browser pada komputer yang sama (`http://localhost:8765`) |
+| `$ABR frame --run DIR` | Cetak frame flipbook saat ini |
+| `$ABR watch --run DIR` | Animasi live di terminal pengguna sendiri (bukan untuk dijalankan lewat tool) |
 | `python3 SKILL_DIR/scripts/selftest.py` | Uji engine end-to-end dengan worker sintetis |
