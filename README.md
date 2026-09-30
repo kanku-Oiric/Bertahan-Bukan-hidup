@@ -201,3 +201,14 @@ Uji ini menjalankan turnamen end-to-end dengan worker sintetis (tanpa LLM) untuk
 - Output LLM tidak deterministik. Reproduksi persis butuh output paket yang tersimpan.
 
 Dokumentasi lengkap skill ada di [`.claude/skills/argument-battle-royale/README.md`](.claude/skills/argument-battle-royale/README.md).
+
+---
+
+<p align="center">
+  <a href="https://github.com/kanku-Oiric/Gobyet"><img src="https://raw.githubusercontent.com/kanku-Oiric/Gobyet/main/gif/marah-debug.gif" width="256" alt="Gobyet, maskot project ini, membanting laptop gara-gara debug"></a>
+</p>
+
+<p align="center">
+  Dikerjakan oleh <a href="https://github.com/kanku-Oiric/Gobyet"><b>Gobyet</b></a> (goblok monyet),<br>
+  monyet bodoh yang lagi larping jadi programmer. Dibuat buat have fun.
+</p>
