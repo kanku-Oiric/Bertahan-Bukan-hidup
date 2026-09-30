@@ -9,6 +9,10 @@
   <img alt="Bahasa Indonesia" src="https://img.shields.io/badge/bahasa-Indonesia-F9C23C?style=flat-square">
 </p>
 
+<p align="center">
+  <a href="https://github.com/kanku-Oiric/Bertahan-Bukan-hidup/releases/download/skill-latest/argument-battle-royale.zip"><img alt="Download skill untuk Claude.ai (argument-battle-royale.zip)" src="https://img.shields.io/badge/Download-skill_untuk_Claude.ai-F4784A?style=for-the-badge"></a>
+</p>
+
 # Bertahan, Bukan Hidup
 
 **Argument Battle Royale** adalah skill Claude Code yang mengubah satu pertanyaan menjadi turnamen argumen. Skill ini memetakan ruang jawabannya, menulis sampai 1000 argumen "petarung", lalu mengadu mereka dalam bracket eliminasi yang dinilai panel juri dengan rubrik 10 kriteria. Juaranya masih harus lolos uji falsifikasi, dan setiap putusan tercatat di ledger yang bisa diverifikasi ulang.
@@ -60,12 +64,10 @@ claude
 .claude/agents/battle-royale-worker.md    subagent worker (opsional)
 ```
 
-**Di Claude.ai.** Zip folder skill-nya lalu unggah sebagai skill di pengaturan Claude.ai. Contoh run tidak perlu ikut:
+**Di Claude.ai.** Download [`argument-battle-royale.zip`](https://github.com/kanku-Oiric/Bertahan-Bukan-hidup/releases/download/skill-latest/argument-battle-royale.zip), lalu unggah lewat **Skills → Upload a skill** di Claude.ai.
 
-```bash
-cd .claude/skills
-zip -r argument-battle-royale.zip argument-battle-royale -x "*/examples/sample-run/*" "*.gif"
-```
+> [!WARNING]
+> Jangan pakai tombol **Code → Download ZIP** di GitHub. Zip itu berisi seluruh repo, jadi `SKILL.md` terkubur di `.claude/skills/argument-battle-royale/` dan Claude.ai menolaknya ("SKILL.md file must be in the top-level folder"). Zip di tautan atas dibangun otomatis dari `main` setiap kali skill berubah. Untuk membuatnya sendiri, jalankan `python3 .github/scripts/package_skill.py`.
 
 Di chat tanpa subagent, semua paket dikerjakan dalam satu percakapan, jadi Claude akan menawarkan 16–32 petarung, bukan 1000.
 
@@ -177,6 +179,8 @@ Semua state ada di disk, jadi run bisa dilanjutkan kapan saja setelah sesi terpu
     ├── references/                         pipeline, rubrik, model data, mode
     └── examples/                           contoh input, contoh run nyata, GIF Clawd
 .github/readme/                             visual README ini (make_assets.py)
+.github/scripts/package_skill.py            zip skill untuk Claude.ai
+.github/workflows/skill-package.yml         uji + terbitkan zip ke release skill-latest
 ```
 
 </details>
