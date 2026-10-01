@@ -27,6 +27,7 @@ import time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from engine import arena  # noqa: E402
+from engine import gobyet  # noqa: E402
 from engine import config as C  # noqa: E402
 from engine import integrity  # noqa: E402
 from engine.phases import Engine, check_packet  # noqa: E402
@@ -355,6 +356,38 @@ def check_animation():
         assert all(ch == "." or ch in data["palette"] for r in rows for ch in r)
 
 
+def check_gobyet():
+    """Lapisan visual Gobyet: pemilihan karakter, fallback, aset, dan pemisahan dari logika turnamen."""
+    demo = arena.demo_summary()
+    cast = demo["cast"]
+    assert set(cast) == set(demo["fighters"]), "tiap petarung demo harus punya karakter"
+    data = gobyet.web_data(demo)
+    assert data and data["root"] in data["chars"], "data sprite Gobyet tidak terbentuk"
+    for fid, c in cast.items():
+        assert c["char"] in data["chars"], (fid, c)
+    for role in ("referee", "judge", "skeptic", "champion", "defeated"):
+        assert role in data["chars"], role
+    assert data["champion_label"] == "TOURNAMENT WINNER"
+    assert "ABSOLUTE TRUTH" not in json.dumps(data).upper()
+    for cid, c in data["chars"].items():
+        for st in c["states"].values():
+            assert st["src"].startswith("data:image/png;base64,"), cid
+    # fallback: karakter tak dikenal -> akar; aset hilang -> None (arena kembali ke Clawd), halaman tetap terbentuk
+    res = gobyet.load()
+    got = res.resolve("karakter-tidak-ada", "attack")
+    assert got and got["character"] == data["root"], got
+    assert gobyet.web_data(demo, root=os.path.join(tempfile.gettempdir(), "abr-tidak-ada")) is None
+    html = arena.render(dict(demo))
+    assert '"gobyet":{' in html and len(html.encode("utf-8")) < 2_500_000, "ukuran arena %d" % len(html.encode("utf-8"))
+    # pemisahan: modul turnamen tidak mengimpor lapisan visual Gobyet
+    eng = os.path.join(os.path.dirname(os.path.abspath(__file__)), "engine")
+    for name in sorted(os.listdir(eng)):
+        if name.endswith(".py") and name not in ("arena.py", "gobyet.py", "gobyet_context.py", "gobyet_resolve.py"):
+            with open(os.path.join(eng, name), encoding="utf-8") as fh:
+                assert "gobyet" not in fh.read(), "logika turnamen tidak boleh bergantung pada visual: " + name
+    return {"karakter": len(data["chars"]), "petarung_demo": {k: v["char"] for k, v in cast.items()}}
+
+
 def check_live():
     """`abr.py live` menyiapkan halaman Artifact dan mencatat url; dokumen live dipangkas di bawah batas."""
     import subprocess
@@ -426,9 +459,10 @@ def main():
     else:
         cases = [("efficient", 1000, 0.04), ("balanced", 150, 0.04), ("full", 40, 0.04), ("balanced", 120, 0.25)]
     check_animation()
+    gb = check_gobyet()
     check_serve()
     check_live()
-    print(json.dumps({"animation": "ok", "serve": "ok", "live": "ok"}))
+    print(json.dumps({"animation": "ok", "gobyet": gb, "serve": "ok", "live": "ok"}, ensure_ascii=False))
     for mode, pop, dq in cases:
         info = run_case(mode, pop, keep=args.keep, threshold=args.threshold, dq_rate=dq)
         print(json.dumps(info, ensure_ascii=False))

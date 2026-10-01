@@ -1,0 +1,2554 @@
+{
+ "format": "gobyet-v2/1",
+ "generated_by": "v2/src/export2.py",
+ "canvas": {
+  "w": 64,
+  "h": 64
+ },
+ "anchor": {
+  "x": 28,
+  "baseline": 59,
+  "facing": "right"
+ },
+ "gif_scale": 4,
+ "core_states": [
+  "idle",
+  "attack",
+  "hit",
+  "victory",
+  "defeat"
+ ],
+ "root_fallback": "normal-gblk",
+ "characters": [
+  {
+   "id": "knight-heavy",
+   "name": "Heavy Knight Gobyet",
+   "category": "fantasy",
+   "faction": "knights",
+   "role": "heavy",
+   "silhouette": [
+    "large_helmet",
+    "plume",
+    "broad_pauldrons",
+    "tower_shield",
+    "greatsword"
+   ],
+   "fallback": "fantasy-knight",
+   "core": {
+    "idle": "idle",
+    "attack": "attack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "berdiri berat, zirah naik-turun pelan",
+     "sheet": "sheets/knight-heavy/idle.png"
+    },
+    "attack": {
+     "frames": 14,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "ancang-ancang, ayunan pedang besar, hantaman",
+     "sheet": "sheets/knight-heavy/attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "zirah bergetar, helm berdenting",
+     "sheet": "sheets/knight-heavy/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "pedang besar terangkat lurus, perisai naik",
+     "sheet": "sheets/knight-heavy/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "limbung, lutut tertekuk, duduk, lalu rebah berat dengan debu",
+     "sheet": "sheets/knight-heavy/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "knight-archer",
+   "name": "Archer Gobyet",
+   "category": "fantasy",
+   "faction": "knights",
+   "role": "ranged",
+   "silhouette": [
+    "kettle_hat_wide_brim",
+    "longbow",
+    "quiver_on_back"
+   ],
+   "fallback": "fantasy-knight",
+   "core": {
+    "idle": "idle",
+    "attack": "attack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "busur panjang di sisi, tabung panah di punggung",
+     "sheet": "sheets/knight-archer/idle.png"
+    },
+    "attack": {
+     "frames": 16,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "bidik, tarik, lepas, hentakan busur",
+     "sheet": "sheets/knight-archer/attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terdorong, topi baja miring",
+     "sheet": "sheets/knight-archer/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "busur diangkat melintang di atas kepala",
+     "sheet": "sheets/knight-archer/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "busur jatuh lebih dulu, lalu ikut rebah",
+     "sheet": "sheets/knight-archer/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "knight-man-at-arms",
+   "name": "Man-at-Arms Gobyet",
+   "category": "fantasy",
+   "faction": "knights",
+   "role": "versatile",
+   "silhouette": [
+    "pointed_bascinet",
+    "halberd_long",
+    "brigandine",
+    "wide_stance"
+   ],
+   "fallback": "fantasy-knight",
+   "core": {
+    "idle": "idle",
+    "attack": "attack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "halberd tegak, berat badan berpindah",
+     "sheet": "sheets/knight-man-at-arms/idle.png"
+    },
+    "attack": {
+     "frames": 12,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "tusukan halberd ke depan",
+     "sheet": "sheets/knight-man-at-arms/attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terdorong, halberd goyah",
+     "sheet": "sheets/knight-man-at-arms/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "halberd diacungkan, tinju naik",
+     "sheet": "sheets/knight-man-at-arms/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "halberd terlepas, rebah",
+     "sheet": "sheets/knight-man-at-arms/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "knight-assassin",
+   "name": "Assassin Gobyet",
+   "category": "fantasy",
+   "faction": "knights",
+   "role": "stealth",
+   "silhouette": [
+    "hood_peak",
+    "asymmetric_cloak",
+    "dual_daggers",
+    "low_stance",
+    "narrow"
+   ],
+   "fallback": "fantasy-knight",
+   "core": {
+    "idle": "idle",
+    "attack": "attack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    41,
+    16
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "kuda-kuda rendah, dua belati terbalik",
+     "sheet": "sheets/knight-assassin/idle.png"
+    },
+    "attack": {
+     "frames": 12,
+     "ms": 70,
+     "loop": false,
+     "hold": 0,
+     "label": "melesat cepat, tusukan belati",
+     "sheet": "sheets/knight-assassin/attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terpental ringan",
+     "sheet": "sheets/knight-assassin/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "belati bersilang, jubah berkibar",
+     "sheet": "sheets/knight-assassin/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 110,
+     "loop": false,
+     "hold": 8,
+     "label": "mundur di balik asap, satu belati tertinggal",
+     "sheet": "sheets/knight-assassin/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "fantasy-knight",
+   "name": "Fantasy Knight Gobyet",
+   "category": "fantasy",
+   "faction": "fantasy",
+   "role": "archetype",
+   "silhouette": [
+    "visor_helm_white_plume",
+    "blue_cape",
+    "kite_shield",
+    "longsword"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "attack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "pedang panjang, perisai layang-layang biru, jubah biru",
+     "sheet": "sheets/fantasy-knight/idle.png"
+    },
+    "attack": {
+     "frames": 12,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "tebasan pedang panjang",
+     "sheet": "sheets/fantasy-knight/attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tertahan perisai, mundur",
+     "sheet": "sheets/fantasy-knight/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "pedang diangkat, jubah berkibar",
+     "sheet": "sheets/fantasy-knight/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "pedang terlepas, rebah",
+     "sheet": "sheets/fantasy-knight/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "viking",
+   "name": "Viking Gobyet",
+   "category": "fantasy",
+   "faction": "vikings",
+   "role": "base",
+   "silhouette": [
+    "horned_helmet",
+    "fur_mantle",
+    "round_shield",
+    "axe"
+   ],
+   "fallback": "fantasy-viking",
+   "core": {
+    "idle": "idle",
+    "attack": "attack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "kapak dan perisai bundar",
+     "sheet": "sheets/viking/idle.png"
+    },
+    "attack": {
+     "frames": 14,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "ayunan kapak dari atas kepala",
+     "sheet": "sheets/viking/attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terdorong, perisai goyah",
+     "sheet": "sheets/viking/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "kapak terangkat, perisai naik",
+     "sheet": "sheets/viking/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "perisai turun ke lantai, berlutut",
+     "sheet": "sheets/viking/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "viking-berserker",
+   "name": "Berserker Gobyet",
+   "category": "fantasy",
+   "faction": "vikings",
+   "role": "rage",
+   "silhouette": [
+    "wolf_pelt_hood",
+    "dual_axes",
+    "bare_arms",
+    "low_aggressive_stance"
+   ],
+   "fallback": "viking",
+   "core": {
+    "idle": "idle",
+    "attack": "double_attack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    40,
+    15
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "memantul tak sabar, dua kapak siap",
+     "sheet": "sheets/viking-berserker/idle.png"
+    },
+    "double_attack": {
+     "frames": 12,
+     "ms": 80,
+     "loop": false,
+     "hold": 0,
+     "label": "dua kapak menghantam bersamaan",
+     "sheet": "sheets/viking-berserker/double_attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "terpental, makin marah",
+     "sheet": "sheets/viking-berserker/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 100,
+     "loop": true,
+     "hold": 0,
+     "label": "dua kapak diangkat, mengaum",
+     "sheet": "sheets/viking-berserker/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "kehabisan tenaga, dua kapak jatuh, rebah",
+     "sheet": "sheets/viking-berserker/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "viking-huscarl",
+   "name": "Huscarl Gobyet",
+   "category": "fantasy",
+   "faction": "vikings",
+   "role": "heavy",
+   "silhouette": [
+    "big_horned_helmet",
+    "huge_fur_mantle",
+    "large_round_shield",
+    "dane_axe"
+   ],
+   "fallback": "viking",
+   "core": {
+    "idle": "idle",
+    "attack": "attack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "kapak Dane besar dan perisai bundar besar",
+     "sheet": "sheets/viking-huscarl/idle.png"
+    },
+    "attack": {
+     "frames": 16,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "hantaman kapak Dane yang berat",
+     "sheet": "sheets/viking-huscarl/attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 110,
+     "loop": false,
+     "hold": 0,
+     "label": "tertahan, mundur setapak",
+     "sheet": "sheets/viking-huscarl/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 120,
+     "loop": true,
+     "hold": 0,
+     "label": "kapak besar terangkat, tanpa lompat (berat)",
+     "sheet": "sheets/viking-huscarl/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 130,
+     "loop": false,
+     "hold": 10,
+     "label": "perisai besar turun, berlutut",
+     "sheet": "sheets/viking-huscarl/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "viking-gestir",
+   "name": "Gestir Gobyet",
+   "category": "fantasy",
+   "faction": "vikings",
+   "role": "spear",
+   "silhouette": [
+    "conical_helmet",
+    "long_spear",
+    "javelins_on_back",
+    "small_shield"
+   ],
+   "fallback": "viking",
+   "core": {
+    "idle": "idle",
+    "attack": "throw",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "tombak panjang tegak, lembing di punggung",
+     "sheet": "sheets/viking-gestir/idle.png"
+    },
+    "throw": {
+     "frames": 10,
+     "ms": 80,
+     "loop": false,
+     "hold": 0,
+     "label": "melempar lembing",
+     "sheet": "sheets/viking-gestir/throw.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terdorong",
+     "sheet": "sheets/viking-gestir/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "tombak diacungkan",
+     "sheet": "sheets/viking-gestir/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "tombak rebah, perisai kecil turun, berlutut",
+     "sheet": "sheets/viking-gestir/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "viking-bondi",
+   "name": "Bondi Gobyet",
+   "category": "fantasy",
+   "faction": "vikings",
+   "role": "ranged",
+   "silhouette": [
+    "cloth_cap",
+    "simple_tunic",
+    "flatbow",
+    "seax"
+   ],
+   "fallback": "viking",
+   "core": {
+    "idle": "idle",
+    "attack": "attack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "busur pendek, seax di sabuk, pakaian sederhana",
+     "sheet": "sheets/viking-bondi/idle.png"
+    },
+    "attack": {
+     "frames": 14,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "menarik busur pendek dan melepas",
+     "sheet": "sheets/viking-bondi/attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terkejut",
+     "sheet": "sheets/viking-bondi/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "busur diangkat",
+     "sheet": "sheets/viking-bondi/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "busur jatuh, rebah",
+     "sheet": "sheets/viking-bondi/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "fantasy-viking",
+   "name": "Fantasy Viking Gobyet",
+   "category": "fantasy",
+   "faction": "fantasy",
+   "role": "archetype",
+   "silhouette": [
+    "giant_horns",
+    "braided_beard",
+    "red_cape",
+    "round_shield",
+    "axe"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "attack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "kapak dan perisai bundar",
+     "sheet": "sheets/fantasy-viking/idle.png"
+    },
+    "attack": {
+     "frames": 14,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "ayunan kapak dari atas kepala",
+     "sheet": "sheets/fantasy-viking/attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terdorong, perisai goyah",
+     "sheet": "sheets/fantasy-viking/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "kapak terangkat, perisai naik",
+     "sheet": "sheets/fantasy-viking/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "perisai turun ke lantai, berlutut",
+     "sheet": "sheets/fantasy-viking/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "pirate-captain",
+   "name": "Pirate Captain Gobyet",
+   "category": "fantasy",
+   "faction": "pirates",
+   "role": "leader",
+   "silhouette": [
+    "big_tricorn_feather",
+    "long_flared_coat",
+    "epaulettes",
+    "cutlass",
+    "pistol"
+   ],
+   "fallback": "fantasy-pirate",
+   "core": {
+    "idle": "idle",
+    "attack": "sword",
+    "victory": "victory",
+    "hit": "hit",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    38,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "dada membusung, cutlass dan pistol",
+     "sheet": "sheets/pirate-captain/idle.png"
+    },
+    "sword": {
+     "frames": 12,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "tebasan cutlass",
+     "sheet": "sheets/pirate-captain/sword.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terhuyung, topi miring",
+     "sheet": "sheets/pirate-captain/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "cutlass diangkat",
+     "sheet": "sheets/pirate-captain/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "topi kapten jatuh, cutlass terlepas, terduduk lalu rebah",
+     "sheet": "sheets/pirate-captain/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "pirate-skirmisher",
+   "name": "Pirate Skirmisher Gobyet",
+   "category": "fantasy",
+   "faction": "pirates",
+   "role": "mobility",
+   "silhouette": [
+    "bandana_tails",
+    "striped_shirt_open_vest",
+    "powder_keg",
+    "short_blade",
+    "bare_feet_agile"
+   ],
+   "fallback": "fantasy-pirate",
+   "core": {
+    "idle": "idle",
+    "attack": "attack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    41,
+    15
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "memantul ringan, tong mesiu di tangan",
+     "sheet": "sheets/pirate-skirmisher/idle.png"
+    },
+    "attack": {
+     "frames": 10,
+     "ms": 80,
+     "loop": false,
+     "hold": 0,
+     "label": "sayatan cepat",
+     "sheet": "sheets/pirate-skirmisher/attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "terpental ringan",
+     "sheet": "sheets/pirate-skirmisher/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 100,
+     "loop": true,
+     "hold": 0,
+     "label": "melompat, tong mesiu dan belati terangkat",
+     "sheet": "sheets/pirate-skirmisher/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "bandana terlepas, tong menggelinding",
+     "sheet": "sheets/pirate-skirmisher/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "pirate-sharpshooter",
+   "name": "Pirate Sharpshooter Gobyet",
+   "category": "fantasy",
+   "faction": "pirates",
+   "role": "long-range",
+   "silhouette": [
+    "wide_flat_hat",
+    "long_rifle",
+    "light_long_coat"
+   ],
+   "fallback": "fantasy-pirate",
+   "core": {
+    "idle": "idle",
+    "attack": "shoot",
+    "victory": "victory",
+    "hit": "hit",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "senapan panjang di bahu, topi lebar",
+     "sheet": "sheets/pirate-sharpshooter/idle.png"
+    },
+    "shoot": {
+     "frames": 12,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "menembak: kepulan kartun di ujung laras",
+     "sheet": "sheets/pirate-sharpshooter/shoot.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terdorong",
+     "sheet": "sheets/pirate-sharpshooter/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "senapan diangkat tegak",
+     "sheet": "sheets/pirate-sharpshooter/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "topi lebar jatuh, senapan terlepas",
+     "sheet": "sheets/pirate-sharpshooter/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "pirate-buccaneer",
+   "name": "Pirate Buccaneer Gobyet",
+   "category": "fantasy",
+   "faction": "pirates",
+   "role": "heavy",
+   "silhouette": [
+    "big_body",
+    "heavy_coat",
+    "giant_hammer",
+    "anchor_on_back",
+    "crossbelts"
+   ],
+   "fallback": "fantasy-pirate",
+   "core": {
+    "idle": "idle",
+    "attack": "hammer_smash",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    12
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 150,
+     "loop": true,
+     "hold": 0,
+     "label": "bertumpu pada palu raksasa, jangkar di punggung",
+     "sheet": "sheets/pirate-buccaneer/idle.png"
+    },
+    "hammer_smash": {
+     "frames": 16,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "palu dihantamkan ke lantai, lantai bergetar",
+     "sheet": "sheets/pirate-buccaneer/hammer_smash.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 110,
+     "loop": false,
+     "hold": 0,
+     "label": "nyaris tak bergeming",
+     "sheet": "sheets/pirate-buccaneer/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 120,
+     "loop": true,
+     "hold": 0,
+     "label": "palu diangkat tinggi",
+     "sheet": "sheets/pirate-buccaneer/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 130,
+     "loop": false,
+     "hold": 10,
+     "label": "palu jatuh berdebam, rebah berat",
+     "sheet": "sheets/pirate-buccaneer/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "fantasy-pirate",
+   "name": "Fantasy Pirate Gobyet",
+   "category": "fantasy",
+   "faction": "fantasy",
+   "role": "archetype",
+   "silhouette": [
+    "tricorn",
+    "eyepatch",
+    "red_coat",
+    "cutlass",
+    "telescope",
+    "treasure_map"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "attack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "peta harta, sesekali meneropong",
+     "sheet": "sheets/fantasy-pirate/idle.png"
+    },
+    "attack": {
+     "frames": 12,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "tebasan cutlass",
+     "sheet": "sheets/fantasy-pirate/attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terhuyung",
+     "sheet": "sheets/fantasy-pirate/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "peta harta diangkat",
+     "sheet": "sheets/fantasy-pirate/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "topi jatuh, peta terlepas",
+     "sheet": "sheets/fantasy-pirate/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "philosopher",
+   "name": "Philosopher Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "philosophy",
+   "silhouette": [
+    "toga_drape",
+    "laurel",
+    "scroll",
+    "white_beard"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "arguing",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "gulungan di tangan, toga",
+     "sheet": "sheets/philosopher/idle.png"
+    },
+    "arguing": {
+     "frames": 12,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "berargumen dengan tangan bergerak",
+     "sheet": "sheets/philosopher/arguing.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/philosopher/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/philosopher/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk lesu, prop terjatuh, menghela napas",
+     "sheet": "sheets/philosopher/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "academic",
+   "name": "Academic Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "academia",
+   "silhouette": [
+    "mortarboard",
+    "long_gown",
+    "book"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "lecture",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "toga hitam, buku tebal",
+     "sheet": "sheets/academic/idle.png"
+    },
+    "lecture": {
+     "frames": 12,
+     "ms": 120,
+     "loop": true,
+     "hold": 0,
+     "label": "mengajar di depan papan",
+     "sheet": "sheets/academic/lecture.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/academic/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/academic/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk lesu, prop terjatuh, menghela napas",
+     "sheet": "sheets/academic/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "scientist",
+   "name": "Scientist Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "science",
+   "silhouette": [
+    "long_lab_coat",
+    "goggles_on_forehead",
+    "flask",
+    "clipboard"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "experiment",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "jas lab panjang, labu bergelembung, papan klip",
+     "sheet": "sheets/scientist/idle.png"
+    },
+    "experiment": {
+     "frames": 12,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "menuang dari labu ke labu, kepulan kecil",
+     "sheet": "sheets/scientist/experiment.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/scientist/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/scientist/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk lesu, prop terjatuh, menghela napas",
+     "sheet": "sheets/scientist/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "mathematician",
+   "name": "Mathematician Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "math",
+   "silhouette": [
+    "chalkboard_with_formula",
+    "compass",
+    "purple_vest"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "write",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "papan tulis berkaki dengan rumus di samping",
+     "sheet": "sheets/mathematician/idle.png"
+    },
+    "write": {
+     "frames": 12,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "menulis rumus dengan kapur",
+     "sheet": "sheets/mathematician/write.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/mathematician/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/mathematician/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk lesu, prop terjatuh, menghela napas",
+     "sheet": "sheets/mathematician/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "lawyer",
+   "name": "Lawyer Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "law",
+   "silhouette": [
+    "dark_suit_red_tie",
+    "thick_law_book",
+    "briefcase",
+    "documents"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "object",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "jas gelap, kitab hukum, berkas",
+     "sheet": "sheets/lawyer/idle.png"
+    },
+    "object": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "keberatan! menunjuk keras",
+     "sheet": "sheets/lawyer/object.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/lawyer/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/lawyer/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk lesu, prop terjatuh, menghela napas",
+     "sheet": "sheets/lawyer/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "historian",
+   "name": "Historian Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "history",
+   "silhouette": [
+    "flat_cap",
+    "tweed_jacket",
+    "long_timeline_scroll",
+    "archive_box"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "discover",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "jaket wol, kacamata bundar, kotak arsip",
+     "sheet": "sheets/historian/idle.png"
+    },
+    "discover": {
+     "frames": 12,
+     "ms": 120,
+     "loop": true,
+     "hold": 0,
+     "label": "membentangkan lini masa: menemukan!",
+     "sheet": "sheets/historian/discover.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/historian/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/historian/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk lesu, prop terjatuh, menghela napas",
+     "sheet": "sheets/historian/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "economist",
+   "name": "Economist Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "economics",
+   "silhouette": [
+    "green_visor",
+    "vest_tie",
+    "chart_board",
+    "calculator"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "graph",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "pelindung mata hijau, kalkulator, buku besar, grafik",
+     "sheet": "sheets/economist/idle.png"
+    },
+    "graph": {
+     "frames": 12,
+     "ms": 120,
+     "loop": true,
+     "hold": 0,
+     "label": "menunjuk grafik yang naik",
+     "sheet": "sheets/economist/graph.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/economist/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/economist/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk lesu, prop terjatuh, menghela napas",
+     "sheet": "sheets/economist/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "psychologist",
+   "name": "Psychologist Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "psychology",
+   "silhouette": [
+    "wingback_armchair_seated",
+    "cardigan",
+    "big_glasses",
+    "notebook",
+    "inkblot_card"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "analyze",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    12
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "duduk di kursi berlengan, kardigan, kacamata besar, buku catatan",
+     "sheet": "sheets/psychologist/idle.png"
+    },
+    "analyze": {
+     "frames": 12,
+     "ms": 120,
+     "loop": true,
+     "hold": 0,
+     "label": "menunjukkan kartu bercak tinta: apa yang kamu lihat?",
+     "sheet": "sheets/psychologist/analyze.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/psychologist/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/psychologist/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "lesu di kursi, buku catatan jatuh",
+     "sheet": "sheets/psychologist/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "sociologist",
+   "name": "Sociologist Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "sociology",
+   "silhouette": [
+    "field_jacket_scarf",
+    "network_diagram_board",
+    "clipboard"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "analyze",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "papan diagram jaringan, papan klip, syal",
+     "sheet": "sheets/sociologist/idle.png"
+    },
+    "analyze": {
+     "frames": 12,
+     "ms": 120,
+     "loop": true,
+     "hold": 0,
+     "label": "menjelaskan jaringan sosial",
+     "sheet": "sheets/sociologist/analyze.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/sociologist/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/sociologist/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk lesu, prop terjatuh, menghela napas",
+     "sheet": "sheets/sociologist/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "engineer",
+   "name": "Engineer Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "engineering",
+   "silhouette": [
+    "hard_hat",
+    "hi_vis_vest",
+    "wrench",
+    "blueprint"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "build",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "helm proyek, rompi oranye, kunci pas",
+     "sheet": "sheets/engineer/idle.png"
+    },
+    "build": {
+     "frames": 6,
+     "ms": 100,
+     "loop": true,
+     "hold": 0,
+     "label": "membangun: mengetuk balok",
+     "sheet": "sheets/engineer/build.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/engineer/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/engineer/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk lesu, prop terjatuh, menghela napas",
+     "sheet": "sheets/engineer/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "detective",
+   "name": "Detective Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "investigation",
+   "silhouette": [
+    "deerstalker",
+    "trench_coat_cape",
+    "big_magnifier",
+    "notebook"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "point",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "topi deerstalker, mantel berjubah, kaca pembesar",
+     "sheet": "sheets/detective/idle.png"
+    },
+    "point": {
+     "frames": 10,
+     "ms": 110,
+     "loop": false,
+     "hold": 0,
+     "label": "menunjuk pelaku",
+     "sheet": "sheets/detective/point.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/detective/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/detective/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk lesu, prop terjatuh, menghela napas",
+     "sheet": "sheets/detective/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "researcher",
+   "name": "Researcher Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "evidence",
+   "silhouette": [
+    "book_stack",
+    "laptop",
+    "papers",
+    "glasses",
+    "sweater"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "compare",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "memeluk tumpukan buku",
+     "sheet": "sheets/researcher/idle.png"
+    },
+    "compare": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "membandingkan sumber",
+     "sheet": "sheets/researcher/compare.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/researcher/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/researcher/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk lesu, prop terjatuh, menghela napas",
+     "sheet": "sheets/researcher/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "pak-haji",
+   "name": "Pak Haji Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "theology",
+   "silhouette": [
+    "kopiah_putih",
+    "baju_koko",
+    "sarung",
+    "tasbih"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "present",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 150,
+     "loop": true,
+     "hold": 0,
+     "label": "tenang, aura halus",
+     "sheet": "sheets/pak-haji/idle.png"
+    },
+    "present": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "menyampaikan pandangan dengan kitab terbuka",
+     "sheet": "sheets/pak-haji/present.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 110,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak",
+     "sheet": "sheets/pak-haji/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "kedua tangan terangkat bersyukur, tanpa lompat",
+     "sheet": "sheets/pak-haji/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 130,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk tenang, kitab diletakkan",
+     "sheet": "sheets/pak-haji/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "priest",
+   "name": "Priest Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "theology",
+   "silhouette": [
+    "cassock",
+    "white_collar",
+    "plain_book"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "present",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 150,
+     "loop": true,
+     "hold": 0,
+     "label": "tenang, aura halus",
+     "sheet": "sheets/priest/idle.png"
+    },
+    "present": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "menyampaikan pandangan dengan kitab terbuka",
+     "sheet": "sheets/priest/present.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 110,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak",
+     "sheet": "sheets/priest/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "kedua tangan terangkat bersyukur, tanpa lompat",
+     "sheet": "sheets/priest/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 130,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk tenang, kitab diletakkan",
+     "sheet": "sheets/priest/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "hacker",
+   "name": "Hacker Gobyet",
+   "category": "domain",
+   "faction": null,
+   "role": "technology",
+   "silhouette": [
+    "hoodie_with_ear_hood",
+    "laptop",
+    "floating_terminal",
+    "screen_glow"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "hit": "hit",
+    "attack": "attack",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "hoodie, laptop, terminal hijau bergulir",
+     "sheet": "sheets/hacker/idle.png"
+    },
+    "attack": {
+     "frames": 12,
+     "ms": 80,
+     "loop": false,
+     "hold": 0,
+     "label": "mengetik serangan: kode hijau menyala",
+     "sheet": "sheets/hacker/attack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak, laptop goyah",
+     "sheet": "sheets/hacker/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "laptop diangkat, terminal OK",
+     "sheet": "sheets/hacker/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "laptop error, terduduk lesu",
+     "sheet": "sheets/hacker/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "normal-gblk",
+   "name": "Normal GBLK Gobyet",
+   "category": "special",
+   "faction": null,
+   "role": "default",
+   "silhouette": [
+    "plain_gobyet",
+    "big_gblk_sign"
+   ],
+   "fallback": null,
+   "core": {
+    "idle": "idle",
+    "attack": "sign_raise",
+    "victory": "victory",
+    "hit": "hit",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "papan GBLK besar",
+     "sheet": "sheets/normal-gblk/idle.png"
+    },
+    "sign_raise": {
+     "frames": 12,
+     "ms": 100,
+     "loop": true,
+     "hold": 0,
+     "label": "papan GBLK diacungkan tinggi",
+     "sheet": "sheets/normal-gblk/sign_raise.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terhuyung, papan miring",
+     "sheet": "sheets/normal-gblk/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "papan terangkat, konfeti",
+     "sheet": "sheets/normal-gblk/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "papan GBLK roboh, terduduk",
+     "sheet": "sheets/normal-gblk/defeat.png"
+    },
+    "confused": {
+     "frames": 12,
+     "ms": 120,
+     "loop": true,
+     "hold": 0,
+     "label": "bingung, garuk kepala",
+     "sheet": "sheets/normal-gblk/confused.png"
+    },
+    "victory_dance": {
+     "frames": 16,
+     "ms": 120,
+     "loop": true,
+     "hold": 0,
+     "label": "tarian kemenangan dengan konfeti",
+     "sheet": "sheets/normal-gblk/victory_dance.png"
+    }
+   },
+   "caption": "GBLK = Gamers Berkembang Lewat Kebodohan"
+  },
+  {
+   "id": "wizard",
+   "name": "Wizard Gobyet",
+   "category": "fantasy",
+   "faction": "fantasy",
+   "role": "magic",
+   "silhouette": [
+    "tall_pointed_hat",
+    "floor_robe",
+    "tall_staff",
+    "spellbook"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "cast",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "topi runcing tinggi, jubah sampai lantai, tongkat bercahaya",
+     "sheet": "sheets/wizard/idle.png"
+    },
+    "cast": {
+     "frames": 12,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "merapal mantra, permata makin terang",
+     "sheet": "sheets/wizard/cast.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terkejut, topi terangkat",
+     "sheet": "sheets/wizard/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "tongkat terangkat, kembang api sihir",
+     "sheet": "sheets/wizard/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "tongkat jatuh, asap, terduduk",
+     "sheet": "sheets/wizard/defeat.png"
+    }
+   }
+  },
+  {
+   "id": "referee",
+   "name": "Referee Gobyet",
+   "category": "role",
+   "faction": null,
+   "role": "tournament-control",
+   "silhouette": [
+    "striped_shirt",
+    "whistle",
+    "flag"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 130,
+     "loop": true,
+     "hold": 0,
+     "label": "kaus belang, peluit, bendera",
+     "sheet": "sheets/referee/idle.png"
+    },
+    "signal_start": {
+     "frames": 12,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "bendera naik, peluit ditiup: mulai!",
+     "sheet": "sheets/referee/signal_start.png"
+    },
+    "point_winner": {
+     "frames": 12,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "bendera menunjuk pemenang",
+     "sheet": "sheets/referee/point_winner.png"
+    }
+   }
+  },
+  {
+   "id": "judge",
+   "name": "Judge Gobyet",
+   "category": "role",
+   "faction": null,
+   "role": "judging",
+   "silhouette": [
+    "judge_robe_jabot",
+    "desk",
+    "score_sheet",
+    "gavel"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "jubah hakim di balik meja",
+     "sheet": "sheets/judge/idle.png"
+    },
+    "write_score": {
+     "frames": 12,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "menulis skor",
+     "sheet": "sheets/judge/write_score.png"
+    },
+    "finalize": {
+     "frames": 12,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "palu diketuk: putusan final",
+     "sheet": "sheets/judge/finalize.png"
+    }
+   }
+  },
+  {
+   "id": "skeptic",
+   "name": "Skeptic Gobyet",
+   "category": "role",
+   "faction": null,
+   "role": "falsification",
+   "silhouette": [
+    "sweater",
+    "monocle",
+    "magnifier",
+    "claim_card",
+    "raised_brow"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "attack": "counterattack",
+    "hit": "hit",
+    "victory": "victory",
+    "defeat": "defeat"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "alis terangkat, monokel, kaca pembesar",
+     "sheet": "sheets/skeptic/idle.png"
+    },
+    "counterattack": {
+     "frames": 12,
+     "ms": 90,
+     "loop": false,
+     "hold": 0,
+     "label": "serangan balik: tanda tanya melesat",
+     "sheet": "sheets/skeptic/counterattack.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "tersentak mundur",
+     "sheet": "sheets/skeptic/hit.png"
+    },
+    "victory": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "prop diangkat, lompat kecil",
+     "sheet": "sheets/skeptic/victory.png"
+    },
+    "defeat": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "duduk lesu, prop terjatuh, menghela napas",
+     "sheet": "sheets/skeptic/defeat.png"
+    },
+    "inspect": {
+     "frames": 14,
+     "ms": 150,
+     "loop": false,
+     "hold": 6,
+     "label": "melihat klaim, diam, menyipit, menunjuk premis",
+     "sheet": "sheets/skeptic/inspect.png"
+    },
+    "falsification": {
+     "frames": 12,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "stempel X pada kartu klaim",
+     "sheet": "sheets/skeptic/falsification.png"
+    }
+   }
+  },
+  {
+   "id": "champion",
+   "name": "Champion Gobyet",
+   "category": "role",
+   "faction": null,
+   "role": "winner",
+   "silhouette": [
+    "giant_trophy",
+    "red_cape",
+    "medal"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "idle": "idle",
+    "victory": "trophy_raise"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "memamerkan piala, jubah merah, medali",
+     "sheet": "sheets/champion/idle.png"
+    },
+    "trophy_raise": {
+     "frames": 16,
+     "ms": 110,
+     "loop": true,
+     "hold": 0,
+     "label": "piala diangkat tinggi dengan dua tangan",
+     "sheet": "sheets/champion/trophy_raise.png"
+    },
+    "celebrate": {
+     "frames": 8,
+     "ms": 100,
+     "loop": true,
+     "hold": 0,
+     "label": "lompat-lompat dengan konfeti",
+     "sheet": "sheets/champion/celebrate.png"
+    }
+   },
+   "label": "TOURNAMENT WINNER"
+  },
+  {
+   "id": "defeated",
+   "name": "Defeated Gobyet",
+   "category": "role",
+   "faction": null,
+   "role": "loser",
+   "silhouette": [
+    "slumped_sitting",
+    "fallen_sword",
+    "tired_face"
+   ],
+   "fallback": "normal-gblk",
+   "core": {
+    "defeat": "fall",
+    "idle": "sit",
+    "hit": "hit"
+   },
+   "acc_anchor": [
+    39,
+    13
+   ],
+   "states": {
+    "sit": {
+     "frames": 12,
+     "ms": 140,
+     "loop": true,
+     "hold": 0,
+     "label": "duduk lesu, pedang di lantai, menghela napas",
+     "sheet": "sheets/defeated/sit.png"
+    },
+    "hit": {
+     "frames": 10,
+     "ms": 100,
+     "loop": false,
+     "hold": 0,
+     "label": "terkena",
+     "sheet": "sheets/defeated/hit.png"
+    },
+    "fall": {
+     "frames": 16,
+     "ms": 120,
+     "loop": false,
+     "hold": 10,
+     "label": "jatuh terduduk lalu rebah",
+     "sheet": "sheets/defeated/fall.png"
+    }
+   }
+  }
+ ],
+ "icons": {
+  "scroll": "icons/scroll.png",
+  "oldscroll": "icons/oldscroll.png",
+  "book": "icons/book.png",
+  "lawbook": "icons/lawbook.png",
+  "flask": "icons/flask.png",
+  "formula": "icons/formula.png",
+  "laptop": "icons/laptop.png",
+  "calculator": "icons/calculator.png",
+  "notebook": "icons/notebook.png",
+  "network": "icons/network.png",
+  "wrench": "icons/wrench.png",
+  "magnifier": "icons/magnifier.png",
+  "sword": "icons/sword.png",
+  "axe": "icons/axe.png",
+  "telescope": "icons/telescope.png",
+  "star": "icons/star.png",
+  "papers": "icons/papers.png",
+  "question": "icons/question.png",
+  "flag": "icons/flag.png"
+ },
+ "source": {
+  "repo": "kanku-Oiric/Gobyet",
+  "path": "v2",
+  "commit": "47526b9"
+ },
+ "note": "Subset untuk arena Battle Royale. Sumber kebenaran: repo Gobyet v2 (registry.json lengkap, GIF, sheet semua state)."
+}

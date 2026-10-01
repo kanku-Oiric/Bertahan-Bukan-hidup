@@ -30,10 +30,10 @@ Nama repo ini adalah aturan mainnya: yang menang bukan argumen yang "hidup" atau
 ## Tonton arenanya
 
 <p align="center">
-  <img src=".github/readme/arena.gif" width="688" alt="Rekaman arena: final F0005 melawan F0009. Lima juri bergantian memukul dengan keberatan tertulis, skor naik sampai 3–2, lalu roket uji falsifikasi dan piala pemenang">
+  <img src=".github/readme/arena.gif" width="688" alt="Rekaman arena: final F0005 (Gobyet filsuf dengan ikon laptop) melawan F0009 (Gobyet hacker dengan ikon gulungan). Lima juri bergantian memukul dengan keberatan tertulis, skor naik sampai 3–2, hakim mengetuk palu, Gobyet skeptis menguji juara, lalu Gobyet champion mengangkat piala dengan label TOURNAMENT WINNER">
 </p>
 
-Setiap duel diputar sebagai pertarungan pixel art. Dua Clawd masuk arena, setiap juri "memukul" dengan **keberatan yang benar-benar dia tulis**, dan bar ketahanan turun sesuai suara panel. Yang kalah KO, pemenang maju di bracket. Rekaman di atas adalah final [contoh run nyata](#contoh-run-nyata) diputar ulang dari `arena.html`.
+Setiap duel diputar sebagai pertarungan pixel art. Dua karakter [Gobyet](https://github.com/kanku-Oiric/Gobyet) masuk arena, dipilih otomatis dari isi argumennya: argumen filsafat menjadi Philosopher, argumen teknologi menjadi Hacker, hukum menjadi Lawyer, dan seterusnya. Setiap juri "memukul" dengan **keberatan yang benar-benar dia tulis**, dan bar ketahanan turun sesuai suara panel. Hakim mengetuk palu, yang kalah memutar animasi kalah kelasnya, dan pemenang maju di bracket. Rekaman di atas adalah final [contoh run nyata](#contoh-run-nyata) diputar ulang dari `arena.html`.
 
 Arena tampil live selama turnamen berjalan:
 
