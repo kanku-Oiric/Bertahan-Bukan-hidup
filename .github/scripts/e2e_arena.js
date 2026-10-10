@@ -9,6 +9,8 @@
 //   - kanvas berisi piksel pada setiap adegan yang diamati
 //   - tiap petarung demo mendapat karakter Gobyet dan duel menggambar dua karakter berbeda
 //   - label pemenang "TOURNAMENT WINNER" tampil dan "ABSOLUTE TRUTH" tidak pernah tampil
+//   - pembuka Berserker Hero tampil sekali di awal tayangan
+//   - Berserker Hero sebagai petarung (kanvas 128x96, durasi per frame) diputar sampai menang tanpa error
 //   - mode cadangan: tanpa data Gobyet, arena tetap jalan dengan sprite Clawd tanpa error
 // Screenshot disimpan ke folder keluaran. Kode keluar 1 bila ada pemeriksaan yang gagal.
 "use strict";
@@ -41,6 +43,17 @@ function watch(page, errors, external) {
   page.on("pageerror", (e) => errors.push(String(e)));
 }
 
+// mencatat setiap perubahan judul ticker sejak halaman dimuat (acara singkat seperti pembuka tidak terlewat sampling)
+function recordHeads() {
+  document.addEventListener("DOMContentLoaded", () => {
+    const el = document.getElementById("tkHead");
+    if (!el) return;
+    window.__heads = [el.textContent];
+    new MutationObserver(() => { const h = el.textContent; if (window.__heads[window.__heads.length - 1] !== h) window.__heads.push(h); })
+      .observe(el, { childList: true, characterData: true, subtree: true });
+  });
+}
+
 async function main() {
   const html = path.join(OUT, "arena-demo.html");
   execFileSync("python3", [path.join(SKILL, "scripts", "abr.py"), "arena", "--demo", "--out", html], { stdio: "pipe" });
@@ -52,6 +65,11 @@ async function main() {
   data.gobyet = null;
   const htmlNoG = path.join(OUT, "arena-demo-tanpa-gobyet.html");
   fs.writeFileSync(htmlNoG, raw.slice(0, i0) + JSON.stringify(data).replace(/<\//g, "<\\/") + raw.slice(i1));
+  // versi dengan Berserker Hero sebagai petarung pemenang demo (C03)
+  const dataH = JSON.parse(raw.slice(i0, i1));
+  dataH.run.cast.C03 = { char: "berserker-hero", acc: null, reason: "uji e2e: domain hero" };
+  const htmlHero = path.join(OUT, "arena-demo-hero.html");
+  fs.writeFileSync(htmlHero, raw.slice(0, i0) + JSON.stringify(dataH).replace(/<\//g, "<\\/") + raw.slice(i1));
 
   const { chromium } = loadPlaywright();
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || "/opt/pw-browsers/chromium" }).catch(() => chromium.launch());
@@ -60,6 +78,7 @@ async function main() {
     const page = await browser.newPage({ viewport: { width: 900, height: 1100 } });
     const errors = [], external = [];
     watch(page, errors, external);
+    await page.addInitScript(recordHeads);
     await page.goto("file://" + html);
     await page.evaluate(() => localStorage.clear());
     await page.reload();
@@ -114,9 +133,43 @@ async function main() {
     const body = await page.content();
     check("tidak ada ABSOLUTE TRUTH", !/ABSOLUTE TRUTH/i.test(body) && !heads.some((h) => /ABSOLUTE TRUTH/i.test(h)));
     check("duel diputar", fightFrames > 3, fightFrames + " sampel dengan HUD duel");
+    const allHeads = (await page.evaluate(() => window.__heads || [])).filter((h) => h);
+    check("pembuka Berserker Hero tampil di awal", allHeads[0] === "Berserker Hero membuka arena" &&
+      allHeads.filter((h) => h === "Berserker Hero membuka arena").length === 1, allHeads.slice(0, 3).join(" | "));
     check("tanpa error halaman (Gobyet)", errors.length === 0, errors.slice(0, 3).join(" | ") +
       (external.length ? " [info: " + external.length + " request font eksternal gagal di sandbox]" : ""));
     await page.close();
+
+    // ---------- Berserker Hero sebagai petarung ----------
+    const ph = await browser.newPage({ viewport: { width: 900, height: 1100 } });
+    const errH = [], extH = [];
+    watch(ph, errH, extH);
+    await ph.addInitScript(recordHeads);
+    await ph.goto("file://" + htmlHero);
+    await ph.evaluate(() => localStorage.clear());
+    await ph.reload();
+    await ph.click('[data-speed="4"]');
+    let heroWin = false, emptyH = 0;
+    for (let k = 0; k < 80 && !heroWin; k++) {
+      await ph.waitForTimeout(500);
+      const st = await ph.evaluate(() => {
+        const cv = document.getElementById("cv"), d = cv.getContext("2d").getImageData(0, 0, cv.width, cv.height).data;
+        let n = 0; for (let i = 3; i < d.length; i += 16) if (d[i]) n++;
+        return { n, head: document.getElementById("tkHead").textContent };
+      });
+      if (st.n === 0) emptyH++;
+      if (k % 10 === 0) await ph.locator("#cv").screenshot({ path: path.join(OUT, "hero-" + String(k).padStart(2, "0") + ".png") });
+      if (/TOURNAMENT WINNER: C03/.test(st.head)) {
+        heroWin = true;
+        await ph.waitForTimeout(400);
+        await ph.locator("#cv").screenshot({ path: path.join(OUT, "hero-pemenang.png") });
+      }
+    }
+    const headsH = await ph.evaluate(() => window.__heads || []);
+    check("hero: duel sampai TOURNAMENT WINNER", heroWin, headsH.slice(-2).join(" | "));
+    check("hero: kanvas tidak pernah kosong", emptyH === 0, emptyH + " sampel kosong");
+    check("hero: tanpa error halaman", errH.length === 0, errH.slice(0, 3).join(" | "));
+    await ph.close();
 
     // ---------- mode cadangan Clawd ----------
     const p2 = await browser.newPage({ viewport: { width: 900, height: 1100 } });

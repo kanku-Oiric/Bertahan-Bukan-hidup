@@ -372,6 +372,23 @@ def check_gobyet():
     for cid, c in data["chars"].items():
         for st in c["states"].values():
             assert st["src"].startswith("data:image/png;base64,"), cid
+    # Berserker Hero: kanvas 128x96, jangkar dan skala sendiri, durasi per frame, serangan bergantian, pembuka arena
+    hero = data["chars"].get("berserker-hero")
+    assert hero, "Berserker Hero tidak ada di data arena"
+    assert hero["canvas"] == {"w": 128, "h": 96} and hero["anchor"]["baseline"] == 90 and hero["px"] == [2, 3], hero.get("canvas")
+    assert {"idle", "run", "rage", "attack-smash", "attack-leap", "exhaustion", "victory", "defeated"} <= set(hero["states"])
+    assert hero["core"]["attack"] == "attack-smash" and hero["core"]["hit"] == "exhaustion", hero["core"]
+    assert hero["variants"] == {"attack": ["attack-smash", "attack-leap"]}, hero.get("variants")
+    for name, st in hero["states"].items():
+        assert len(st["durs"]) == st["n"], name
+    assert hero["states"]["victory"]["n"] == 20 and not hero["states"]["victory"]["loop"]
+    assert data["intro"] and data["intro"]["char"] == "berserker-hero", data.get("intro")
+    for cid, c in data["chars"].items():
+        if cid != "berserker-hero":
+            assert "canvas" not in c and "px" not in c, cid  # karakter 64x64 tetap memakai kanvas global
+    war = dict(demo, topic="Apakah perang bisa dibenarkan?", restated="",
+               fighters={k: dict(v, title="Posisi " + k, stance="", thesis="") for k, v in demo["fighters"].items()})
+    assert {c["char"] for c in gobyet.cast(war).values()} == {"berserker-hero"}, gobyet.cast(war)
     # fallback: karakter tak dikenal -> akar; aset hilang -> None (arena kembali ke Clawd), halaman tetap terbentuk
     res = gobyet.load()
     got = res.resolve("karakter-tidak-ada", "attack")
@@ -385,7 +402,8 @@ def check_gobyet():
         if name.endswith(".py") and name not in ("arena.py", "gobyet.py", "gobyet_context.py", "gobyet_resolve.py"):
             with open(os.path.join(eng, name), encoding="utf-8") as fh:
                 assert "gobyet" not in fh.read(), "logika turnamen tidak boleh bergantung pada visual: " + name
-    return {"karakter": len(data["chars"]), "petarung_demo": {k: v["char"] for k, v in cast.items()}}
+    return {"karakter": len(data["chars"]), "petarung_demo": {k: v["char"] for k, v in cast.items()},
+            "hero": {"state": len(hero["states"]), "pembuka": data["intro"]["pose"]}}
 
 
 def check_live():

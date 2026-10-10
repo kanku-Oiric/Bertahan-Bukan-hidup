@@ -10,6 +10,12 @@ untuk dua hal:
 Peran turnamen tetap: wasit = referee, juri = judge, uji falsifikasi = skeptic, pemenang = champion
 (label "TOURNAMENT WINNER", bukan kebenaran mutlak), yang kalah memakai animasi defeat kelasnya sendiri.
 
+Berserker Hero (tokoh utama Gobyet, kanvas 128x96) tampil di dua tempat, keduanya hanya tampilan:
+  - pembuka arena (INTRO): sekali di awal tayangan, lari masuk lalu mengamuk; tidak ikut bertarung atau dinilai;
+  - petarung bila teks argumen atau topiknya bertema pahlawan, perang, naga, monster, atau prajurit (domain "hero").
+Karakter berkanvas sendiri membawa `canvas`, `anchor`, `px` (skala gambar relatif Gobyet 64x64) dan durasi per frame
+(`durs`); karakter 64x64 tetap memakai kanvas, jangkar, dan ms seragam global.
+
 Bila aset tidak ada atau rusak, web_data() mengembalikan None dan arena memakai sprite Clawd seperti sebelumnya;
 karakter atau state yang hilang turun lewat rantai fallback (gobyet_resolve) dan tidak pernah tampil sebagai
 gambar rusak. Hanya pustaka standar.
@@ -24,7 +30,11 @@ from .gobyet_resolve import Resolver
 SKILL = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ASSETS = os.path.join(SKILL, "assets", "gobyet")
 CORE = ("idle", "attack", "hit", "victory", "defeat")
+ENTRANCE = "run"  # dipakai saat masuk duel bila karakter punya state itu sendiri (kalau tidak: idle seperti biasa)
 CHAMPION_LABEL = "TOURNAMENT WINNER"
+# pembuka arena: karakter, state masuk, state pose, teks ticker. None = tanpa pembuka.
+INTRO = {"char": "berserker-hero", "run": "run", "pose": "rage", "title": "Berserker Hero membuka arena",
+         "text": "Tokoh utama Gobyet. Hanya pembuka: tidak ikut bertarung dan tidak memengaruhi penilaian."}
 
 # adegan arena -> (karakter, state)
 SCENES = {
@@ -85,20 +95,36 @@ def web_data(summary, root=ASSETS):
         return None
     try:
         chars = {}
+        intro = INTRO if INTRO and INTRO["char"] in res.chars else None
         for cid, c in res.chars.items():
             states = {}
-            wanted = list(CORE) + list(ROLE_STATES.get(cid, ())) + [s for (sc, s) in SCENES.values() if sc == cid]
+            wanted = list(CORE) + list(ROLE_STATES.get(cid, ())) + [s for (sc, s) in SCENES.values() if sc == cid] + [ENTRANCE]
+            wanted += [s for v in c.get("variants", {}).values() for s in v]
+            if intro and cid == intro["char"]:
+                wanted += [intro["run"], intro["pose"]]
             for s in wanted:
                 got = res.resolve(cid, s)
                 if not got or got["character"] != cid or got["state"] in states:
                     continue
-                states[got["state"]] = {"n": got["frames"], "ms": got["ms"], "loop": got["loop"],
-                                        "src": _data_uri(os.path.join(root, got["sheet"]))}
+                st = {"n": got["frames"], "ms": got["ms"], "loop": got["loop"], "src": _data_uri(os.path.join(root, got["sheet"]))}
+                durs = got.get("durations") or []
+                if len(durs) == got["frames"] and len(set(durs)) > 1:
+                    st["durs"] = durs
+                states[got["state"]] = st
             if states:
-                chars[cid] = {"name": c["name"], "core": {k: v for k, v in c.get("core", {}).items() if v in states},
-                              "fallback": c.get("fallback"), "acc": c.get("acc_anchor"), "states": states}
+                e = {"name": c["name"], "core": {k: v for k, v in c.get("core", {}).items() if v in states},
+                     "fallback": c.get("fallback"), "acc": c.get("acc_anchor"), "states": states}
+                if c.get("canvas") and c["canvas"] != res.reg["canvas"]:
+                    e["canvas"], e["anchor"], e["px"] = c["canvas"], c.get("anchor", res.reg["anchor"]), c.get("px")
+                var = {k: [s for s in v if s in states] for k, v in c.get("variants", {}).items()}
+                var = {k: v for k, v in var.items() if len(v) > 1}
+                if var:
+                    e["variants"] = var
+                chars[cid] = e
         if res.root_id not in chars:
             return None
+        if intro and not {intro["run"], intro["pose"]} <= set(chars.get(intro["char"], {}).get("states", {})):
+            intro = None
         icons = {}
         for name, rel in res.reg.get("icons", {}).items():
             p = os.path.join(root, rel)
@@ -116,6 +142,7 @@ def web_data(summary, root=ASSETS):
             "scenes": SCENES,
             "roles": {"referee": "referee", "judge": "judge", "skeptic": "skeptic", "champion": "champion", "defeated": "defeated"},
             "champion_label": CHAMPION_LABEL,
+            "intro": intro,
             "topic": {"char": pick["primary"], "acc": pick["accessory"], "reason": pick["reason"]},
             "source": res.reg.get("source", {}),
         }

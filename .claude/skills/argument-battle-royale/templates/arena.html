@@ -366,7 +366,8 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
   // ---------- Gobyet: karakter sesuai topik (lapisan visual saja) ----------
   // D.gobyet berisi sprite sheet (strip 64x64), alias state inti, dan rantai fallback. Bila tidak ada,
   // arena memakai sprite Clawd. Karakter/state yang hilang turun lewat fallback; gambar yang belum termuat
-  // tidak digambar (tidak pernah tampil sebagai gambar rusak).
+  // tidak digambar (tidak pernah tampil sebagai gambar rusak). Karakter berkanvas sendiri (Berserker Hero 128x96)
+  // membawa canvas, anchor, px (skala relatif Gobyet) dan durs (durasi per frame).
   var G = D.gobyet && D.gobyet.chars ? D.gobyet : null, GIMG = {}, gclock = 0;
   function gimg(src) { if (!GIMG[src]) { var im = new Image(); im.src = src; GIMG[src] = im; } return GIMG[src]; }
   if (G) Object.keys(G.chars).forEach(function (c) { var st = G.chars[c].states; Object.keys(st).forEach(function (k) { gimg(st[k].src); }); });
@@ -389,22 +390,44 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
     if (c && c.char) return c;
     return G && G.topic ? { char: G.topic.char, acc: G.topic.acc } : { char: G ? G.root : null, acc: null };
   }
-  function gset(a, state) {
+  function gtotal(st) { return st.durs ? st.durs.reduce(function (x, y) { return x + y; }, 0) : st.n * st.ms; }
+  // seed (mis. nomor pukulan) memilih varian state bila karakter punya (Berserker Hero: smash dan leap bergantian)
+  function gset(a, state, seed) {
+    var c0 = G && a.cid && G.chars[a.cid], v = c0 && c0.variants && c0.variants[state];
+    if (v && seed != null) state = v[seed % v.length];
     var r = G && a.cid ? gres(a.cid, state) : null;
     if (!r) { a.g = null; return 0; }
     a.g = { c: r.c, s: r.s, t0: gclock };
-    return r.st.n * r.st.ms;
+    return gtotal(r.st);
+  }
+  function gframe(st, t, loop) {
+    var total = gtotal(st);
+    if (loop) t = ((t % total) + total) % total;
+    else if (t >= total) return st.n - 1;
+    if (t < 0) return 0;
+    if (!st.durs) return Math.min(st.n - 1, Math.floor(t / st.ms));
+    for (var k = 0; k < st.n; k++) { t -= st.durs[k]; if (t < 0) return k; }
+    return st.n - 1;
   }
   function gscale() { return Math.max(1, Math.floor(scale * 3 / 8)); }
+  // skala karakter berkanvas sendiri: px = rasio piksel terhadap Gobyet 64x64, dibulatkan ke atas, dan tetap muat
+  // di atas lantai (baris paling atas yang boleh terpotong: 6 baris kosong/ujung pedang)
+  function gpx(c) {
+    var s = gscale();
+    if (!c.px) return s;
+    var k = Math.max(1, Math.ceil(s * c.px[0] / c.px[1]));
+    var fit = Math.max(1, Math.floor((A.h - 1) * scale / Math.max(1, c.anchor.baseline - 6)));
+    return Math.min(k, fit);
+  }
   function gdraw(a) {
     if (!G || !a.g) return false;
     var c = G.chars[a.g.c], st = c && c.states[a.g.s];
     if (!st) return false;
     var im = gimg(st.src);
     if (!im.complete || !im.naturalWidth) return true;
-    var k = Math.floor((gclock - a.g.t0) / st.ms);
-    k = (st.loop || a.loopAll) ? ((k % st.n) + st.n) % st.n : Math.min(st.n - 1, Math.max(0, k));
-    var s = gscale(), W = G.canvas.w, H = G.canvas.h, ax = G.anchor.x, base = G.anchor.baseline;
+    var k = gframe(st, gclock - a.g.t0, st.loop || a.loopAll);
+    var cvs = c.canvas || G.canvas, anc = c.anchor || G.anchor;
+    var s = gpx(c), W = cvs.w, H = cvs.h, ax = anc.x, base = anc.baseline;
     var floor = (A.h - 1) * scale, xpx = Math.round(a.x * scale + (a.shake || 0) * s);
     var top = floor - base * s, left = a.m ? xpx - (W - 1 - ax) * s : xpx - ax * s;
     ctx.save();
@@ -569,11 +592,13 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
     }
     var a = { cid: ca.char, acc: ca.acc, s: "clawd_angry_side", x: -14, y: y0, m: 0, visible: true, shake: 0 };
     var b = { cid: cb.char, acc: cb.acc, s: "clawd_angry_side", x: A.w + 14, y: y0, m: 1, visible: true, shake: 0 };
-    gset(a, "idle"); gset(b, "idle");
+    // masuk sambil lari bila karakter punya state run sendiri (Berserker Hero); yang lain idle seperti biasa
+    gset(a, "run"); gset(b, "run");
     mode = { kind: "fight" }; actors = [a, b]; fx = [];
     highlight(e.mid, true);
     ticker(e.label, e.a + " melawan " + e.b, e.upset ? "Unggulan lebih rendah menantang unggulan lebih tinggi" : "");
     await Promise.all([tween(a, "x", Math.round(A.w * 0.27), 900), tween(b, "x", Math.round(A.w * 0.73), 900)]);
+    gset(a, "idle"); gset(b, "idle");
     var hp = { a: 100, b: 100 }, n = e.hits.length || 1, votes = { a: 0, b: 0 };
     for (var i = 0; i < e.hits.length; i++) {
       var h = e.hits[i], att = h.by, def = att === "a" ? "b" : "a";
@@ -582,7 +607,7 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
       ticker(h.j + " · " + h.lens, attId + " menyerang " + defId + ": " + (h.obj || "juri memenangkan argumen ini."),
         (h.fx ? "Faktor penentu: " + h.fx + " · " : "") + "Skor " + e.a + " " + h.ta.toFixed(1) + " – " + e.b + " " + h.tb.toFixed(1) + (h.xy ? " · " + h.xy : ""));
       await sleep(600);
-      var dur = gset(P, "attack") || 900;
+      var dur = gset(P, "attack", i) || 900;
       await sleep(dur * 0.45);
       spark(Math.round(A.w / 2), FT.body_top + 4);
       gset(Q, "hit"); Q.shake = dir;
@@ -649,8 +674,10 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
       // Champion = pemenang turnamen (TOURNAMENT WINNER), bukan kebenaran mutlak.
       mode = { kind: "fight" }; fx = []; $("hud").hidden = true;
       var cf = castOf(e.fighter);
-      var Fw = { cid: cf.char, acc: cf.acc, x: Math.round(A.w * 0.28), m: 0, visible: true };
-      var Ch = { cid: "champion", x: Math.round(A.w * 0.66), m: 1, visible: true };
+      // karakter berkanvas lebar (Berserker Hero: batu dan pedang di kanan) diberi jarak lebih dari Champion
+      var wide = G.chars[cf.char] && G.chars[cf.char].px;
+      var Fw = { cid: cf.char, acc: cf.acc, x: Math.round(A.w * (wide ? 0.24 : 0.28)), m: 0, visible: true };
+      var Ch = { cid: "champion", x: Math.round(A.w * (wide ? 0.76 : 0.66)), m: 1, visible: true };
       actors = [Fw, Ch]; gset(Fw, "victory"); gset(Ch, "trophy_raise");
       ticker((G.champion_label || "TOURNAMENT WINNER") + ": " + e.fighter, f.title, "Pemenang tahan-uji turnamen ini, bukan kebenaran mutlak. " + R.formula);
     } else {
@@ -660,7 +687,23 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
     await sleep(4200);
   }
 
-  var PLAY = { stage: playStage, round: playRound, match: playMatch, fals: playFals, winner: playWinner };
+  // Pembuka: Berserker Hero (tokoh utama Gobyet) lari masuk lalu mengamuk, sekali di awal tayangan. Hanya tampilan.
+  async function playIntro() {
+    var it = G && G.intro;
+    if (!it || !G.chars[it.char]) return;
+    mode = { kind: "fight" }; fx = []; $("hud").hidden = true;
+    var H = { cid: it.char, x: -16, m: 0, visible: true };
+    actors = [H]; gset(H, it.run);
+    ticker(it.title, it.text, "");
+    await tween(H, "x", Math.round(A.w / 2), 1300);
+    await sleep(Math.min(gset(H, it.pose) || 1200, 3000));
+  }
+  function withIntro(q) {
+    if (!G || !G.intro || !q.length || q[0] !== R.events[0]) return q;
+    return [{ id: "intro", t: "intro" }].concat(q);
+  }
+
+  var PLAY = { intro: playIntro, stage: playStage, round: playRound, match: playMatch, fals: playFals, winner: playWinner };
 
   // ---------- antrean tayangan ----------
   var queue = [], running = false, current = null;
@@ -762,7 +805,7 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
 
   // ---------- kontrol ----------
   $("btnReplay").addEventListener("click", function () {
-    seen = new Set(); saveSeen(); queue = R.events.slice(); renderBracket(); renderResult();
+    seen = new Set(); saveSeen(); queue = withIntro(R.events.slice()); renderBracket(); renderResult();
     if (paused) { paused = false; $("btnPause").setAttribute("aria-pressed", "false"); text($("btnPause"), "Jeda"); }
     if (running) skip = true; else runQueue();
     qinfo();
@@ -782,7 +825,7 @@ section h2 { font: 12px/1.2 var(--f-pixel); letter-spacing: 0.08em; text-transfo
   });
 
   // ---------- mulai ----------
-  queue = initialQueue();
+  queue = withIntro(initialQueue());
   if (reduce) { $("btnPause").setAttribute("aria-pressed", "true"); text($("btnPause"), "Lanjut"); }
   renderStatic();
   window.addEventListener("resize", fit);

@@ -425,7 +425,7 @@
   },
   {
    "id": "viking-berserker",
-   "name": "Berserker Gobyet",
+   "name": "Viking Berserker Gobyet",
    "category": "fantasy",
    "faction": "vikings",
    "role": "rage",
@@ -2522,6 +2522,240 @@
      "sheet": "sheets/defeated/fall.png"
     }
    }
+  },
+  {
+   "id": "berserker-hero",
+   "name": "Berserker Hero",
+   "category": "fantasy",
+   "faction": "vikings",
+   "role": "hero",
+   "silhouette": [
+    "dragon_shield",
+    "masked_helm_with_crest",
+    "greatsword",
+    "segmented_tail_with_arrow_fan",
+    "black_red_armor"
+   ],
+   "fallback": "viking-berserker",
+   "core": {
+    "idle": "idle",
+    "attack": "attack-smash",
+    "hit": "exhaustion",
+    "victory": "victory",
+    "defeat": "defeated"
+   },
+   "variants": {
+    "attack": [
+     "attack-smash",
+     "attack-leap"
+    ]
+   },
+   "anchor": {
+    "x": 66,
+    "baseline": 90,
+    "facing": "right"
+   },
+   "px": [
+    2,
+    3
+   ],
+   "acc_anchor": null,
+   "canvas": {
+    "w": 128,
+    "h": 96
+   },
+   "states": {
+    "idle": {
+     "frames": 12,
+     "ms": 162,
+     "durations": [
+      240,
+      140,
+      140,
+      160,
+      160,
+      200,
+      180,
+      160,
+      90,
+      140,
+      160,
+      180
+     ],
+     "loop": true,
+     "hold": 0,
+     "label": "berdiri siaga dengan perisai naga dan pedang besar, napas pelan",
+     "sheet": "sheets/berserker-hero/idle.png"
+    },
+    "run": {
+     "frames": 12,
+     "ms": 73,
+     "durations": [
+      70,
+      80,
+      70,
+      60,
+      100,
+      60,
+      70,
+      80,
+      70,
+      60,
+      100,
+      60
+     ],
+     "loop": true,
+     "hold": 0,
+     "label": "lari berat, ekor berayun",
+     "sheet": "sheets/berserker-hero/run.png"
+    },
+    "rage": {
+     "frames": 12,
+     "ms": 230,
+     "durations": [
+      200,
+      140,
+      140,
+      180,
+      70,
+      90,
+      110,
+      70,
+      70,
+      70,
+      120,
+      1500
+     ],
+     "loop": false,
+     "hold": 0,
+     "label": "kumpul amarah, meledak, pedang diacungkan, frame terakhir ditahan",
+     "sheet": "sheets/berserker-hero/rage.png"
+    },
+    "attack-smash": {
+     "frames": 12,
+     "ms": 112,
+     "durations": [
+      120,
+      100,
+      120,
+      180,
+      50,
+      40,
+      40,
+      240,
+      120,
+      100,
+      100,
+      140
+     ],
+     "loop": true,
+     "hold": 0,
+     "label": "ancang-ancang lalu hantaman pedang ke balok kayu",
+     "sheet": "sheets/berserker-hero/attack-smash.png"
+    },
+    "attack-leap": {
+     "frames": 14,
+     "ms": 105,
+     "durations": [
+      140,
+      130,
+      60,
+      60,
+      120,
+      50,
+      40,
+      40,
+      260,
+      130,
+      110,
+      100,
+      100,
+      130
+     ],
+     "loop": true,
+     "hold": 0,
+     "label": "melompat lalu menebas turun ke balok kayu",
+     "sheet": "sheets/berserker-hero/attack-leap.png"
+    },
+    "exhaustion": {
+     "frames": 12,
+     "ms": 178,
+     "durations": [
+      200,
+      150,
+      150,
+      170,
+      220,
+      260,
+      220,
+      150,
+      90,
+      150,
+      170,
+      200
+     ],
+     "loop": true,
+     "hold": 0,
+     "label": "kelelahan: bungkuk bertumpu pada pedang, napas berat (dipakai sebagai reaksi terkena)",
+     "sheet": "sheets/berserker-hero/exhaustion.png"
+    },
+    "defeated": {
+     "frames": 14,
+     "ms": 189,
+     "durations": [
+      200,
+      180,
+      180,
+      200,
+      200,
+      220,
+      200,
+      160,
+      120,
+      180,
+      200,
+      200,
+      200,
+      200
+     ],
+     "loop": true,
+     "hold": 0,
+     "label": "berlutut bertumpu pada pedang, tertunduk",
+     "sheet": "sheets/berserker-hero/defeated.png"
+    },
+    "victory": {
+     "frames": 20,
+     "ms": 199,
+     "durations": [
+      160,
+      100,
+      100,
+      150,
+      350,
+      100,
+      80,
+      140,
+      100,
+      70,
+      60,
+      200,
+      140,
+      160,
+      110,
+      110,
+      110,
+      110,
+      130,
+      1500
+     ],
+     "loop": false,
+     "hold": 0,
+     "label": "topeng membuka (wajah Gobyet), pedang ditancapkan, kaki di batu, darah monster diusap dari bilah",
+     "sheet": "sheets/berserker-hero/victory.png"
+    }
+   },
+   "source": "pack/manifest.json",
+   "note": "Tokoh utama Gobyet (pack/, src/hero3.py). Kanvas sendiri; arena menggambarnya dengan jangkar dan skala px."
   }
  ],
  "icons": {
@@ -2548,7 +2782,7 @@
  "source": {
   "repo": "kanku-Oiric/Gobyet",
   "path": "v2",
-  "commit": "47526b9"
+  "commit": "d24d0cb"
  },
  "note": "Subset untuk arena Battle Royale. Sumber kebenaran: repo Gobyet v2 (registry.json lengkap, GIF, sheet semua state)."
 }
