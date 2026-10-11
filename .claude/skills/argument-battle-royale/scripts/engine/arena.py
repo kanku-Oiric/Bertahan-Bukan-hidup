@@ -2,9 +2,11 @@
 
 Engine menghasilkan daftar *acara* (tahap selesai, babak dimulai, duel dengan
 "pukulan" setiap juri, uji falsifikasi, pemenang). Halaman arena memutar acara
-yang belum pernah ditonton penonton sebagai animasi pixel art: dua Clawd masuk
-arena, setiap juri memukul dengan keberatan yang sebenarnya, bar ketahanan
-turun sesuai suara juri, yang kalah KO, pemenang maju.
+yang belum pernah ditonton penonton sebagai animasi pixel art: dua karakter
+Gobyet masuk arena (dipilih dari teks argumen dan topik, lihat engine/gobyet.py),
+setiap juri memukul dengan keberatan yang sebenarnya, bar ketahanan turun sesuai
+suara juri, yang kalah memutar animasi kalah kelasnya, pemenang maju. Bila aset
+Gobyet tidak tersedia, arena memakai sprite Clawd.
 
 Cara menonton secara live:
   - artifact (Claude Code di aplikasi/web): halaman diterbitkan sekali
@@ -23,6 +25,7 @@ import re
 
 from . import anim
 from . import config as C
+from . import gobyet
 from .util import atomic_write_text, sha256_text
 
 TEMPLATE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "templates", "arena.html")
@@ -243,6 +246,7 @@ def run_summary(run):
             cfg["mode"], cfg["population"], cfg["random_seed"], st.get("updated_at", ""), os.path.basename(run.dir)),
         "updated_at": st.get("updated_at", ""),
     }
+    summary["cast"] = gobyet.cast(summary)
     summary["rev"] = sha256_text(json.dumps([info, [e["id"] for e in ev], stats], sort_keys=True, ensure_ascii=False))[:16]
     return summary
 
@@ -250,10 +254,10 @@ def run_summary(run):
 def demo_summary():
     """Turnamen kecil fiktif (ditandai contoh) untuk memamerkan semua animasi tanpa run."""
     fighters = {
-        "C01": {"title": "Contoh A: kemampuan inferensial sudah cukup", "stance": "Ya", "seed": 1, "thesis": "Argumen contoh untuk pratinjau animasi."},
-        "C02": {"title": "Contoh B: tanpa grounding tidak ada makna", "stance": "Tidak untuk saat ini", "seed": 4, "thesis": "Argumen contoh untuk pratinjau animasi."},
-        "C03": {"title": "Contoh C: pemahaman datang bertingkat", "stance": "Sebagian", "seed": 2, "thesis": "Argumen contoh untuk pratinjau animasi: pemahaman terdiri atas beberapa dimensi."},
-        "C04": {"title": "Contoh D: pertanyaannya sengketa kata", "stance": "Deflasioner", "seed": 3, "thesis": "Argumen contoh untuk pratinjau animasi."},
+        "C01": {"title": "Contoh A: kemampuan inferensial sudah cukup", "stance": "Ya", "seed": 1, "thesis": "Argumen contoh untuk pratinjau animasi: algoritma dan data pelatihan sudah cukup."},
+        "C02": {"title": "Contoh B: tanpa grounding tidak ada makna", "stance": "Tidak untuk saat ini", "seed": 4, "thesis": "Argumen contoh untuk pratinjau animasi: psikologi kognitif menuntut pengalaman tubuh."},
+        "C03": {"title": "Contoh C: pemahaman datang bertingkat", "stance": "Sebagian", "seed": 2, "thesis": "Argumen contoh untuk pratinjau animasi: pemahaman terdiri atas beberapa dimensi, sebuah soal epistemologi."},
+        "C04": {"title": "Contoh D: pertanyaannya sengketa kata", "stance": "Deflasioner", "seed": 3, "thesis": "Argumen contoh untuk pratinjau animasi: riset empiris tentang makna kata."},
     }
 
     def hit(j, lens, by, ta, tb, obj):
@@ -278,10 +282,10 @@ def demo_summary():
          "testers": [{"t": "T1", "v": "SURVIVED_WITH_DAMAGE", "s": "Contoh: satu komitmen bantu gugur, inti bertahan."}]},
         {"id": "w", "t": "winner", "fighter": "C03", "status": "SURVIVED_WITH_DAMAGE"},
     ]
-    return {
+    out = {
         "demo": True,
         "run_id": "demo",
-        "topic": "Pratinjau arena Clawd",
+        "topic": "Pratinjau arena Gobyet: apakah AI memahami bahasa?",
         "restated": "Turnamen contoh berisi empat argumen fiktif untuk memperlihatkan animasi pertarungan.",
         "info": {"scene": "trophy", "stage_index": 14, "stage": anim.STAGES[14], "stage_count": len(anim.STAGES),
                  "percent": 100, "caption": "Contoh selesai", "round": 2, "key": "demo", "done": True},
@@ -299,10 +303,12 @@ def demo_summary():
         "foot": "Pratinjau dengan data contoh. Jalankan abr.py arena --run DIR untuk arena sebuah run.",
         "rev": "demo",
     }
+    out["cast"] = gobyet.cast(out)
+    return out
 
 
 def data(summary):
-    return {"anim": anim.web_data(), "run": summary}
+    return {"anim": anim.web_data(), "run": summary, "gobyet": gobyet.web_data(summary)}
 
 
 def render(summary):

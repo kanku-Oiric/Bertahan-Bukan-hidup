@@ -106,7 +106,7 @@ Tampilannya menyesuaikan tempat skill dijalankan:
 | Tempat | Bentuk | Bergerak? |
 |---|---|---|
 | Chat (Claude Code maupun Claude.ai) | **Flipbook**: glyph Clawd dari Claude Code plus properti emoji, satu pose per tahap baru, beserta bar progres | Berganti per tahap (output tool Claude Code tidak live) |
-| Panel samping aplikasi Claude (artifact), browser, artifact Claude.ai | **Arena pertarungan** (`RUN_DIR/arena.html`): setiap duel diputar sebagai pertarungan pixel art — dua Clawd masuk, setiap juri "memukul" dengan keberatan argumen yang sebenarnya, bar ketahanan turun sesuai suara juri, yang kalah KO, pemenang maju di bracket; plus jalur 15 tahap, statistik, dan kartu pemenang | Ya: live selama run berjalan, lalu menjadi tayangan ulang |
+| Panel samping aplikasi Claude (artifact), browser, artifact Claude.ai | **Arena pertarungan** (`RUN_DIR/arena.html`): setiap duel diputar sebagai pertarungan pixel art — dua karakter Gobyet sesuai topik masuk, setiap juri "memukul" dengan keberatan argumen yang sebenarnya, bar ketahanan turun sesuai suara juri, Judge mengetuk palu, yang kalah memutar animasi kalah kelasnya, pemenang maju di bracket; plus jalur 15 tahap, statistik, dan kartu pemenang (lihat [Karakter Gobyet di arena](#karakter-gobyet-di-arena)) | Ya: live selama run berjalan, lalu menjadi tayangan ulang |
 | Terminal Anda sendiri | **`watch`**: pixel art berwarna dengan karakter setengah-blok, bar progres, jalur tahap | Ya |
 | Status line Claude Code (opsional) | Satu baris: Clawd oranye, properti beranimasi, tahap, dan persen | Diperbarui setiap kali percakapan berubah |
 
@@ -124,6 +124,17 @@ Cara menonton selama run berjalan (Claude memilih sendiri sesuai lingkungannya):
 | Claude Code CLI di komputer Anda sendiri | Claude menjalankan `$ABR serve --run DIR` di latar belakang; buka `http://localhost:8765` di browser Anda | Menarik `arena-data.json` setiap 3 detik tanpa memuat ulang |
 | Anda membuka file langsung | buka `DIR/arena.html` di browser | Memuat ulang sendiri saat senggang, melanjutkan dari acara terakhir yang ditonton |
 | Chat Claude.ai | Claude menyerahkan arena di akhir run | Tayangan ulang penuh |
+
+### Karakter Gobyet di arena
+
+Arena memakai karakter [Gobyet](https://github.com/kanku-Oiric/Gobyet) (sistem sprite v2). Lapisan ini hanya visual: modul turnamen tidak bergantung padanya, dan hasil turnamen tidak berubah karena karakter.
+
+- **Pemilihan per topik.** `scripts/engine/gobyet.py` memilih karakter tiap petarung dari judul, posisi, dan tesisnya (mis. kata *etika* → Philosopher, *algoritma* → Hacker, *undang-undang* → Lawyer, *ksatria* → Fantasy Knight, *perang* → Berserker Hero). Tanpa kecocokan, karakter mengikuti topik; tanpa kecocokan sama sekali, Normal GBLK. Topik dua domain memakai satu karakter primer dan paling banyak satu ikon aksesori (mis. Philosopher + laptop untuk "AI dan kesadaran").
+- **Peran tetap.** Referee membuka babak, Judge mengetuk palu saat putusan, Skeptic memimpin uji falsifikasi, Champion memegang piala dengan label "TOURNAMENT WINNER" (pemenang turnamen, bukan kebenaran mutlak). Yang kalah memutar animasi kalah kelasnya sendiri.
+- **Berserker Hero (tokoh utama Gobyet).** Membuka setiap tayangan dari awal: lari masuk lalu mengamuk, dengan ticker "Berserker Hero membuka arena" (hanya pembuka; tidak ikut bertarung atau dinilai). Ia juga menjadi petarung bila teks argumen atau topiknya bertema pahlawan, perang, naga, monster, atau prajurit (domain *hero*; mis. "Apakah perang bisa dibenarkan?"). Sebagai petarung ia lari masuk duel, menyerang bergantian dengan hantaman dan lompatan, memakai `exhaustion` (bertumpu pada pedang) saat terkena, dan saat menang memutar `victory` 20 frame (topeng membuka memperlihatkan wajah Gobyet, pedang ditancapkan, kaki di batu, darah monster diusap). Kanvasnya 128x96 dengan durasi per frame; arena menggambarnya dengan jangkar sendiri dan skala 2/3 piksel Gobyet (dibulatkan ke atas), jadi di desktop ia setinggi Gobyet berzirah dan di ponsel sedikit lebih besar. Balok kayu kecil (sasaran latihan bawaan animasi serangan) ikut terlihat di depan kakinya saat menyerang.
+- **Teologi.** Hanya kata yang jelas merujuk tradisi tertentu yang memilih Pak Haji atau Priest; kata umum (agama, Tuhan, teologi) memilih Philosopher. Kedua tokoh diperlakukan identik.
+- **Fallback.** Karakter atau state yang tidak tersedia turun lewat rantai karakter → basis faksi → Normal GBLK; state → alias inti → idle. Bila seluruh aset Gobyet tidak ada, arena kembali ke sprite Clawd. Tidak pernah tampil gambar rusak.
+- **Aset.** `assets/gobyet/` adalah subset yang disalin dari repo Gobyet (`v2/tools/vendor_skill.py`), sama seperti `scripts/engine/gobyet_context.py` dan `gobyet_resolve.py`. Ubah di repo Gobyet lalu salin ulang; jangan edit salinannya.
 
 `localhost` hanya bekerja bila `serve` berjalan di komputer yang sama dengan browser Anda. Panel browser bawaan aplikasi desktop Claude tidak dapat membuka server yang dijalankan Claude, dan localhost sesi cloud tidak dapat dijangkau dari luar; karena itu di aplikasi Claude arena selalu tampil sebagai artifact.
 
